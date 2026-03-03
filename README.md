@@ -12,8 +12,7 @@ This makes it ideal for users who can type quickly and prefer keyboard-based int
 
 ## Target Users
 
-GymContactsPro is built for gym managers like **Jim**, who manages a start-up gym and needs a fast, reliable way to:
-
+GymContactsPro is built for gym managers who need a fast, reliable way to:
 - Add new gym members
 - View all registered members
 - Delete members
