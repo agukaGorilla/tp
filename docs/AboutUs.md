@@ -21,12 +21,12 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Developer
 
-### Jane Doe
+### Jasher Lim
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/jlm012.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/jlm012)]
+[[portfolio](team/jasher.md)]
 
 * Role: Team Lead
 * Responsibilities: UI
@@ -50,12 +50,12 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Dev Ops + Threading
 
-### James Doe
+### ZHOU JINGBIN
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/zhou_jingbin.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/jimai1228)]
+[[portfolio](team/zhou_jingbin)]
 
 * Role: Developer
 * Responsibilities: UI
