@@ -18,9 +18,10 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/sun-heqiao)]
 [[portfolio](team/sun-heqiao.md)]
 
-* Role: Project Advisor
+* Role: Developer
+* Responsibilities: Developer
 
-### Jasher Lim
+### JASHER LIM
 
 <img src="images/jlm012.png" width="200px">
 
@@ -30,7 +31,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Team Lead
 * Responsibilities: UI
 
-### Senthil Vaibhava Ram
+### SENTHIL VAIBHAVA RAM
 
 <img src="images/agukagorilla.png" width="200px">
 
@@ -38,24 +39,25 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](team/ram.md)]
 
 * Role: Developer
-* Responsibilities: Data
+* Responsibilities:
 
-### Jean Doe
+### ISAAC ABRAHAM
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/hack-zac.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/Hack-Zac)]
+[[portfolio](team/hack-zac.md)]
 
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
+* Role: Operations Lead
+* Responsibilities: Debugging
 
-### James Doe
 
-<img src="images/johndoe.png" width="200px">
+### ZHOU JINGBIN
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+<img src="images/zhou_jingbin.png" width="200px">
+
+[[github](http://github.com/jimai1228)]
+[[portfolio](team/zhou_jingbin)]
 
 * Role: Developer
 * Responsibilities: UI
