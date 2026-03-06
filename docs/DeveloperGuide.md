@@ -299,7 +299,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | Gym manager | I want to check for a member's membership validity            | So that I can allow valid entry to gyms                                    |
 | `*`      | Gym manager | I want to sort member's membership validity                   | So that I can view members in order of membership expiry date              |
 
-*{More to be added}*
 
 ### Use cases
 
