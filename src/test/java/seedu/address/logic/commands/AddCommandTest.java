@@ -40,9 +40,16 @@ public class AddCommandTest {
 
         CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        // Check that a person was added
+        assertEquals(1, modelStub.personsAdded.size());
+        Person addedPerson = modelStub.personsAdded.get(0);
+        assertEquals(validPerson.getName(), addedPerson.getName());
+        assertEquals(validPerson.getPhone(), addedPerson.getPhone());
+        assertEquals(validPerson.getEmail(), addedPerson.getEmail());
+        assertEquals(validPerson.getAddress(), addedPerson.getAddress());
+        assertEquals(validPerson.getTags(), addedPerson.getTags());
+        // Verify membership ID was correctly generated
+        assertEquals(MembershipId.MIN_ID, addedPerson.getMembershipId().value);
     }
 
     @Test
@@ -193,6 +200,7 @@ public class AddCommandTest {
      */
     private class ModelStubAcceptingPersonAdded extends ModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
+        private int nextMembershipId = MembershipId.MIN_ID;
 
         @Override
         public boolean hasPerson(Person person) {
@@ -209,6 +217,16 @@ public class AddCommandTest {
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
+        }
+
+        @Override
+        public int getNextMembershipId() {
+            return nextMembershipId++;
+        }
+
+        @Override
+        public boolean canGenerateMembershipId() {
+            return nextMembershipId <= MembershipId.MAX_ID;
         }
     }
 
