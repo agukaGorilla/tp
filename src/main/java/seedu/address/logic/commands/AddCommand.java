@@ -60,6 +60,7 @@ public class AddCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
+        // Check if address book has reached maximum capacity
         if (!model.canGenerateMembershipId()) {
             throw new CommandException(MESSAGE_ADDRESS_BOOK_FULL);
         }
