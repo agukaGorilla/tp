@@ -20,7 +20,8 @@ public class Email {
             "Emails should be of the format local-part@domain and adhere to the following constraints:\n"
             + "1. The local-part should only contain alphanumeric characters and these special characters "
             + "(+_.-). The local-part may not start or end with special characters.\n"
-            + "2. This is followed by a '@' and then a domain name made up of domain labels separated by periods.\n"
+            + "2. This is followed by a '@' and then a domain name made up of domain labels separated by periods. "
+            + "The domain must contain at least one period (e.g., example.com).\n"
             + "3. The full email length must be at most 254 characters, the local-part at most 64 characters, "
             + "and each domain label at most 63 characters.\n"
             + "4. The top-level domain must not be numeric-only.\n"
@@ -63,7 +64,8 @@ public class Email {
         return test.matches(VALIDATION_REGEX)
                 && isWithinLengthLimits(test)
                 && hasNoNumericOnlyTld(test)
-                && !hasIpv4LiteralDomain(test);
+                && !hasIpv4LiteralDomain(test)
+                && hasPeriodInDomain(test);
     }
 
     private static boolean isWithinLengthLimits(String test) {
@@ -100,6 +102,12 @@ public class Email {
         int atIndex = test.indexOf('@');
         String domainPart = test.substring(atIndex + 1);
         return domainPart.matches(IPV4_LITERAL_REGEX);
+    }
+
+    private static boolean hasPeriodInDomain(String test) {
+        int atIndex = test.indexOf('@');
+        String domainPart = test.substring(atIndex + 1);
+        return domainPart.contains(".");
     }
 
     @Override
