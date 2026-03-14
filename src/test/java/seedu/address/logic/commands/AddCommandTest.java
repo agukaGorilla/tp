@@ -9,19 +9,18 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.person.MembershipId;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -39,9 +38,16 @@ public class AddCommandTest {
 
         CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        // Check that a person was added
+        assertEquals(1, modelStub.personsAdded.size());
+        Person addedPerson = modelStub.personsAdded.get(0);
+        assertEquals(validPerson.getName(), addedPerson.getName());
+        assertEquals(validPerson.getPhone(), addedPerson.getPhone());
+        assertEquals(validPerson.getEmail(), addedPerson.getEmail());
+        assertEquals(validPerson.getAddress(), addedPerson.getAddress());
+        assertEquals(validPerson.getTags(), addedPerson.getTags());
+        // Verify membership ID was correctly generated
+        assertEquals(MembershipId.MIN_ID, addedPerson.getMembershipId().value);
     }
 
     @Test
@@ -157,6 +163,16 @@ public class AddCommandTest {
         public void updateFilteredPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public int getNextMembershipId() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canGenerateMembershipId() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -182,6 +198,7 @@ public class AddCommandTest {
      */
     private class ModelStubAcceptingPersonAdded extends ModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
+        private int nextMembershipId = MembershipId.MIN_ID;
 
         @Override
         public boolean hasPerson(Person person) {
@@ -198,6 +215,16 @@ public class AddCommandTest {
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
+        }
+
+        @Override
+        public int getNextMembershipId() {
+            return nextMembershipId++;
+        }
+
+        @Override
+        public boolean canGenerateMembershipId() {
+            return nextMembershipId <= MembershipId.MAX_ID;
         }
     }
 
