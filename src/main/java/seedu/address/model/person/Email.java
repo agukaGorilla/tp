@@ -10,17 +10,24 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Email {
 
     private static final String SPECIAL_CHARACTERS = "+_.-";
-    public static final String MESSAGE_CONSTRAINTS = "Emails should be of the format local-part@domain "
-            + "and adhere to the following constraints:\n"
-            + "1. The local-part should only contain alphanumeric characters and these special characters, excluding "
-            + "the parentheses, (" + SPECIAL_CHARACTERS + "). The local-part may not start or end with any special "
-            + "characters.\n"
-            + "2. This is followed by a '@' and then a domain name. The domain name is made up of domain labels "
-            + "separated by periods.\n"
+    private static final int MAX_EMAIL_LENGTH = 254;
+    private static final int MAX_LOCAL_PART_LENGTH = 64;
+    private static final int MAX_DOMAIN_LABEL_LENGTH = 63;
+    private static final String IPV4_LITERAL_REGEX = "^\\[(\\d{1,3}\\.){3}\\d{1,3}]$";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Emails should be of the format local-part@domain and adhere to the following constraints:\n"
+            + "1. The local-part should only contain alphanumeric characters and these special characters "
+            + "(+_.-). The local-part may not start or end with special characters.\n"
+            + "2. This is followed by a '@' and then a domain name made up of domain labels separated by periods.\n"
+            + "3. The full email length must be at most 254 characters, the local-part at most 64 characters, "
+            + "and each domain label at most 63 characters.\n"
+            + "4. The top-level domain must not be numeric-only.\n"
+            + "5. IP-literal domains in square brackets (e.g. [192.168.1.1]) are not allowed.\n"
             + "The domain name must:\n"
             + "    - end with a domain label at least 2 characters long\n"
             + "    - have each domain label start and end with alphanumeric characters\n"
-            + "    - have each domain label consist of alphanumeric characters, separated only by hyphens, if any.";
+            + "    - have each domain label consist of alphanumeric characters separated only by hyphens.";
+
     // alphanumeric and special characters
     private static final String ALPHANUMERIC_NO_UNDERSCORE = "[^\\W_]+"; // alphanumeric characters except underscore
     private static final String LOCAL_PART_REGEX = "^" + ALPHANUMERIC_NO_UNDERSCORE + "([" + SPECIAL_CHARACTERS + "]"
@@ -48,7 +55,47 @@ public class Email {
      * Returns if a given string is a valid email.
      */
     public static boolean isValidEmail(String test) {
-        return test.matches(VALIDATION_REGEX);
+        requireNonNull(test);
+        return test.matches(VALIDATION_REGEX)
+                && isWithinLengthLimits(test)
+                && hasNoNumericOnlyTld(test)
+                && !hasIpv4LiteralDomain(test);
+    }
+
+    private static boolean isWithinLengthLimits(String test) {
+        if (test.length() > MAX_EMAIL_LENGTH) {
+            return false;
+        }
+
+        int atIndex = test.indexOf('@');
+        String localPart = test.substring(0, atIndex);
+        String domainPart = test.substring(atIndex + 1);
+
+        if (localPart.length() > MAX_LOCAL_PART_LENGTH) {
+            return false;
+        }
+
+        String[] labels = domainPart.split("\\.");
+        for (String label : labels) {
+            if (label.length() > MAX_DOMAIN_LABEL_LENGTH) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean hasNoNumericOnlyTld(String test) {
+        int atIndex = test.indexOf('@');
+        String domainPart = test.substring(atIndex + 1);
+        String[] labels = domainPart.split("\\.");
+        String tld = labels[labels.length - 1];
+        return !tld.matches("\\d+");
+    }
+
+    private static boolean hasIpv4LiteralDomain(String test) {
+        int atIndex = test.indexOf('@');
+        String domainPart = test.substring(atIndex + 1);
+        return domainPart.matches(IPV4_LITERAL_REGEX);
     }
 
     @Override
