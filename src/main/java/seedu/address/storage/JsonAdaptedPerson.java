@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -110,15 +112,20 @@ class JsonAdaptedPerson {
         }
         final MembershipId modelMembershipId = new MembershipId(membershipId);
 
-        // ADD THIS BLOCK
         if (membershipExpiryDate == null) {
             throw new IllegalValueException(String.format(
                 MISSING_FIELD_MESSAGE_FORMAT, MembershipExpiryDate.class.getSimpleName()));
         }
-        if (!MembershipExpiryDate.isValidExpiryDate(membershipExpiryDate)) {
+
+        // Allow any valid date format from JSON, including expired dates via overloaded constructor
+        LocalDate parsedDate;
+        try {
+            parsedDate = LocalDate.parse(membershipExpiryDate, MembershipExpiryDate.DATE_FORMATTER);
+        } catch (DateTimeParseException e) {
             throw new IllegalValueException(MembershipExpiryDate.MESSAGE_CONSTRAINTS);
         }
-        final MembershipExpiryDate modelMembershipExpiryDate = new MembershipExpiryDate(membershipExpiryDate);
+
+        final MembershipExpiryDate modelMembershipExpiryDate = new MembershipExpiryDate(parsedDate);
 
         return new Person(modelName, modelPhone, modelEmail, modelAddress,
             modelTags, modelMembershipId, modelMembershipExpiryDate);
