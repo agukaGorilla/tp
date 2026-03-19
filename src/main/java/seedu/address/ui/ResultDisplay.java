@@ -18,6 +18,7 @@ public class ResultDisplay extends UiPart<Region> {
 
     public ResultDisplay() {
         super(FXML);
+        resultDisplay.setWrapText(true); // Enable word wrapping, disables horizontal scroll
     }
 
     public void setFeedbackToUser(String feedbackToUser) {
