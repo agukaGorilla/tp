@@ -59,7 +59,7 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        membershipId.setText("Member ID: " + person.getMembershipId().value);
-        membershipExpiryDate.setText("Expiry: " + person.getMembershipExpiryDate().toString());
+        membershipId.setText("Membership ID: " + person.getMembershipId().value);
+        membershipExpiryDate.setText("Membership Expiry: " + person.getMembershipExpiryDate().toString());
     }
 }
