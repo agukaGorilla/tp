@@ -44,8 +44,7 @@ public class Messages {
                 .append("; Email: ")
                 .append(person.getEmail())
                 .append("; Address: ")
-                .append(person.getAddress())
-                .append("; Tags: ");
+                .append(person.getAddress());
         builder.append("; Membership ID: ")
                 .append(person.getMembershipId())
                 .append("; Membership Expiry Date: ")
