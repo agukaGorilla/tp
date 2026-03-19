@@ -26,23 +26,18 @@ class JsonAdaptedPerson {
     private final String phone;
     private final String email;
     private final String address;
-    private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final Integer membershipId;
     private final String membershipExpiryDate; // ADD THIS
 
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email, @JsonProperty("address") String address,
-                             @JsonProperty("tags") List<JsonAdaptedTag> tags,
                              @JsonProperty("membershipId") Integer membershipId,
                              @JsonProperty("membershipExpiryDate") String membershipExpiryDate) { // ADD THIS
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        if (tags != null) {
-            this.tags.addAll(tags);
-        }
         this.membershipId = membershipId;
         this.membershipExpiryDate = membershipExpiryDate;
     }
