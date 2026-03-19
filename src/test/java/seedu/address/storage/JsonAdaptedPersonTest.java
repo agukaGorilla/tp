@@ -22,7 +22,6 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_EMAIL = "example.com";
     private static final Integer INVALID_MEMBERSHIP_ID = MembershipId.MIN_ID - 1;
     private static final String INVALID_MEMBERSHIP_EXPIRY_DATE = "32-13-2025";
-    
     private static final String VALID_NAME = BENSON.getName().toString();
     private static final String VALID_PHONE = BENSON.getPhone().toString();
     private static final String VALID_EMAIL = BENSON.getEmail().toString();
