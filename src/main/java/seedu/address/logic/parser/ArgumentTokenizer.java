@@ -47,11 +47,14 @@ public class ArgumentTokenizer {
     private static List<PrefixPosition> findPrefixPositions(String argsString, Prefix prefix) {
         List<PrefixPosition> positions = new ArrayList<>();
 
-        int prefixPosition = findPrefixPosition(argsString, prefix.getPrefix(), 0);
+        String lowerArgsString = argsString.toLowerCase();
+        String lowerPrefix = prefix.getPrefix();
+
+        int prefixPosition = findPrefixPosition(lowerArgsString, lowerPrefix, 0);
         while (prefixPosition != -1) {
             PrefixPosition extendedPrefix = new PrefixPosition(prefix, prefixPosition);
             positions.add(extendedPrefix);
-            prefixPosition = findPrefixPosition(argsString, prefix.getPrefix(), prefixPosition);
+            prefixPosition = findPrefixPosition(lowerArgsString, lowerPrefix, prefixPosition);
         }
 
         return positions;
