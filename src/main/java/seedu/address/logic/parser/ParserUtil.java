@@ -94,7 +94,6 @@ public class ParserUtil {
         }
         return new Email(trimmedEmail);
     }
-    
 
     /**
      * Parses a {@code String expiryDate} into a {@code MembershipExpiryDate}.
