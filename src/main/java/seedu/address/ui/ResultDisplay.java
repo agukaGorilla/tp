@@ -18,9 +18,14 @@ public class ResultDisplay extends UiPart<Region> {
 
     public ResultDisplay() {
         super(FXML);
-        resultDisplay.setWrapText(true); // Enable word wrapping, disables horizontal scroll
+        resultDisplay.setWrapText(true);
     }
 
+    /**
+     * Sets the feedback message to the user in the result display box.
+     *
+     * @param feedbackToUser The feedback message to display.
+     */
     public void setFeedbackToUser(String feedbackToUser) {
         requireNonNull(feedbackToUser);
         resultDisplay.setText(feedbackToUser);
