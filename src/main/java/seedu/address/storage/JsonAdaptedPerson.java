@@ -1,11 +1,5 @@
 package seedu.address.storage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,7 +11,6 @@ import seedu.address.model.person.MembershipId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
 
 class JsonAdaptedPerson {
 
@@ -27,23 +20,18 @@ class JsonAdaptedPerson {
     private final String phone;
     private final String email;
     private final String address;
-    private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final Integer membershipId;
     private final String membershipExpiryDate; // ADD THIS
 
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email, @JsonProperty("address") String address,
-                             @JsonProperty("tags") List<JsonAdaptedTag> tags,
                              @JsonProperty("membershipId") Integer membershipId,
                              @JsonProperty("membershipExpiryDate") String membershipExpiryDate) { // ADD THIS
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        if (tags != null) {
-            this.tags.addAll(tags);
-        }
         this.membershipId = membershipId;
         this.membershipExpiryDate = membershipExpiryDate;
     }
@@ -53,18 +41,11 @@ class JsonAdaptedPerson {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
-        tags.addAll(source.getTags().stream()
-            .map(JsonAdaptedTag::new)
-            .collect(Collectors.toList()));
         membershipId = source.getMembershipId().value;
         membershipExpiryDate = source.getMembershipExpiryDate().toString(); // ADD THIS
     }
 
     public Person toModelType() throws IllegalValueException {
-        final List<Tag> personTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tags) {
-            personTags.add(tag.toModelType());
-        }
 
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
@@ -98,8 +79,6 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
-        final Set<Tag> modelTags = new HashSet<>(personTags);
-
 
         if (membershipId == null) {
             throw new IllegalValueException(String.format(
@@ -121,6 +100,6 @@ class JsonAdaptedPerson {
         final MembershipExpiryDate modelMembershipExpiryDate = new MembershipExpiryDate(membershipExpiryDate);
 
         return new Person(modelName, modelPhone, modelEmail, modelAddress,
-            modelTags, modelMembershipId, modelMembershipExpiryDate);
+                modelMembershipId, modelMembershipExpiryDate);
     }
 }
