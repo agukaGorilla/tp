@@ -70,30 +70,24 @@ public class PersonCard extends UiPart<Region> {
         LocalDate expiryDate = person.getMembershipExpiryDate().value;
         LocalDate today = LocalDate.now();
         boolean isActive = expiryDate != null && !expiryDate.isBefore(today);
+
         membershipStatus.setText(isActive ? "Active" : "Expired");
-        String color = isActive ? "#4CAF50" : "#F44336";
-        membershipStatus.setStyle(
-                "-fx-background-color: " + color + ";"
-                + "-fx-text-fill: white;"
-                + "-fx-padding: 2 12 2 12;"
-                + "-fx-background-radius: 8;"
-                + "-fx-font-weight: bold;"
-        );
+        membershipStatus.getStyleClass().removeAll("membership-active", "membership-expired");
+        membershipStatus.getStyleClass().add(isActive ? "membership-active" : "membership-expired");
     }
 
     private void setupAutoStatusUpdate() {
-        // Calculate delay until next midnight
+
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime nextMidnight = now.toLocalDate().plusDays(1).atStartOfDay();
         long initialDelay = java.time.Duration.between(now, nextMidnight).toMillis();
 
-        // Run once at midnight
         Timeline firstRun = new Timeline(
             new KeyFrame(
                 javafx.util.Duration.millis(initialDelay),
                 e -> {
                     updateStatusLabel();
-                    // After first run, start daily updates
+
                     Timeline daily = new Timeline(
                         new KeyFrame(
                             javafx.util.Duration.hours(24),
@@ -105,7 +99,7 @@ public class PersonCard extends UiPart<Region> {
                 }
             )
         );
-        firstRun.setCycleCount(1); // only run once
+        firstRun.setCycleCount(1);
         firstRun.play();
     }
 }
