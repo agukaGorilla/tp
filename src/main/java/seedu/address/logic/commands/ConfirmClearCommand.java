@@ -5,6 +5,9 @@ import seedu.address.model.Model;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Clears the address book after confirmation.
+ */
 public class ConfirmClearCommand extends Command {
     public final String MESSAGE_SUCCESS = "All the data has been deleted successfully.";
 
