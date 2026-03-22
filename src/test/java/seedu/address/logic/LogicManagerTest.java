@@ -8,8 +8,8 @@ import static seedu.address.logic.commands.CommandTestUtil.MEMBERSHIP_EXPIRY_DAT
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.AMY;
 import static seedu.address.testutil.TestUtil.getDateNDaysRelativeToToday;
+import static seedu.address.testutil.TypicalPersons.AMY;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
