@@ -152,7 +152,7 @@ Format: `find PREFIX/KEYWORD [MORE_KEYWORDS]`
   e.g. `Hans Bo` will match `Bo Hans`
 * Only full keywords will be matched<br>
 e.g. `Han` will not match `Hans`
-* The keyword is case-insensitive.<br>
+* Keywords are case-insensitive.<br>
 e.g `hans` will match `Hans`
 
 Example input:

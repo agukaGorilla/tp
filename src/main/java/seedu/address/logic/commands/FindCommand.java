@@ -17,7 +17,7 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose attribute matches any of "
             + "the specified keywords (case-insensitive) and displays them as a list.\n"
-            + "Parameters: PREFIX/KEYWORD [MORE_KEYWORDS]...\n"
+            + "Parameters: PREFIX/KEYWORD [MORE_KEYWORDS]\n"
             + "Exactly one prefix must be used.\n"
             + "At least one keyword must provided.\n"
             + "Prefixes:\n"
