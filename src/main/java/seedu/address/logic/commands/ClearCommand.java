@@ -19,9 +19,10 @@ public class ClearCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.setAddressBook(new AddressBook());
-        return new CommandResult(MESSAGE_CONFIRMATION, false, false, true, false, "Warning!\n" +
-                "This command will clear all contacts.\n" +
-                "Press Y/N keys to confirm.\n\n" +
-                "Alternatively, click the buttons below.\n");
+        return new CommandResult(MESSAGE_CONFIRMATION, false, false, true, false,
+                "Warning!\n"
+                + "This command will clear all contacts.\n"
+                + "Press Y/N keys to confirm.\n\n"
+                + "Alternatively, click the buttons below.\n");
     }
 }

@@ -4,23 +4,24 @@ import java.util.logging.Logger;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
@@ -168,6 +169,12 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.show();
     }
 
+    /**
+     * Shows the clear confirmation window with the given message.
+     * If the window has not been created, this method initializes the UI components,
+     * configures keyboard shortcuts for Y/N confirmation, and sets up the stage.
+     * Also disables the command box while the confirmation window is showing.
+     */
     private void showClearConfirmationWindow(String message) {
         if (clearConfirmationStage == null) {
             clearConfirmationLabel = new Label();
@@ -236,6 +243,11 @@ public class MainWindow extends UiPart<Stage> {
         });
     }
 
+    /**
+     * Handles the user's confirmation to clear all data.
+     * Executes the internal confirm clear command, updates the result display
+     * and confirmation message, then closes the window after a short delay.
+     */
     private void handleClearConfirmationYes() {
         if (isProcessingClearConfirmation) {
             return;
@@ -257,6 +269,11 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+    /**
+     * Handles the user's cancellation of the clear operation.
+     * Updates the result display and confirmation message, then closes
+     * the confirmation window after a short delay.
+     */
     private void handleClearConfirmationNo() {
         if (isProcessingClearConfirmation) {
             return;
@@ -271,6 +288,10 @@ public class MainWindow extends UiPart<Stage> {
         closeClearConfirmationWindowAfterDelay();
     }
 
+    /**
+     * Closes the clear confirmation window after a 2-second delay
+     * and re-enables the command box input.
+     */
     private void closeClearConfirmationWindowAfterDelay() {
         if (clearConfirmationStage != null && clearConfirmationStage.isShowing()) {
             PauseTransition delay = new PauseTransition(Duration.seconds(2));
