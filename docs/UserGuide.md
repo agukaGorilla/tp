@@ -157,11 +157,11 @@ e.g `hans` will match `Hans`
 
 Example input:
 * `find n/bernice` <br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+  ![command for 'find n/bernice'](images/findBerniceCommand.png)
 
 Example output:
 * Returns `Bernice Yu` <br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+  ![result for 'find n/bernice'](images/findBerniceResult.png)
 
 ### Deleting a person : `delete`
 
