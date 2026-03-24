@@ -4,9 +4,27 @@
   pageNav: 3
 ---
 
-# AB-3 User Guide
+# GymContactsPro User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+GymContactsPro is a desktop app for managing gym memberships, designed for gym managers who need **a fast and efficient way to organize member records**. It is optimized for use via a **Command Line Interface (CLI)** while still providing a clear and easy-to-read interface. If you are comfortable **typing commands and prefer keyboard-based workflows**, GymContactsPro can help you manage members, track membership validity, and handle daily membership tasks more quickly and accurately than manual methods or generic tools.
+
+- [Quick start](#quick-start)
+- [Features](#features)
+  - [Adding a person: `add`](#adding-a-person-add)
+  - [Listing all persons: `list`](#listing-all-persons-list)
+  - [Deleting a person: `delete`](#deleting-a-person-delete)
+  - [Editing a person: `edit`](#editing-a-person-edit)
+  - [Locating person(s): `find`](#locating-person-s-find)
+  - [Clearing all entries: `clear`](#clearing-all-entries-clear)
+  - [Viewing help: `help`](#viewing-help-help)
+  - [Exiting the program: `exit`](#exiting-the-program-exit)
+  - [Saving the data](#saving-the-data)
+  - [Editing the data file](#editing-the-data-file)
+  - [Archiving data files: `coming in v2.0`](#archiving-data-files-coming-in-v20)
+- [FAQ](#faq)
+- [Known issues](#known-issues)
+- [Command summary](#command-summary)
+- [Notes summary](#notes-about-the-command-format)
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -64,14 +82,14 @@ Alternatively you could simply double click GymContactsPro.jar file.
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+Shows a message explaining how to access the help page；you may press the "Esc" key to close this help window.
 
 ![help message](images/helpMessage.png)
 
 Format: `help`
 
 
-### Adding a person: `add`
+### Adding a person : `add`
 
 Adds a person to the address book.
 
@@ -109,43 +127,77 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-### Locating persons by name: `find`
+### Locating person(s) : `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds person(s) whose attributes contain any of the given keywords and, returns them as a list.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find PREFIX/KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
+* Only 1 `PREFIX` is allowed in the command
+    * Prefix `id/` finds by Membership ID.
+    * Prefix `n/` finds by Name.
+    * Prefix `p/` finds by Phone number.
+    * Prefix `e/` finds by Email.
+    * Prefix `a/` finds by Address(Postal Code).
+    * Prefix `m/` finds by Membership Expiry Date.
+* At least 1 `KEYWORD` must be provided.
+  * Persons matching at least one keyword will be returned (i.e. `OR` search).<br>
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+  * The order of the keywords does not matter.<br>
+  e.g. `Hans Bo` will match `Bo Hans`
+* Only full keywords will be matched<br>
+e.g. `Han` will not match `Hans`
+* Keywords are case-insensitive.<br>
+e.g `hans` will match `Hans`
 
-Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+Example input:
+* `find n/bernice` <br>
+  ![command for 'find n/bernice'](images/findBerniceCommand.png)
+
+Example output:
+* Returns `Bernice Yu` <br>
+  ![result for 'find n/bernice'](images/findBerniceResult.png)
 
 ### Deleting a person : `delete`
 
 Deletes the specified person from the address book.
 
-Format: `delete INDEX`
+Format: `delete id/MEMBERSHIP_ID`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* Deletes the person with the specified `MEMBERSHIP_ID`.
+* The MEMBERSHIP_ID refers to the Membership ID number shown in the displayed person list.
 
-Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+  Example input:
+* `delete id/1000` <br>
+  ![result for 'delete id/1000'](images/delete1000.png)
+
+Example output:
+* Returns `Deleted Person: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Membership ID: 1000; Membership Expiry Date: 2026-12-31` <br>
+  ![result for 'delete id/1000'](images/delete1000result.png)
+
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all data of memberships after your confirmation.
 
 Format: `clear`
+
+* A warning page will pop up.
+* The user is asked to confirm his/her command.
+* “Y” means all the data will be deleted, “N” means clear command will be cancelled. Meanwhile, clicking the corresponding buttons has the same function.
+* After confirmation, the pop up window will give feedback on his/her decision and close soon after.
+
+Example input:
+  ![result for 'clear'](images/clearInput.png)
+
+Example output:
+* If all the data has been successfully deleted, this window will display a message to inform you.\
+  ![result for 'successfully delete'](images/successfullyDelete.png)
+* If you cancel the clear command, this window will also notify you.
+  ![result for 'cancel clear'](images/cancelDelete.png)
+* Meanwhile, the product also shows information of clear results.
+  ![result for 'success inf showed on app'](images/successInf.png)
+  ![result for 'cancel inf showed on app'](images/cancelInf.png)
 
 ### Exiting the program : `exit`
 
@@ -192,10 +244,11 @@ _Details coming soon ..._
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Add**    | `add n/NAME p/PHONE e/EMAIL a/ADDRESS m/EXPIRY_DATE` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 m/2026-12-31`
 **List**   | `list`
+**Delete** | `delete id/MEMBERSHIP_ID`<br> e.g., `delete 3`
+**Edit**   | `edit id/MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Find**   | `find PREFIX/KEYWORD [MORE_KEYWORDS]`<br> e.g., `find n/James Jake`
 **Help**   | `help`
+**Clear**  | `clear`
+**Exit**   | `exit`

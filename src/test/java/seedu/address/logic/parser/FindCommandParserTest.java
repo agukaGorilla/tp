@@ -16,27 +16,57 @@ public class FindCommandParserTest {
     private FindCommandParser parser = new FindCommandParser();
 
     @Test
+    public void parse_singleKeyword_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice")));
+        assertParseSuccess(parser, "find n/Alice", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_multipleKeywords_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
+        assertParseSuccess(parser, "find n/Alice Bob", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_multipleKeywordsWithExtraSpaces_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
+        // multiple spaces between keywords
+        assertParseSuccess(parser, "find n/Alice    Bob", expectedFindCommand);
+        // leading and trailing whitespace
+        assertParseSuccess(parser, "find n/   Alice Bob   ", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_keywordsWithTabsNewlinesAndMixedWhitespace_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
+        // tabs between keywords
+        assertParseSuccess(parser, "find n/Alice\tBob", expectedFindCommand);
+        // newlines between keywords
+        assertParseSuccess(parser, "find n/Alice\nBob", expectedFindCommand);
+        // mix of spaces, tabs, and newlines
+        assertParseSuccess(parser, "find n/ Alice \n \t Bob  ", expectedFindCommand);
+    }
+
+    @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test
-    public void parse_validArgs_returnsFindCommand() {
-        // no leading and trailing whitespaces
-        FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
-        assertParseSuccess(parser, "find n/Alice Bob", expectedFindCommand);
-
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, "find n/Alice    Bob", expectedFindCommand);
+    public void parse_commandWordOnly_throwsParseException() {
+        assertParseFailure(parser, "find",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test
-    public void parse_minimalValidArg_returnsFindCommand() {
-        FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice")));
-        assertParseSuccess(parser, "find n/Alice", expectedFindCommand);
+    public void parse_prefixOnly_throwsParseException() {
+        assertParseFailure(parser, "find n/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test

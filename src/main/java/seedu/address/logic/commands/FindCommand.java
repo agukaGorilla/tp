@@ -16,16 +16,17 @@ public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose attribute matches any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: [id/|n/|p/|e/|a/|m/] KEYWORD [MORE_KEYWORDS]...\n"
-            + "Exactly one prefix must be used per command.\n"
+            + "the specified keywords (case-insensitive) and displays them as a list.\n"
+            + "Parameters: PREFIX/KEYWORD [MORE_KEYWORDS]\n"
+            + "Exactly one prefix must be used.\n"
+            + "At least one keyword must provided.\n"
             + "Prefixes:\n"
             + "  id/ID\n"
             + "  n/NAME\n"
             + "  p/PHONE\n"
             + "  e/EMAIL\n"
-            + "  a/ADDRESS\n"
-            + "  m/MEMBERSHIP_EXPIRY_DATE (YYYY-MM-DD)\n"
+            + "  a/ADDRESS(Postal Code)\n"
+            + "  m/EXPIRY_DATE\n"
             + "Example: " + COMMAND_WORD + " n/alice bob charlie\n"
             + "Example: " + COMMAND_WORD + " p/91234567 98765432";
 
