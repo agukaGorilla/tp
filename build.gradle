@@ -20,10 +20,9 @@ checkstyle {
     toolVersion = '11.0.0'
 }
 
-// Assertions are enabled for W10
-application {
-    mainClassName = 'seedu.address.Main'
-    applicationDefaultJvmArgs = ['-ea']
+// Assertions are enabled for Week 10
+run {
+    enableAssertions = true
 }
 
 test {
