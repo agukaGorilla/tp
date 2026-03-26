@@ -9,6 +9,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.model.person.EmailContainsKeywordsPredicate;
 import seedu.address.model.person.ExpiryDateContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.PhoneContainsKeywordsPredicate;
@@ -93,6 +94,17 @@ public class FindCommandParserTest {
         FindCommand expectedFindCommandMultiple =
                 new FindCommand(new ExpiryDateContainsKeywordsPredicate(Arrays.asList("2026-12-31", "2027-01-01")));
         assertParseSuccess(parser, "find m/2026-12-31 2027-01-01", expectedFindCommandMultiple);
+    }
+
+    @Test
+    public void parse_emailKeywords_returnsFindCommand() {
+        FindCommand expectedFindCommandSingle =
+                new FindCommand(new EmailContainsKeywordsPredicate(Arrays.asList("alice@example.com")));
+        assertParseSuccess(parser, "find e/alice@example.com", expectedFindCommandSingle);
+
+        FindCommand expectedFindCommandMultiple =
+                new FindCommand(new EmailContainsKeywordsPredicate(Arrays.asList("alice@example.com", "bob@example.com")));
+        assertParseSuccess(parser, "find e/alice@example.com bob@example.com", expectedFindCommandMultiple);
     }
 
     @Test
