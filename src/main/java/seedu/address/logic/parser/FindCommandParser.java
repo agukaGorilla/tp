@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.EmailContainsKeywordsPredicate;
 import seedu.address.model.person.MembershipIdContainsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.PhoneContainsKeywordsPredicate;
@@ -32,7 +34,8 @@ public class FindCommandParser implements Parser<FindCommand> {
             PREFIX_NAME,
             PREFIX_ID,
             PREFIX_PHONE,
-            PREFIX_ADDRESS
+            PREFIX_ADDRESS,
+            PREFIX_EMAIL
         };
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, allPrefixes);
 
@@ -67,8 +70,8 @@ public class FindCommandParser implements Parser<FindCommand> {
             return new FindCommand(new NameContainsKeywordsPredicate(keywordList));
         case "p/":
             return new FindCommand(new PhoneContainsKeywordsPredicate(keywordList));
-        // case "e/":
-        //     return new FindCommand(new EmailContainsKeywordsPredicate(keywordList));
+        case "e/":
+             return new FindCommand(new EmailContainsKeywordsPredicate(keywordList));
         case "a/":
             return new FindCommand(new PostalCodeContainsKeywordsPredicate(keywordList));
         case "id/":
