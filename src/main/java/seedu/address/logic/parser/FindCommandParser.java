@@ -44,14 +44,13 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        // Get keywords
-        String[] keywords = argMultimap.getValue(usedPrefix).get().trim().split("\\s+");
-        List<String> keywordList = Arrays.stream(keywords)
-            .filter(keyword -> !keyword.isBlank())
-            .toList();
-        if (keywordList.isEmpty()) {
+        // Get keywords (simplified logic)
+        String value = argMultimap.getValue(usedPrefix).get().trim();
+        value = value.replaceAll("\\s+", " ");
+        if (value.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
+        List<String> keywordList = Arrays.asList(value.split(" "));
 
         // Route to the correct predicate using a switch statement
         switch (usedPrefix.getPrefix()) {
