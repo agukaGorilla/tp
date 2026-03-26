@@ -11,7 +11,9 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -50,6 +52,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
+    private static final Logger logger = LogsCenter.getLogger(EditCommand.class);
+
     private final MembershipId membershipId;
     private final EditPersonDescriptor editPersonDescriptor;
 
@@ -68,9 +72,15 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        assert membershipId != null : "Target membership ID should not be null";
+        assert editPersonDescriptor != null : "Edit descriptor should not be null";
+
+        logger.info("Executing EditCommand for Membership ID: " + membershipId
+                + " with descriptor: " + editPersonDescriptor);
         List<Person> allPersons = model.getAddressBook().getPersonList();
 
         Person personToEdit = null;
+        logger.warning("No person found with Membership ID: " + membershipId);
         for (Person person : allPersons) {
             if (person.getMembershipId().equals(membershipId)) {
                 personToEdit = person;
@@ -84,6 +94,8 @@ public class EditCommand extends Command {
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
+            logger.warning("Duplicate person detected while editing Membership ID: " + membershipId
+                    + "; edited person: " + editedPerson);
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
