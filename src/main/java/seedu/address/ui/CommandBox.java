@@ -41,10 +41,12 @@ public class CommandBox extends UiPart<Region> {
             return;
         }
 
+        commandTextField.setText("");
+
         try {
             commandExecutor.execute(commandText);
-            commandTextField.setText("");
         } catch (CommandException | ParseException e) {
+            commandTextField.setText(commandText);
             setStyleToIndicateCommandFailure();
         }
     }
@@ -82,4 +84,19 @@ public class CommandBox extends UiPart<Region> {
         CommandResult execute(String commandText) throws CommandException, ParseException;
     }
 
+
+    /**
+     * Disables user input in the command box.
+     */
+    public void disableInput() {
+        commandTextField.setDisable(true);
+    }
+
+    /**
+     * Enables user input in the command box and focuses on it.
+     */
+    public void enableInput() {
+        commandTextField.setDisable(false);
+        commandTextField.requestFocus();
+    }
 }
