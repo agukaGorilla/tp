@@ -24,43 +24,43 @@ import seedu.address.model.person.Person;
 public class TypicalPersons {
 
     public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
-        .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
+        .withAddress("123, Jurong West Ave 6, #08-111 123456").withEmail("alice@example.com")
         .withPhone("94351253")
         .withMembershipId(MembershipId.MIN_ID)
         .withMembershipExpiryDate("2099-12-31").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
-        .withAddress("311, Clementi Ave 2, #02-25")
+        .withAddress("311, Clementi Ave 2, #02-25 123456")
         .withEmail("johnd@example.com").withPhone("98765432")
         .withMembershipId(MembershipId.MIN_ID + 1)
         .withMembershipExpiryDate("2099-11-30").build();
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
-        .withEmail("heinz@example.com").withAddress("wall street")
+        .withEmail("heinz@example.com").withAddress("wall street 123456")
         .withMembershipId(MembershipId.MIN_ID + 2)
         .withMembershipExpiryDate("2099-10-31").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
-        .withEmail("cornelia@example.com").withAddress("10th street")
+        .withEmail("cornelia@example.com").withAddress("10th street 123456")
         .withMembershipId(MembershipId.MIN_ID + 3)
         .withMembershipExpiryDate("2099-09-30").build();
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("94822240")
-        .withEmail("werner@example.com").withAddress("michegan ave")
+        .withEmail("werner@example.com").withAddress("michegan ave 123456")
         .withMembershipId(MembershipId.MIN_ID + 4)
         .withMembershipExpiryDate("2099-08-31").build();
     public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("94824270")
-        .withEmail("lydia@example.com").withAddress("little tokyo")
+        .withEmail("lydia@example.com").withAddress("little tokyo 123456")
         .withMembershipId(MembershipId.MIN_ID + 5)
         .withMembershipExpiryDate("2099-07-31").build();
     public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("94824420")
-        .withEmail("anna@example.com").withAddress("4th street")
+        .withEmail("anna@example.com").withAddress("4th street 123456")
         .withMembershipId(MembershipId.MIN_ID + 6)
         .withMembershipExpiryDate("2099-06-30").build();
 
     // Manually added
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("84824240")
-        .withEmail("stefan@example.com").withAddress("little india")
+        .withEmail("stefan@example.com").withAddress("little india 123456")
         .withMembershipId(MembershipId.MIN_ID + 7)
         .withMembershipExpiryDate(getDateNDaysRelativeToToday(68)).build();
     public static final Person IDA = new PersonBuilder().withName("Ida Mueller").withPhone("84821310")
-        .withEmail("hans@example.com").withAddress("chicago ave")
+        .withEmail("hans@example.com").withAddress("chicago ave 123456")
         .withMembershipId(MembershipId.MIN_ID + 8)
         .withMembershipExpiryDate(getDateNDaysRelativeToToday(67)).build();
 
