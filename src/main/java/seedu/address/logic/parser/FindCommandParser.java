@@ -46,8 +46,10 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         // Get keywords
         String[] keywords = argMultimap.getValue(usedPrefix).get().trim().split("\\s+");
-        List<String> keywordList = Arrays.asList(keywords);
-        if (keywordList.isEmpty() || keywordList.get(0).isEmpty()) {
+        List<String> keywordList = Arrays.stream(keywords)
+            .filter(keyword -> !keyword.isBlank())
+            .toList();
+        if (keywordList.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
