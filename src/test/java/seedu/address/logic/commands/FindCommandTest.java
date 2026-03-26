@@ -122,7 +122,7 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
 
         ExpiryDateContainsKeywordsPredicate predicate =
-                new ExpiryDateContainsKeywordsPredicate(Collections.singletonList("2026-12-31"));
+                new ExpiryDateContainsKeywordsPredicate(Collections.singletonList("2099-11-30"));
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
