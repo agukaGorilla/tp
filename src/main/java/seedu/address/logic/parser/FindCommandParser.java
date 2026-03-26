@@ -39,8 +39,8 @@ public class FindCommandParser implements Parser<FindCommand> {
             }
         }
 
-        // No prefix detected or preamble is not empty
-        if (usedPrefix == null || !argMultimap.getPreamble().isEmpty()) {
+        // No prefix detected
+        if (usedPrefix == null) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
