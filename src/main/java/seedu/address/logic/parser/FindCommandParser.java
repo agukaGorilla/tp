@@ -5,14 +5,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.Arrays;
-import java.util.function.Predicate;
 import java.util.List;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.MembershipIdContainsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.person.Person;
 
 /**
  * Parses input arguments and creates a new FindCommand object
@@ -24,9 +22,10 @@ public class FindCommandParser implements Parser<FindCommand> {
      * and returns a FindCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-      public FindCommand parse(String args) throws ParseException {
+    public FindCommand parse(String args) throws ParseException {
+        // Accept all possible prefixes
         Prefix[] allPrefixes = new Prefix[] {
-            PREFIX_NAME,
+            PREFIX_NAME, // Future: Add support for other prefixes
             PREFIX_ID
         };
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, allPrefixes);
@@ -35,34 +34,43 @@ public class FindCommandParser implements Parser<FindCommand> {
         Prefix usedPrefix = null;
         for (Prefix prefix : allPrefixes) {
             if (argMultimap.getValue(prefix).isPresent()) {
+                // More than one prefix detected
                 if (usedPrefix != null) {
-                    throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
                 }
                 usedPrefix = prefix;
             }
         }
 
+        // No prefix detected
         if (usedPrefix == null) {
-            throw new ParseException(
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        String value = argMultimap.getValue(usedPrefix).get().trim().replaceAll("\\s+", " ");
+        // Get keywords (simplified logic)
+        String value = argMultimap.getValue(usedPrefix).get().trim();
+        value = value.replaceAll("\\s+", " ");
         if (value.isEmpty()) {
-            throw new ParseException(
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
         List<String> keywordList = Arrays.asList(value.split(" "));
 
+        // Route to the correct predicate using a switch statement
         switch (usedPrefix.getPrefix()) {
         case "n/":
             return new FindCommand(new NameContainsKeywordsPredicate(keywordList));
+        // case "p/":
+        //     return new FindCommand(new PhoneContainsKeywordsPredicate(keywordList));
+        // case "e/":
+        //     return new FindCommand(new EmailContainsKeywordsPredicate(keywordList));
+        // case "a/":
+        //     return new FindCommand(new AddressContainsKeywordsPredicate(keywordList));
         case "id/":
             return new FindCommand(new MembershipIdContainsPredicate(keywordList));
+        // case "m/":
+        //     return new FindCommand(new ExpiryDateContainsKeywordsPredicate(keywordList));
         default:
-            throw new ParseException(
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            throw new ParseException("Find by this prefix is not yet supported.");
         }
     }
 }
