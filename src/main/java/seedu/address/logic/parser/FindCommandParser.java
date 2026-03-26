@@ -1,7 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBERSHIP_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.Arrays;
@@ -24,12 +24,12 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public FindCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_MEMBERSHIP_ID);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_ID);
 
         boolean hasName = argMultimap.getValue(PREFIX_NAME).isPresent()
             && !argMultimap.getValue(PREFIX_NAME).get().trim().isEmpty();
-        boolean hasId = argMultimap.getValue(PREFIX_MEMBERSHIP_ID).isPresent()
-            && !argMultimap.getValue(PREFIX_MEMBERSHIP_ID).get().trim().isEmpty();
+        boolean hasId = argMultimap.getValue(PREFIX_ID).isPresent()
+            && !argMultimap.getValue(PREFIX_ID).get().trim().isEmpty();
 
         if (hasName == hasId) {
             // both present or neither present
@@ -43,7 +43,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             String[] nameKeywords = argMultimap.getValue(PREFIX_NAME).get().trim().split("\\s+");
             predicate = new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords));
         } else {
-            String[] idKeywords = argMultimap.getValue(PREFIX_MEMBERSHIP_ID).get().trim().split("\\s+");
+            String[] idKeywords = argMultimap.getValue(PREFIX_ID).get().trim().split("\\s+");
             predicate = new MembershipIdContainsPredicate(Arrays.asList(idKeywords));
         }
 
