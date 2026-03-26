@@ -11,13 +11,15 @@ import java.util.Locale;
  */
 public class Address {
 
-    public static final String MESSAGE_CONSTRAINTS = "Addresses can take any values, and it should not be blank";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Addresses must not be blank and must end with a valid 6-digit postal code.";
 
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
+     * The address can contain any characters but must end with exactly a 6-digit number.
      */
-    public static final String VALIDATION_REGEX = "[^\\s].*";
+    public static final String VALIDATION_REGEX = ".*\\b\\d{6}";
 
     public final String value;
     private final String normalizedValue;
@@ -41,7 +43,7 @@ public class Address {
     }
 
     /**
-     * Returns true if a given string is a valid email.
+     * Returns true if a given string is a valid address.
      */
     public static boolean isValidAddress(String test) {
         return test.matches(VALIDATION_REGEX);
