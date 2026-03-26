@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EXPIRY_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -29,7 +30,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         Prefix[] allPrefixes = new Prefix[] {
             PREFIX_NAME,
             PREFIX_ID,
-            PREFIX_PHONE
+            PREFIX_PHONE,
+            PREFIX_EXPIRY_DATE
         };
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, allPrefixes);
 
