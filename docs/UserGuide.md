@@ -61,7 +61,7 @@ Alternatively you could simply double click GymContactsPro.jar file.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Features 
+## Features
 <br>
 
 ### Notes about the command format:
@@ -122,7 +122,7 @@ Edits an existing person in the address book.
 Format: `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`
 
 * Edits the person at the specified `MEMBERSHIP_ID`.
-* At least one of the optional fields must be provided. 
+* At least one of the optional fields must be provided.
 * Multiple fields can be provided at once. The order of the fields does not matter.
 * Existing values will be updated to the input values.
 
