@@ -1,9 +1,10 @@
 package seedu.address.commons.util;
 
-import seedu.address.model.Model;
-import seedu.address.model.person.Person;
 import java.util.ArrayList;
 import java.util.List;
+
+import seedu.address.model.Model;
+import seedu.address.model.person.Person;
 
 /**
  * Utility methods for working with lists.
