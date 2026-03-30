@@ -156,7 +156,7 @@ Deletes the specified member(s) from the list of registered gym members.
 
 **Example output:**
 * Deletes the member with `MEMBERSHIP_ID` of `1000` from the list of registered gym members, together with a `Deleted Person: ...` success message.
-  ![result for 'delete id/1000'](images/delete1000Results.png)
+  ![result for 'delete id/1000'](images/deleteResult.png)
 
 ---
 
