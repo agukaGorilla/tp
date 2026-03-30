@@ -32,8 +32,6 @@ If you value **speed, accuracy, and efficiency** in your daily operations, GymCo
 - [Known Issues](#known-issues)
 - [Command Summary](#command-summary)
 
-<div style="page-break-after: always;"></div>
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick Start
@@ -101,17 +99,20 @@ Adds a new gym member to the list of registered gym members.
 
 **Format:** `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS m/EXPIRY_DATE`
 
+<box type="info" seamless>
+
+</box>
 <box type="tip" seamless>
 
 **Tip:** Attributes following the `add` command can be provided in any order
 </box>
 
 **Example input:**
-* `add n/Alfred Goh p/88574393 a/Blk 886 Waterloo Street, #03-514, 736886 e/gohfred@gmail.com m/2028-01-01`
+* `add n/Alfred Goh p/88574393 a/Blk 886 Waterloo Street, #03-514, 736886 e/gohfred@gmail.com m/2028-01-01`<br><br>
 ![command for 'add'](images/addMemberCommand.png)
   
 **Example output:**
-* Adds `Alfred Goh` with his personal details to the list of registered gym members, together with a `New person added: ...` success message.
+* Adds `Alfred Goh` with his personal details to the list of registered gym members, together with a `New person added: ...` success message.<br><br>
 ![result for 'add'](images/addMemberResult.png)
 
 ---
@@ -123,11 +124,11 @@ Displays a list of all registered gym members.
 **Format:** `list`
 
 **Example input:**
-* `list` 
+* `list`<br><br>
 ![command for 'list'](images/listCommand.png)
 
 **Example output:**
-* Displays a list of all registered gym members.
+* Displays a list of all registered gym members.<br><br>
 ![result for 'list'](images/listResult.png)
 
 ---
@@ -151,18 +152,18 @@ Deletes the specified member(s) from the list of registered gym members.
 </box>
 
 **Example input:**
-* `delete id/1000` <br>
+* `delete id/1000`<br><br>
   ![result for 'delete id/1000'](images/deleteCommand.png)
 
 **Example output:**
-* Deletes the member with `MEMBERSHIP_ID` of `1000` from the list of registered gym members, together with a `Deleted Person: ...` success message.
+* Deletes the member with `MEMBERSHIP_ID` of `1000` from the list of registered gym members, together with a `Deleted Person: ...` success message.<br><br>
   ![result for 'delete id/1000'](images/deleteResult.png)
 
 ---
 
 ### Editing a Member : `edit`
 
-Edits an existing person in the address book.
+Edits an existing member among the registered gym members.
 
 **Format:** `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`
 
@@ -181,18 +182,18 @@ Edits an existing person in the address book.
 </box>
 
 **Example input:**
-*  `edit 1000 p/91234567 e/johndoe@example.com` <br> <br>
+*  `edit 1000 p/91234567 e/johndoe@example.com`<br><br>
 ![command for 'edit 1000 p/91234567 e/johndoe@example.com'](images/editPhoneEmailCommand.png)
 
 **Example output:**
-* Updates the phone number and email of member at ID 1000 <br> <br>
+* Updates the phone number and email of member at ID 1000.<br><br>
 ![result for 'edit 1000 p/91234567 e/johndoe@example.com'](images/editPhoneEmailResult.png)
 
 ---
 
 ### Finding Member(s) : `find`
 
-Find member(s) whose attributes matches any of the entered keywords and displays them in a list.
+Find member(s) whose attributes matches any of the entered keywords.
 
 **Format:** `find PREFIX/KEYWORD [MORE_KEYWORDS]`
 
@@ -222,18 +223,18 @@ Find member(s) whose attributes matches any of the entered keywords and displays
 </box>
 
 **Example input:**
-* `find n/bernice` <br>
+* `find n/bernice`<br><br>
   ![command for 'find n/bernice'](images/findBerniceCommand.png)
 
 **Example output:**
-* Returns `Bernice Yu` displayed in a list<br>
+* Returns `Bernice Yu` displayed in a list.<br><br>
   ![result for 'find n/bernice'](images/findBerniceResult.png)
 
 ---
 
 ### Sorting Members : `sort`
 
-Activate or De-activate a sorting order applied to displayed list of members.
+Activate or De-activate a sorting order applied to all displayed list of members.
 
 **Format:** `sort PREFIX/ORDER` OR `sort none`
 
@@ -262,11 +263,11 @@ applied across commands unless "turned off" by `sort none`.
 </box>
 
 **Example input:**
-* `sort n/desc` <br>
+* `sort n/desc`<br><br>
   ![command for 'sort n/desc'](images/sortNameDescCommand.png)
 
 **Example output:**
-* Names of members are now sorted in descending order<br>
+* Names of members are now sorted in descending order.<br><br>
   ![result for 'sort n/desc'](images/sortNameDescResult.png)
 
 ---
@@ -283,6 +284,7 @@ Delete all members from storage after confirmation.
 * After confirmation, the pop up window will give feedback on his/her decision and close soon after.
 
 **Example input:**
+* `clear`<br><br>
   ![result for 'clear'](images/clearInput.png)
 
 **Example output:**
