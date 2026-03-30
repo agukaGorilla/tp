@@ -97,18 +97,22 @@ Notes here apply to all features introduced below (where applicable), and will n
 
 ### Adding a Member : `add`
 
-Adds a person to the address book.
+Adds a person to the list of registered gym members.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS m/EXPIRY_DATE`
+**Format:** `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS m/EXPIRY_DATE`
 
 <box type="tip" seamless>
 
-**Tip:** Parameters can be in any order
+**Tip:** Attributes following the `add` command can be provided in any order
 </box>
 
-Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01, 138601 m/2026-12-11`
-![Add person](images/AddPersonImages/add1.png) ![Add person](images/AddPersonImages/add2.png)
+**Example input:**
+* `add n/Alfred Goh p/88574393 a/Blk 886 Waterloo Street, #03-514, 736886 e/gohfred@gmail.com m/2028-01-01`
+![Add Member](images/addMemberCommand.png)
+  
+**Example output:**
+* Adds the member to the list of registered gym members and returns `New Person Added: ...` success message.
+* ![Add person](images/addMemberResult.png)
 
 ---
 
@@ -116,7 +120,7 @@ Examples:
 
 Shows a list of all persons in the address book.
 
-Format: `list`
+**Format:** `list`
 
 ---
 
@@ -124,7 +128,7 @@ Format: `list`
 
 Deletes the specified person from the address book.
 
-Format: `delete id/MEMBERSHIP_ID`
+**Format:** `delete id/MEMBERSHIP_ID`
 
 * Deletes the person with the specified `MEMBERSHIP_ID`.
 * The MEMBERSHIP_ID refers to the Membership ID number shown in the displayed person list.
@@ -143,7 +147,7 @@ Example output:
 
 Edits an existing person in the address book.
 
-Format: `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`
+**Format:** `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`
 
 * Edits the person at the specified `MEMBERSHIP_ID`.
 * At least one of the optional fields must be provided.
@@ -163,7 +167,7 @@ Format: `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_D
 
 ### Finding Member(s) : `find`
 
-Finds member(s) whose attributes contain any of the entered keywords and displays them as a list.
+Find member(s) whose attributes contain any of the entered keywords and displays them as a list.
 
 **Format:** `find PREFIX/KEYWORD [MORE_KEYWORDS]`
 
@@ -197,7 +201,7 @@ Finds member(s) whose attributes contain any of the entered keywords and display
   ![command for 'find n/bernice'](images/findBerniceCommand.png)
 
 **Example output:**
-* Returns `Bernice Yu` <br>
+* Returns `Bernice Yu` displayed in a list<br>
   ![result for 'find n/bernice'](images/findBerniceResult.png)
 
 ---
@@ -218,7 +222,7 @@ Activate or De-activate a sorting order applied to displayed list of members.
   * Prefix `e/` sorts by Email.
   * Prefix `a/` sorts by Address (Postal Code).
   * Prefix `m/` sorts by Membership Expiry Date.
-* Only 1 `ORDER` must be provided<br>
+* Only 1 `ORDER` can be provided<br>
   (unless `sort none` is used to disable sorting).
   * Order can be either `asc` or `desc` to sort members in ascending or descending order respectively.
   * Order is case-insensitive.
@@ -227,7 +231,8 @@ Activate or De-activate a sorting order applied to displayed list of members.
 
 <box type="tip" seamless>
 
-**Tip:** Sorting order will be "turned on" and applied across commands unless tunred off by `sort none`.
+**Tip:** Sorting order, regardless of whether it is `asc` or `desc` will be "turned on" and
+applied across commands unless "turned off" by `sort none`.
 
 </box>
 
@@ -236,26 +241,26 @@ Activate or De-activate a sorting order applied to displayed list of members.
   ![command for 'sort n/desc'](images/sortNameDescCommand.png)
 
 **Example output:**
-* Returns names of members sorted in descending order <br>
+* Names of members are now sorted in descending order<br>
   ![result for 'sort n/desc'](images/sortNameDescResult.png)
 
 ---
 
 ### Clearing All Data : `clear`
 
-Clears all data of memberships after your confirmation.
+Delete all members from storage after confirmation.
 
-Format: `clear`
+**Format:** `clear`
 
 * A warning page will pop up.
 * The user is asked to confirm his/her command.
 * “Y” means all the data will be deleted, “N” means clear command will be cancelled. Meanwhile, clicking the corresponding buttons has the same function.
 * After confirmation, the pop up window will give feedback on his/her decision and close soon after.
 
-Example input:
+**Example input:**
   ![result for 'clear'](images/clearInput.png)
 
-Example output:
+**Example output:**
 * If all the data has been successfully deleted, this window will display a message to inform you.\
   ![result for 'successfully delete'](images/successfullyDelete.png)
 * If you cancel the clear command, this window will also notify you.
@@ -268,11 +273,11 @@ Example output:
 
 ### Getting Help : `help`
 
-Shows a message explaining how to access the help page；you may press the "Esc" key to close this help window.
+Shows a message with a URL to the User Guide, together with a summary list of executable commands.
 
 ![help message](images/helpMessage.png)
 
-Format: `help`
+**Format:** `help`
 
 ---
 
@@ -280,7 +285,7 @@ Format: `help`
 
 Exits the program.
 
-Format: `exit`
+**Format:** `exit`
 
 ### Saving Data
 

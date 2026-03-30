@@ -9,9 +9,9 @@ We are a team based in the [School of Computing, National University of Singapor
 
 You can reach us at the email `seer@comp.nus.edu.sg`
 
-## Project Team
-
 ---
+
+## Project Team
 
 ### SUN HEQIAO
 
@@ -43,7 +43,7 @@ You can reach us at the email `seer@comp.nus.edu.sg`
 [[portfolio](team/hack-zac.md)]
 
 * Role: Backend Developer
-* Responsibilities: Improve the logic for managing contacts, fix bugs in data handling, optimize performance, and handle storage and persistence of member data.
+* Responsibilities: Improve the logic for managing gym member contacts, fix bugs in data handling, optimize performance, and handle storage and persistence of member data.
 
 
 ### JASHER LIM
