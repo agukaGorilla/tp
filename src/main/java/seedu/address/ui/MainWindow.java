@@ -227,6 +227,8 @@ public class MainWindow extends UiPart<Stage> {
         }
 
         clearConfirmationLabel.setText(message);
+        yesButton.setVisible(true);
+        noButton.setVisible(true);
         yesButton.setDisable(false);
         noButton.setDisable(false);
         isProcessingClearConfirmation = false;
@@ -255,6 +257,8 @@ public class MainWindow extends UiPart<Stage> {
         isProcessingClearConfirmation = true;
         yesButton.setDisable(true);
         noButton.setDisable(true);
+        yesButton.setVisible(false);
+        noButton.setVisible(false);
 
         try {
             CommandResult commandResult = logic.execute("confirmclear");
@@ -284,6 +288,8 @@ public class MainWindow extends UiPart<Stage> {
         clearConfirmationLabel.setText("Deletion has been cancelled.");
         yesButton.setDisable(true);
         noButton.setDisable(true);
+        yesButton.setVisible(false);
+        noButton.setVisible(false);
         closeClearConfirmationWindowAfterDelay();
     }
 
