@@ -53,7 +53,7 @@ public class DeleteCommandParserTest {
     }
 
     @Test
-    public void parse_IdFormat_throwsParseException() {
+    public void parse_InvalidIdFormat_throwsParseException() {
         // invalid Id format should be rejected
         assertParseFailure(parser, " id/+1000", MembershipId.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, " id/0001000", MembershipId.MESSAGE_CONSTRAINTS);
