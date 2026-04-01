@@ -400,7 +400,23 @@ Exits the app.
 
 ### Saving Data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+Data of all members is saved in the computer's storage automatically after any command that changes member data.
+There is no need to save manually.
+
+<box type="info" seamless>
+
+**Note:**
+* Data is saved to `[JAR file location]/data/addressbook.json` automatically after each command that modifies data.
+* Saving is typically very fast and completes within milliseconds.
+
+</box>
+
+<box type="tip" seamless>
+
+**Tip:**
+* It is recommended to regularly back up your `addressbook.json` file to a secure location.
+
+</box>
 
 ---
 
