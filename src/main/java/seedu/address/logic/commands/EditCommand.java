@@ -80,7 +80,6 @@ public class EditCommand extends Command {
         List<Person> allPersons = model.getAddressBook().getPersonList();
 
         Person personToEdit = null;
-        logger.warning("No person found with Membership ID: " + membershipId);
         for (Person person : allPersons) {
             if (person.getMembershipId().equals(membershipId)) {
                 personToEdit = person;
@@ -88,6 +87,7 @@ public class EditCommand extends Command {
             }
         }
         if (personToEdit == null) {
+            logger.warning("No person found with Membership ID: " + membershipId);
             throw new CommandException(String.format(Messages.MESSAGE_PERSON_NOT_FOUND, membershipId));
         }
 
