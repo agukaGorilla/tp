@@ -4,47 +4,53 @@
   pageNav: 3
 ---
 
-# GymContactsPro User Guide
+# GymContactsPro User Guide ℹ️
 
-GymContactsPro is a desktop app for managing gym memberships, designed for gym managers who need **a fast and efficient way to organize member records**. It is optimized for use via a **Command Line Interface (CLI)** while still providing a clear and easy-to-read interface. If you are comfortable **typing commands and prefer keyboard-based workflows**, GymContactsPro can help you manage members, track membership validity, and handle daily membership tasks more quickly and accurately than manual methods or generic tools.
+**GymContactsPro** is a desktop application designed for gym managers who prefer **fast, keyboard-driven workflows** to manage and organize member data efficiently.
 
-- [Quick start](#quick-start)
+It combines a **clean visual interface** with **command-based input**, allowing users to perform tasks quickly without relying on menus or mouse interactions.
+
+If you value **speed, accuracy, and efficiency** in your daily operations, GymContactsPro is built for you — download it and get started today!
+
+---
+
+## Table of Contents
+- [Quick Start](#quick-start)
 - [Features](#features)
-  - [Adding a person: `add`](#adding-a-person-add)
-  - [Listing all persons: `list`](#listing-all-persons-list)
-  - [Deleting a person: `delete`](#deleting-a-person-delete)
-  - [Editing a person: `edit`](#editing-a-person-edit)
-  - [Locating person(s): `find`](#locating-person-s-find)
-  - [Clearing all entries: `clear`](#clearing-all-entries-clear)
-  - [Viewing help: `help`](#viewing-help-help)
-  - [Exiting the program: `exit`](#exiting-the-program-exit)
-  - [Saving the data](#saving-the-data)
-  - [Editing the data file](#editing-the-data-file)
-  - [Archiving data files: `coming in v2.0`](#archiving-data-files-coming-in-v20)
+  - [Adding a Member: `add`](#adding-a-member-add)
+  - [Listing All Members: `list`](#listing-all-members-list)
+  - [Deleting Member(s): `delete`](#deleting-member-s-delete)
+  - [Editing a Member: `edit`](#editing-a-member-edit)
+  - [Finding Member(s): `find`](#finding-member-s-find)
+  - [Sorting Members: `sort`](#sorting-members-sort)
+  - [Clearing All Data: `clear`](#clearing-all-data-clear)
+  - [Getting Help: `help`](#getting-help-help)
+  - [Exiting the App: `exit`](#exiting-the-app-exit)
+  - [Saving Data](#saving-data)
+  - [Editing the Data File](#editing-the-data-file)
 - [FAQ](#faq)
-- [Known issues](#known-issues)
-- [Command summary](#command-summary)
+- [Known Issues](#known-issues)
+- [Command Summary](#command-summary)
 
-<!-- * Table of Contents -->
-<page-nav-print />
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Quick start
+## Quick Start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar GymContactsPro.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar GymContactsPro.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+   ![Ui](images/Ui.png)<br><br>
 Alternatively you could simply double click GymContactsPro.jar file.
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
@@ -57,17 +63,19 @@ Alternatively you could simply double click GymContactsPro.jar file.
 
    * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
+
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
-<br>
 
-### Notes about the command format:
+### Before We Begin . . .
 <box type="info" seamless>
 
-**Notes here apply to all features introduced below (where applicable),and will not be repeated**
+**These are some notes about the command formats.<br>
+Notes here apply to all features introduced below (where applicable), and will not be repeated**
 <br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
@@ -85,140 +93,318 @@ Alternatively you could simply double click GymContactsPro.jar file.
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
   </box>
 
-### Viewing help : `help`
+---
 
-Shows a message explaining how to access the help page；you may press the "Esc" key to close this help window.
+### Adding a Member : `add`
 
-![help message](images/helpMessage.png)
+Adds a new gym member to the list of registered gym members.
 
-Format: `help`
+**Format:** `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS m/EXPIRY_DATE`
 
+<box type="info" seamless>
 
-### Adding a person : `add`
+**Note:**
+* Pending edit
 
-Adds a person to the address book.
+</box>
+<box type="tip" seamless>
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS m/EXPIRY_DATE`
+**Tip:** 
+* Attributes following the `add` command can be provided in any order
+</box>
+
+**Example input:**
+* `add n/Alfred Goh p/88574393 a/Blk 886 Waterloo Street, #03-514, 736886 e/gohfred@gmail.com m/2028-01-01`<br><br>
+![command for 'add'](images/addMemberCommand.png)
+  
+**Example output:**
+* Added `Alfred Goh` with his personal details to the list of registered gym members, together with a `New person added: ...` success message.<br><br>
+![result for 'add'](images/addMemberResult.png)
+
+---
+
+### Listing All Members : `list`
+
+Displays the list of all registered gym members.
+
+**Format:** `list`
+
+<box type="info" seamless>
+
+**Note:**
+* Pending edit
+
+</box>
 
 <box type="tip" seamless>
 
-**Tip:** Parameters can be in any order
+**Tip:**
+* Pending edit
+
 </box>
 
-Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01, 138601 m/2026-12-11`
-![Add person](images/AddPersonImages/add1.png) ![Add person](images/AddPersonImages/add2.png)
+**Example input:**
+* `list`<br><br>
+![command for 'list'](images/listCommand.png)
 
-### Listing all persons : `list`
+**Example output:**
+* Displays the list of all registered gym members.<br><br>
+![result for 'list'](images/listResult.png)
 
-Shows a list of all persons in the address book.
+---
 
-Format: `list`
+### Deleting Member(s) : `delete`
 
-### Editing a person : `edit`
+Deletes the specified member(s) from the list of registered gym members.
 
-Edits an existing person in the address book.
+**Format:** `delete id/MEMBERSHIP_ID [MORE_MEMBERSHIP_IDS]`
 
-Format: `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`
+<box type="info" seamless>
 
+**Note:**
+* Deletes the person with the specified `MEMBERSHIP_ID`.
+* The MEMBERSHIP_ID refers to the Membership ID number shown in the displayed person list.
+
+</box>
+
+<box type="tip" seamless>
+
+**Tip:**
+* Pending edit
+
+</box>
+
+**Example input:**
+* `delete id/1000`<br><br>
+  ![result for 'delete id/1000'](images/deleteCommand.png)
+
+**Example output:**
+* Deleted the member with `MEMBERSHIP_ID` of `1000` from the list of registered gym members, together with a `Deleted Person: ...` success message.<br><br>
+  ![result for 'delete id/1000'](images/deleteResult.png)
+
+---
+
+### Editing a Member : `edit`
+
+Edits an existing member among the registered gym members.
+
+**Format:** `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`
+
+<box type="info" seamless>
+
+**Note:**
 * Edits the person at the specified `MEMBERSHIP_ID`.
 * At least one of the optional fields must be provided.
 * Multiple fields can be provided at once. The order of the fields does not matter.
 * Existing values will be updated to the input values.
 
+</box>
 
-Example input:
-*  `edit 1000 p/91234567 e/johndoe@example.com` <br> <br>
+<box type="tip" seamless>
+
+**Tip:**
+* Pending edit
+
+</box>
+
+**Example input:**
+*  `edit 1000 p/91234567 e/johndoe@example.com`<br><br>
 ![command for 'edit 1000 p/91234567 e/johndoe@example.com'](images/editPhoneEmailCommand.png)
 
-Example output:
-* Updates the phone number and email of member at ID 1000 <br> <br>
+**Example output:**
+* Edited the `PHONE` and `EMAIL` of member with `MEMBERSHIP_ID` of `1000`, together with a `Edited person: ...` success message.<br><br>
 ![result for 'edit 1000 p/91234567 e/johndoe@example.com'](images/editPhoneEmailResult.png)
 
+---
 
-### Locating person(s) : `find`
+### Finding Member(s) : `find`
 
-Finds person(s) whose attributes contain any of the given keywords and, returns them as a list.
+Finds member(s) matching any of the given keywords.
 
-Format: `find PREFIX/KEYWORD [MORE_KEYWORDS]`
+**Format:** `find PREFIX/KEYWORD [MORE_KEYWORDS]`
 
+<box type="info" seamless>
+
+**Note:** 
 * Only 1 `PREFIX` is allowed in the command
     * Prefix `id/` finds by Membership ID.
     * Prefix `n/` finds by Name.
     * Prefix `p/` finds by Phone number.
     * Prefix `e/` finds by Email.
-    * Prefix `a/` finds by Address(Postal Code).
+    * Prefix `a/` finds by Address (Postal Code).
     * Prefix `m/` finds by Membership Expiry Date.
 * At least 1 `KEYWORD` must be provided.
-  * Persons matching at least one keyword will be returned (i.e. `OR` search).<br>
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-  * The order of the keywords does not matter.<br>
-  e.g. `Hans Bo` will match `Bo Hans`
-* Only full keywords will be matched<br>
-e.g. `Han` will not match `Hans`
-* Keywords are case-insensitive.<br>
-e.g `hans` will match `Hans`
+  * Only full keywords will be matched<br>
+  e.g. `Ber` will not match `Bernice`
+  * Keywords are case-insensitive.<br>
+  e.g `bernice` will match `BERNICE`
+</box>
 
-Example input:
-* `find n/bernice` <br>
+<box type="tip" seamless>
+
+**Tip:** 
+* Finding by name doesn't require full names.
+  * Any keyword matching part of a member’s first or last name will return that member.<br>
+    e.g. `Bernice` will match and find `Bernice Yu`
+
+</box>
+
+**Example input:**
+* `find n/bernice`<br><br>
   ![command for 'find n/bernice'](images/findBerniceCommand.png)
 
-Example output:
-* Returns `Bernice Yu` <br>
+**Example output:**
+* Found `Bernice Yu`, together with a `(No. of) persons listed` success message.<br><br>
   ![result for 'find n/bernice'](images/findBerniceResult.png)
 
-### Deleting a person : `delete`
+---
 
-Deletes the specified person from the address book.
+### Sorting Members : `sort`
 
-Format: `delete id/MEMBERSHIP_ID`
+Sorts the list of registered gym members by the specified order.
 
-* Deletes the person with the specified `MEMBERSHIP_ID`.
-* The MEMBERSHIP_ID refers to the Membership ID number shown in the displayed person list.
+**Format:** `sort PREFIX/ORDER` OR `sort none`
 
-  Example input:
-* `delete id/1000` <br>
-  ![result for 'delete id/1000'](images/delete1000.png)
+<box type="info" seamless>
 
-Example output:
-* Returns `Deleted Person: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Membership ID: 1000; Membership Expiry Date: 2026-12-31` <br>
-  ![result for 'delete id/1000'](images/delete1000result.png)
+**Note:**
+* Only 1 `PREFIX` is allowed in the command
+  * Prefix `id/` sorts by Membership ID.
+  * Prefix `n/` sorts by Name.
+  * Prefix `p/` sorts by Phone number.
+  * Prefix `e/` sorts by Email.
+  * Prefix `a/` sorts by Address (Postal Code).
+  * Prefix `m/` sorts by Membership Expiry Date.
+* Only 1 `ORDER` can be provided<br>
+  (unless `sort none` is used to disable sorting).
+  * Order can be either `asc` or `desc` to sort members in ascending or descending order respectively.
+  * Order is case-insensitive.
+
+</box>
+
+<box type="tip" seamless>
+
+**Tip:** 
+* Sorting order, regardless of whether it is `asc` or `desc`, will be "turned on" and
+applied on displayed lists across all commands unless "turned off" by `sort none`.
+
+</box>
+
+**Example input:**
+* `sort n/desc`<br><br>
+  ![command for 'sort n/desc'](images/sortNameDescCommand.png)
+
+**Example output:**
+* Sorted `NAME` of members in `desc` order.<br><br>
+  ![result for 'sort n/desc'](images/sortNameDescResult.png)
+
+---
+
+### Clearing All Data : `clear`
+
+Delete all registered gym members after confirmation.
+
+**Format:** `clear`
+
+<box type="info" seamless>
+
+**Note:**
+* A warning page will pop up to confirm the deletion of all data.
+
+</box>
+
+<box type="tip" seamless>
+
+**Tip:**
+* These are the possible ways to confirm the deletion of all data:
+  * Clicking the `Yes` button.
+  * Hitting the `Y` key.
+* These are the possible ways to cancel the deletion of all data:
+  * Clicking the `No` button.
+  * Hitting the `N` key.
+
+</box>
+
+**Example input:**
+* `clear`<br><br>
+![command for 'clear'](images/clearCommand.png)
+
+**Example output:**
+* A warning window pops up to ask for confirmation.<br><br>
+![result for 'clear'](images/clearConfirmation.png)<br><br>
+* After confirmation, all data will be deleted, together with a `All data has been deleted successfully` success message.<br>
+The warning window will close after a short delay.<br><br>
+![result for 'successfully delete'](images/clearSuccess.png)
 
 
-### Clearing all entries : `clear`
+---
 
-Clears all data of memberships after your confirmation.
+### Getting Help : `help`
 
-Format: `clear`
+Shows a help message.
 
-* A warning page will pop up.
-* The user is asked to confirm his/her command.
-* “Y” means all the data will be deleted, “N” means clear command will be cancelled. Meanwhile, clicking the corresponding buttons has the same function.
-* After confirmation, the pop up window will give feedback on his/her decision and close soon after.
+**Format:** `help`
 
-Example input:
-  ![result for 'clear'](images/clearInput.png)
+<box type="info" seamless>
 
-Example output:
-* If all the data has been successfully deleted, this window will display a message to inform you.\
-  ![result for 'successfully delete'](images/successfullyDelete.png)
-* If you cancel the clear command, this window will also notify you.
-  ![result for 'cancel clear'](images/cancelDelete.png)
-* Meanwhile, the product also shows information of clear results.
-  ![result for 'success inf showed on app'](images/successInf.png)
-  ![result for 'cancel inf showed on app'](images/cancelInf.png)
+**Note:**
+* Pending edit
 
-### Exiting the program : `exit`
+</box>
 
-Exits the program.
+<box type="tip" seamless>
 
-Format: `exit`
+**Tip:**
+* Pending edit
 
-### Saving the data
+</box>
+
+**Example input:**
+* `help`<br><br>
+![command for 'help'](images/helpCommand.png)
+
+**Example output:**
+* A help window pops up with the User Guide URL and, a summary of executable commands.<br><br>
+![result for 'help'](images/helpResult.png)
+
+---
+
+### Exiting the App : `exit`
+
+Exits the app.
+
+**Format:** `exit`
+
+<box type="info" seamless>
+
+**Note:**
+* Pending edit
+
+</box>
+
+<box type="tip" seamless>
+
+**Tip:**
+* Pending edit
+
+</box>
+
+**Example input:**
+* `exit`<br><br>
+![command for 'exit'](images/exitCommand.png)
+
+**Example output:**
+* App window gradually disappears from view and the application exits.
+
+---
+
+### Saving Data
 
 AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
-### Editing the data file
+---
+
+### Editing the Data File
 
 AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
@@ -229,7 +415,7 @@ If your changes to the data file makes its format invalid, AddressBook will disc
 Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
-
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -240,22 +426,23 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Known issues
+## Known Issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
+## Command Summary
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE e/EMAIL a/ADDRESS m/EXPIRY_DATE` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 m/2026-12-31`
+**Add**    | `add n/NAME p/PHONE e/EMAIL a/ADDRESS m/EXPIRY_DATE`<br> e.g., `add n/James Ho p/92375927 e/jamesho@example.com a/Blk 123, Clementi Rd, 665123 m/2026-12-31`
 **List**   | `list`
-**Delete** | `delete id/MEMBERSHIP_ID`<br> e.g., `delete 3`
-**Edit**   | `edit id/MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find PREFIX/KEYWORD [MORE_KEYWORDS]`<br> e.g., `find n/James Jake`
-**Help**   | `help`
+**Delete** | `delete id/MEMBERSHIP_ID`<br> e.g., `delete id/1021`
+**Edit**   | `edit id/MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`<br> e.g.,`edit 1016 n/James Lee e/jameslee@example.com`
+**Find**   | `find PREFIX/KEYWORD [MORE_KEYWORDS]`<br> e.g., `find n/James Max`
+**Sort**   | `sort PREFIX/ORDER `<br> e.g., `sort n/desc`<br> or <br> e.g., `sort none`
 **Clear**  | `clear`
+**Help**   | `help`
 **Exit**   | `exit`

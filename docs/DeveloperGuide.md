@@ -4,10 +4,8 @@
   pageNav: 3
 ---
 
-# GymContactsPro Developer Guide
+# GymContactsPro Developer Guide 📖
 
-<!-- * Table of Contents -->
-<page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
 
