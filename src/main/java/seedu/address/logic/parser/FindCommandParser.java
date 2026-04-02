@@ -1,118 +1,91 @@
-package seedu.address.logic.commands;
+package seedu.address.logic.parser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MEMBERSHIP_EXPIRY_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 
+import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-
-import seedu.address.logic.Messages;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
-import seedu.address.model.person.MembershipId;
-import seedu.address.model.person.Person;
+import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.EmailContainsKeywordsPredicate;
+import seedu.address.model.person.ExpiryDateContainsKeywordsPredicate;
+import seedu.address.model.person.MembershipIdContainsPredicate;
+import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.PhoneContainsKeywordsPredicate;
+import seedu.address.model.person.PostalCodeContainsKeywordsPredicate;
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests for
- * {@code DeleteCommand}.
+ * Parses input arguments and creates a new FindCommand object
  */
-public class DeleteCommandTest {
+public class FindCommandParser implements Parser<FindCommand> {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    /**
+     * Parses the given {@code String} of arguments in the context of the FindCommand
+     * and returns a FindCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public FindCommand parse(String args) throws ParseException {
+        Prefix[] allPrefixes = new Prefix[] {
+            PREFIX_NAME, PREFIX_ID, PREFIX_PHONE,
+            PREFIX_ADDRESS, PREFIX_MEMBERSHIP_EXPIRY_DATE, PREFIX_EMAIL
+        };
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, allPrefixes);
 
-    @Test
-    public void execute_singleValidMembershipId_success() {
-        Person personToDelete = model.getAddressBook().getPersonList().get(0);
-        MembershipId targetId = personToDelete.getMembershipId();
-        DeleteCommand deleteCommand = new DeleteCommand(List.of(targetId));
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
-            Messages.format(personToDelete));
+        argMultimap.verifyNoDuplicatePrefixesFor(allPrefixes);
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.deletePerson(personToDelete);
+        Prefix usedPrefix = argMultimap.verifyExactlyOnePrefixPresentFor(FindCommand.MESSAGE_USAGE, allPrefixes);
 
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        if (usedPrefix == null) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
+        String value = argMultimap.getValue(usedPrefix).get().trim().replaceAll("\\s+", " ");
+        if (value.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
+        String[] tokens = value.split(" ");
+        return tokens.length == 1
+            ? parseSingleKeyword(usedPrefix, tokens[0])
+            : parseMultipleKeywords(usedPrefix, Arrays.asList(tokens));
     }
 
-    @Test
-    public void execute_multipleValidMembershipIds_success() {
-        Person firstPerson = model.getAddressBook().getPersonList().get(0);
-        Person secondPerson = model.getAddressBook().getPersonList().get(1);
-        DeleteCommand deleteCommand = new DeleteCommand(
-            List.of(firstPerson.getMembershipId(), secondPerson.getMembershipId()));
-
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
-            Messages.format(firstPerson) + "\n" + Messages.format(secondPerson));
-
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.deletePerson(firstPerson);
-        expectedModel.deletePerson(secondPerson);
-
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+    /**
+     * Parses a single keyword and returns a FindCommand with the appropriate predicate.
+     */
+    private FindCommand parseSingleKeyword(Prefix prefix, String keyword) throws ParseException {
+        return parseMultipleKeywords(prefix, List.of(keyword));
     }
 
-    @Test
-    public void execute_invalidMembershipId_throwsCommandException() {
-        MembershipId nonExistentId = new MembershipId(MembershipId.MAX_ID);
-        DeleteCommand deleteCommand = new DeleteCommand(List.of(nonExistentId));
-
-        assertCommandFailure(deleteCommand, model,
-            String.format(Messages.MESSAGE_PERSON_NOT_FOUND, nonExistentId));
-    }
-
-    @Test
-    public void execute_oneValidOneInvalidMembershipId_throwsCommandException() {
-        Person existingPerson = model.getAddressBook().getPersonList().get(0);
-        MembershipId nonExistentId = new MembershipId(MembershipId.MAX_ID);
-        DeleteCommand deleteCommand = new DeleteCommand(
-            List.of(existingPerson.getMembershipId(), nonExistentId));
-
-        // Should fail fast — no deletions if any ID is invalid
-        assertCommandFailure(deleteCommand, model,
-            String.format(Messages.MESSAGE_PERSON_NOT_FOUND, nonExistentId));
-    }
-
-    @Test
-    public void equals() {
-        MembershipId firstId = new MembershipId(MembershipId.MIN_ID);
-        MembershipId secondId = new MembershipId(MembershipId.MIN_ID + 1);
-        DeleteCommand deleteFirstCommand = new DeleteCommand(List.of(firstId));
-        DeleteCommand deleteSecondCommand = new DeleteCommand(List.of(secondId));
-
-        // same object -> returns true
-        assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
-
-        // same values -> returns true
-        DeleteCommand deleteFirstCommandCopy = new DeleteCommand(List.of(firstId));
-        assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
-
-        // different types -> returns false
-        assertFalse(deleteFirstCommand.equals(1));
-
-        // null -> returns false
-        assertFalse(deleteFirstCommand.equals(null));
-
-        // different id -> returns false
-        assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
-
-        // multiple ids -> returns true if same list
-        DeleteCommand deleteMultiCommand1 = new DeleteCommand(List.of(firstId, secondId));
-        DeleteCommand deleteMultiCommand2 = new DeleteCommand(List.of(firstId, secondId));
-        assertTrue(deleteMultiCommand1.equals(deleteMultiCommand2));
-    }
-
-    @Test
-    public void toStringMethod() {
-        MembershipId targetId = new MembershipId(MembershipId.MIN_ID);
-        DeleteCommand deleteCommand = new DeleteCommand(List.of(targetId));
-        String expected = DeleteCommand.class.getCanonicalName() + "{targetIds=[" + targetId + "]}";
-        assertEquals(expected, deleteCommand.toString());
+    /**
+     * Parses multiple keywords and returns a FindCommand with the appropriate predicate.
+     */
+    private FindCommand parseMultipleKeywords(Prefix prefix, List<String> keywords) throws ParseException {
+        switch (prefix.getPrefix()) {
+        case "n/":
+            return new FindCommand(new NameContainsKeywordsPredicate(keywords));
+        case "p/":
+            return new FindCommand(new PhoneContainsKeywordsPredicate(keywords));
+        case "e/":
+            return new FindCommand(new EmailContainsKeywordsPredicate(keywords));
+        case "a/":
+            return new FindCommand(new PostalCodeContainsKeywordsPredicate(keywords));
+        case "id/":
+            return new FindCommand(new MembershipIdContainsPredicate(keywords));
+        case "m/":
+            return new FindCommand(new ExpiryDateContainsKeywordsPredicate(keywords));
+        default:
+            throw new ParseException("Find by this prefix is not yet supported.");
+        }
     }
 }
