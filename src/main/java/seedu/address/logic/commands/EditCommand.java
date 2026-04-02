@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,7 +49,7 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited person: %1$s";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Member: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
@@ -80,7 +81,6 @@ public class EditCommand extends Command {
         List<Person> allPersons = model.getAddressBook().getPersonList();
 
         Person personToEdit = null;
-        logger.warning("No person found with Membership ID: " + membershipId);
         for (Person person : allPersons) {
             if (person.getMembershipId().equals(membershipId)) {
                 personToEdit = person;
@@ -88,10 +88,20 @@ public class EditCommand extends Command {
             }
         }
         if (personToEdit == null) {
+            logger.warning("No person found with Membership ID: " + membershipId);
             throw new CommandException(String.format(Messages.MESSAGE_PERSON_NOT_FOUND, membershipId));
         }
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+
+        List<String> changed = new ArrayList<>();
+        List<String> unchanged = new ArrayList<>();
+        classifyField("Name", editPersonDescriptor.getName(), personToEdit.getName(), changed, unchanged);
+        classifyField("Phone", editPersonDescriptor.getPhone(), personToEdit.getPhone(), changed, unchanged);
+        classifyField("Email", editPersonDescriptor.getEmail(), personToEdit.getEmail(), changed, unchanged);
+        classifyField("Address", editPersonDescriptor.getAddress(), personToEdit.getAddress(), changed, unchanged);
+        classifyField("Membership Expiry Date", editPersonDescriptor.getMembershipExpiryDate(),
+                personToEdit.getMembershipExpiryDate(), changed, unchanged);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             logger.warning("Duplicate person detected while editing Membership ID: " + membershipId
@@ -101,7 +111,64 @@ public class EditCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+
+        // Some fields are changed while other fields are unchanged
+        if (!changed.isEmpty() && !unchanged.isEmpty()) {
+            return new CommandResult(buildEditFeedback(editedPerson, changed, unchanged));
+        }
+
+        // All supplied fields are changed
+        return new CommandResult(buildAllChangedFeedback(editedPerson, changed));
+    }
+
+    /**
+     * Classifies a supplied field as changed or unchanged by comparing it with the original value.
+     * Fields not supplied by the user are ignored.
+     *
+     * @param fieldName Name of the field being classified.
+     * @param maybeNewValue New value supplied by the user, if present.
+     * @param originalValue Original value from the person before editing.
+     * @param changed List that collects field names detected as changed.
+     * @param unchanged List that collects field names detected as unchanged.
+     * @param <T> Type of the field value.
+     */
+    private static <T> void classifyField(String fieldName, Optional<T> maybeNewValue, T originalValue,
+                                          List<String> changed, List<String> unchanged) {
+        if (maybeNewValue.isEmpty()) {
+            return;
+        }
+        if (maybeNewValue.get().equals(originalValue)) {
+            unchanged.add(fieldName);
+        } else {
+            changed.add(fieldName);
+        }
+    }
+
+    /**
+     * Builds detailed edit feedback for the case where some supplied fields are changed
+     * and some supplied fields are unchanged.
+     *
+     * @param editedPerson Edited person to be shown in the success message.
+     * @param changed List of supplied field names that were changed.
+     * @param unchanged List of supplied field names that were unchanged.
+     * @return Formatted edit feedback message containing changed and unchanged fields.
+     */
+    private static String buildEditFeedback(Person editedPerson, List<String> changed, List<String> unchanged) {
+        return String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: " + String.join(", ", changed)
+                + "\nUnchanged fields: " + String.join(", ", unchanged);
+    }
+
+    /**
+     * Builds edit feedback for the case where all supplied fields are changed.
+     *
+     * @param editedPerson Edited person to be shown in the success message.
+     * @param changed List of supplied field names that were changed.
+     * @return Formatted edit feedback message containing changed fields only.
+     */
+    private static String buildAllChangedFeedback(Person editedPerson, List<String> changed) {
+        return String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: " + String.join(", ", changed);
     }
 
     /**

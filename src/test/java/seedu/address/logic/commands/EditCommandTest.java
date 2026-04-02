@@ -46,7 +46,9 @@ public class EditCommandTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditCommand editCommand = new EditCommand(personToEdit.getMembershipId(), descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: Name, Phone, Email, Membership Expiry Date"
+                + "\nUnchanged fields: Address";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
@@ -67,7 +69,8 @@ public class EditCommandTest {
                 .withPhone(VALID_PHONE_BOB).build();
         EditCommand editCommand = new EditCommand(lastPerson.getMembershipId(), descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: Name, Phone";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(lastPerson, editedPerson);
@@ -88,7 +91,8 @@ public class EditCommandTest {
                 .build();
         EditCommand editCommand = new EditCommand(lastPerson.getMembershipId(), descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: Membership Expiry Date";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(lastPerson, editedPerson);
@@ -102,7 +106,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(targetId, new EditPersonDescriptor());
         Person editedPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: ";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -118,7 +123,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(personInFilteredList.getMembershipId(),
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: Name";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
@@ -140,10 +146,59 @@ public class EditCommandTest {
                         .withMembershipExpiryDate(VALID_MEMBERSHIP_EXPIRY_DATE_BOB)
                         .build());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: Membership Expiry Date";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_someFieldsChangedSomeFieldsUnchanged_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        String samePhone = personToEdit.getPhone().value; // unchanged
+        String newEmail = "newemail@example.com"; // changed
+
+        Person editedPerson = new PersonBuilder(personToEdit)
+                .withEmail(newEmail)
+                .build();
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone(samePhone)
+                .withEmail(newEmail)
+                .build();
+        EditCommand editCommand = new EditCommand(personToEdit.getMembershipId(), descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: Email"
+                + "\nUnchanged fields: Phone";
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_allSuppliedFieldsUnchanged_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(personToEdit.getName().fullName)
+                .withPhone(personToEdit.getPhone().value)
+                .build();
+        EditCommand editCommand = new EditCommand(personToEdit.getMembershipId(), descriptor);
+
+        // editedPerson is unchanged
+        Person editedPerson = personToEdit;
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: ";
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
