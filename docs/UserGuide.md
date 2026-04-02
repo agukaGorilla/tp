@@ -406,8 +406,8 @@ AddressBook data are saved in the hard disk automatically after any command that
 
 ### Editing the Data File
 
-Data of all members are saved as a JSON file `[JAR file location]/data/addressbook.json`. 
-Advanced users are welcome to update data directly by editing that data file.
+Data of all members are saved as a JSON file `[JAR file location]/data/addressbook.json`.<br>
+**Advanced users** are welcome to update data directly by editing that data file.
 
 <box type="info" seamless>
 
