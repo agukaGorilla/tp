@@ -110,7 +110,7 @@ Adds a new gym member to the list of registered gym members.
 <box type="tip" seamless>
 
 **Tip:** 
-* Fieldss following the `add` command can be provided in any order
+* Fields following the `add` command can be provided in any order
 </box>
 
 **Example input:**
