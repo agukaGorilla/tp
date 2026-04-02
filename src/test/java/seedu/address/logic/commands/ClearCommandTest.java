@@ -38,21 +38,21 @@ public class ClearCommandTest {
     public void execute_nonEmptyAddressBook_success() {
         Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        expectedModel.setAddressBook(new AddressBook());
+        // Do NOT clear expectedModel — ClearCommand only opens confirmation window
 
         CommandResult expectedResult = new CommandResult(
-                ClearCommand.MESSAGE_CONFIRMATION,
-                false,
-                false,
-                true,
-                false,
-                "Warning!\n"
-                        + "This command will clear all contacts.\n"
-                        + "Press Y/N keys to confirm.\n\n"
-                        + "Alternatively, click the buttons below.\n"
+            ClearCommand.MESSAGE_CONFIRMATION,
+            false,
+            false,
+            true,
+            false,
+            "Warning!\n"
+                + "This command will clear all contacts.\n"
+                + "Press Y/N keys to confirm.\n\n"
+                + "Alternatively, click the buttons below.\n"
         );
 
         assertEquals(expectedResult, new ClearCommand().execute(model));
-        assertEquals(expectedModel, model);
+        assertEquals(expectedModel, model); // model should be unchanged
     }
 }
