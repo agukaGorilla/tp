@@ -29,8 +29,7 @@ public class DeleteCommandTest {
     @Test
     public void execute_singleValidMembershipId_success() {
         Person personToDelete = model.getAddressBook().getPersonList().get(0);
-        MembershipId targetId = personToDelete.getMembershipId();
-        DeleteCommand deleteCommand = new DeleteCommand(List.of(targetId));
+        DeleteCommand deleteCommand = new DeleteCommand(personToDelete.getMembershipId());
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
             Messages.format(personToDelete));
@@ -61,7 +60,7 @@ public class DeleteCommandTest {
     @Test
     public void execute_invalidMembershipId_throwsCommandException() {
         MembershipId nonExistentId = new MembershipId(MembershipId.MAX_ID);
-        DeleteCommand deleteCommand = new DeleteCommand(List.of(nonExistentId));
+        DeleteCommand deleteCommand = new DeleteCommand(nonExistentId);
 
         assertCommandFailure(deleteCommand, model,
             String.format(Messages.MESSAGE_PERSON_NOT_FOUND, nonExistentId));
@@ -85,6 +84,8 @@ public class DeleteCommandTest {
         MembershipId secondId = new MembershipId(MembershipId.MIN_ID + 1);
         DeleteCommand deleteFirstCommand = new DeleteCommand(List.of(firstId));
         DeleteCommand deleteSecondCommand = new DeleteCommand(List.of(secondId));
+        DeleteCommand deleteMultiCommand = new DeleteCommand(List.of(firstId, secondId)); // multiple
+
 
         // same object -> returns true
         assertTrue(deleteFirstCommand.equals(deleteFirstCommand));

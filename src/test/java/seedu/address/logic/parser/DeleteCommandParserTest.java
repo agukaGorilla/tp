@@ -25,15 +25,13 @@ public class DeleteCommandParserTest {
     @Test
     public void parse_singleValidArg_returnsDeleteCommand() {
         assertParseSuccess(parser, " id/1000",
-            new DeleteCommand(List.of(new MembershipId(MembershipId.MIN_ID))));
+            new DeleteCommand(new MembershipId(1000)));
     }
 
     @Test
     public void parse_multipleValidArgs_returnsDeleteCommand() {
         assertParseSuccess(parser, " id/1000 1001",
-            new DeleteCommand(List.of(
-                new MembershipId(1000),
-                new MembershipId(1001))));
+            new DeleteCommand(List.of(new MembershipId(1000), new MembershipId(1001))));
     }
 
     @Test
