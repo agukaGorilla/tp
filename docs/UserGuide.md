@@ -361,18 +361,12 @@ Exits the app.
 
 **Format:** `exit`
 
-<box type="info" seamless>
-
-**Note:**
-* Pending edit
-
-</box>
-
 <box type="tip" seamless>
 
 **Tip:**
-* Pending edit
-
+* These are the alternative ways to exit the app:
+  * Clicking the `Exit` button in the `File` menu.
+  * Closing the app window directly by clicking the `X` button in the top right corner.
 </box>
 
 **Example input:**
