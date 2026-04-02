@@ -167,6 +167,33 @@ public class EditCommandTest {
     }
 
     @Test
+    public void execute_someFieldsChangedSomeFieldsUnchanged_success() {
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        String samePhone = personToEdit.getPhone().value; // unchanged
+        String newEmail = "newemail@example.com"; // changed
+
+        Person editedPerson = new PersonBuilder(personToEdit)
+                .withEmail(newEmail)
+                .build();
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone(samePhone)
+                .withEmail(newEmail)
+                .build();
+        EditCommand editCommand = new EditCommand(personToEdit.getMembershipId(), descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
+                + "\nChanged fields: Email"
+                + "\nUnchanged fields: Phone";
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(personToEdit, editedPerson);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_duplicatePersonUnfilteredList_failure() {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
