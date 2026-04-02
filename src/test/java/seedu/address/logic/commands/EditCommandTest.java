@@ -47,8 +47,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(personToEdit.getMembershipId(), descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\nChanged fields: Name, Phone, Email, Membership Expiry Date"
-                + "\nUnchanged fields: Address";
+            + "\nChanged fields: Name, Phone, Email, Address, Membership Expiry Date";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
@@ -70,7 +69,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(lastPerson.getMembershipId(), descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\nChanged fields: Name, Phone";
+            + "\nChanged fields: Name, Phone";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(lastPerson, editedPerson);
@@ -92,7 +91,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(lastPerson.getMembershipId(), descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\nChanged fields: Membership Expiry Date";
+            + "\nChanged fields: Membership Expiry Date";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(lastPerson, editedPerson);
@@ -105,8 +104,7 @@ public class EditCommandTest {
         MembershipId targetId = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()).getMembershipId();
         EditCommand editCommand = new EditCommand(targetId, new EditPersonDescriptor());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\nChanged fields: ";
+        String expectedMessage = EditCommand.MESSAGE_NO_CHANGES;
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -123,7 +121,7 @@ public class EditCommandTest {
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\nChanged fields: Name";
+            + "\nChanged fields: Name";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
@@ -146,7 +144,7 @@ public class EditCommandTest {
                         .build());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\nChanged fields: Membership Expiry Date";
+            + "\nChanged fields: Membership Expiry Date";
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
@@ -155,47 +153,12 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_someFieldsChangedSomeFieldsUnchanged_success() {
+    public void execute_identicalFieldsSpecifiedUnfilteredList_noChanges() {
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-
-        String samePhone = personToEdit.getPhone().value; // unchanged
-        String newEmail = "newemail@example.com"; // changed
-
-        Person editedPerson = new PersonBuilder(personToEdit)
-                .withEmail(newEmail)
-                .build();
-
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
-                .withPhone(samePhone)
-                .withEmail(newEmail)
-                .build();
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(personToEdit).build();
         EditCommand editCommand = new EditCommand(personToEdit.getMembershipId(), descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\nChanged fields: Email"
-                + "\nUnchanged fields: Phone";
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(personToEdit, editedPerson);
-
-        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_allSuppliedFieldsUnchanged_success() {
-        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
-                .withName(personToEdit.getName().fullName)
-                .withPhone(personToEdit.getPhone().value)
-                .build();
-        EditCommand editCommand = new EditCommand(personToEdit.getMembershipId(), descriptor);
-
-        // editedPerson is unchanged
-        Person editedPerson = personToEdit;
-
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\nChanged fields: ";
+        String expectedMessage = EditCommand.MESSAGE_NO_CHANGES;
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -253,18 +216,24 @@ public class EditCommandTest {
         MembershipId secondId = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased()).getMembershipId();
         final EditCommand standardCommand = new EditCommand(firstId, DESC_AMY);
 
+        // same values -> returns true
         EditPersonDescriptor copyDescriptor = new EditPersonDescriptor(DESC_AMY);
         EditCommand commandWithSameValues = new EditCommand(firstId, copyDescriptor);
         assertTrue(standardCommand.equals(commandWithSameValues));
 
+        // same object -> returns true
         assertTrue(standardCommand.equals(standardCommand));
 
+        // null -> returns false
         assertFalse(standardCommand.equals(null));
 
+        // different types -> returns false
         assertFalse(standardCommand.equals(new ClearCommand()));
 
+        // different membership ID -> returns false
         assertFalse(standardCommand.equals(new EditCommand(secondId, DESC_AMY)));
 
+        // different descriptor -> returns false
         assertFalse(standardCommand.equals(new EditCommand(firstId, DESC_BOB)));
     }
 
