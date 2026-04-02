@@ -18,7 +18,7 @@ This guide explains JSON in the **context of GymContactsPro**, helping you under
 * [Empty Data File Structure](#empty-data-file-structure)
 * [Adding the First Member](#adding-the-first-member)
 * [Complete Example](#complete-example)
-* [Attribute Rules](#attribute-rules)
+* [Field Rules](#field-rules)
 * [Common Mistakes to Avoid](#common-mistakes-to-avoid)
 * [Validation](#validation)
 * [Safety Tips](#safety-tips)
@@ -69,10 +69,10 @@ A JSON data file with a single member looks like this:
 
 **Note:**
 * Each member is wrapped in curly brackets `{}`
-* Within each member's `{}`, are their attributes (name, phone, email, etc.) separated by commas `,`
-* The name of attributes is followed by a colon `:`, then the value of the attribute
-* Notice that names and values of each attribute are enclosed in double quotes `""` except for the value for the `"membershipId"` attribute
-  * This has to do with the fact that the value is a number and not a collection of characters. If you are interested to know more, see [Attribute Descriptions](#attribute-descriptions) for more details.
+* Within each member's `{}`, are their fields (name, phone, email, etc.) separated by commas `,`
+* The name of fields is followed by a colon `:`, then the value of the field
+* Notice that names and values of each field are enclosed in double quotes `""` except for the value for the `"membershipId"` field
+  * This has to do with the fact that the value is a number and not a collection of characters. If you are interested in knowing more, see [Field Rules](#field-rules) for more details.
 
 </box>
 
@@ -102,7 +102,7 @@ A JSON data file with multiple members looks like:
 ```
 ---
 
-## Attribute Rules
+## Field Rules
 
 Each member in the `"persons"` list contains the following fields:
 
