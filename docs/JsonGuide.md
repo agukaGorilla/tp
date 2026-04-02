@@ -113,14 +113,14 @@ A JSON data file with multiple members looks like:
 
 Each member in the `"persons"` list contains the following fields:
 
-| Field | Quotes? | Description                                                                              | Example |
-|-------|---------|------------------------------------------------------------------------------------------|---------|
-| `name` | Yes     | Full name of the member                                                                  | `"Alex Yeoh"` |
-| `phone` | Yes     | 8-digit phone number starting with 8 or 9                                                | `"87438807"` |
-| `email` | Yes     | Email address                                                                            | `"alexyeoh@example.com"` |
-| `address` | Yes     | Minimally postal code, else full address with postal code at the end                     | `"Blk 30 Geylang Street 29, #06-40, 388066"` |
-| `membershipId` | No      | Unique 4-digit ID between 1000 to 9999, that must be higher than the highest existing ID | `1000` |
-| `membershipExpiryDate` | Yes     | Expiry date in YYYY-MM-DD format                                                         | `"2027-01-15"` |
+| Field | Quotes? | Description                                                                                                       | Example |
+|-------|---------|-------------------------------------------------------------------------------------------------------------------|---------|
+| `name` | Yes     | Full name of the member                                                                                           | `"Alex Yeoh"` |
+| `phone` | Yes     | 8-digit phone number starting with 8 or 9                                                                         | `"87438807"` |
+| `email` | Yes     | Email address                                                                                                     | `"alexyeoh@example.com"` |
+| `address` | Yes     | Minimally postal code                                                                                             | `"Blk 30 Geylang Street 29, #06-40, 388066"` |
+| `membershipId` | No      | Only increasing unique 4-digit ID between 1000 to 9999, that must be higher than the highest existing ID | `1000` |
+| `membershipExpiryDate` | Yes     | Expiry date in YYYY-MM-DD format                                                                                  | `"2027-01-15"` |
 
 ---
 
