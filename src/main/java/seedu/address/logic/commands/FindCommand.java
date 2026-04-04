@@ -37,9 +37,9 @@ public class FindCommand extends Command {
             + "Example: " + COMMAND_WORD + " n/alice bob charlie\n"
             + "Example: " + COMMAND_WORD + " p/91234567 98765432";
 
-    private final Predicate<Person> predicate;
-
     private static final Logger logger = LogsCenter.getLogger(FindCommand.class);
+
+    private final Predicate<Person> predicate;
 
     public FindCommand(Predicate<Person> predicate) {
         this.predicate = predicate;
