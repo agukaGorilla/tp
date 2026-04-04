@@ -82,16 +82,23 @@ public class PersonCard extends UiPart<Region> {
             membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
             membershipStatus.getStyleClass().add("membership-expired");
         } else {
-            // Not expired, calculate days remaining
+            // Calculate days remaining
             long daysUntilExpiry = ChronoUnit.DAYS.between(today, expiryDate);
 
-            if (daysUntilExpiry <= 30) {
-                // Expiring soon (0-30 days)
+            if (daysUntilExpiry == 0) {
+                // Expires today
+                membershipStatus.setText("Expires today!");
+                membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
+                membershipStatus.getStyleClass().add("membership-expiring-soon");
+
+            } else if (daysUntilExpiry <= 30) {
+                // Expiring soon (1–30 days)
                 membershipStatus.setText("Expiring in (" + daysUntilExpiry + ") days");
                 membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
                 membershipStatus.getStyleClass().add("membership-expiring-soon");
+
             } else {
-                // Active (more than 30 days)
+                // Active (>30 days)
                 membershipStatus.setText("Active");
                 membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
                 membershipStatus.getStyleClass().add("membership-active");
