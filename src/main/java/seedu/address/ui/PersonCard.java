@@ -79,7 +79,8 @@ public class PersonCard extends UiPart<Region> {
         if (expiryDate == null || expiryDate.isBefore(today)) {
             // Expired
             membershipStatus.setText("Expired");
-            membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
+            membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon",
+                    "membership-expired");
             membershipStatus.getStyleClass().add("membership-expired");
         } else {
             // Calculate days remaining
@@ -88,19 +89,22 @@ public class PersonCard extends UiPart<Region> {
             if (daysUntilExpiry == 0) {
                 // Expires today
                 membershipStatus.setText("Expires today!");
-                membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
+                membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon",
+                        "membership-expired");
                 membershipStatus.getStyleClass().add("membership-expiring-soon");
 
             } else if (daysUntilExpiry <= 30) {
                 // Expiring soon (1–30 days)
                 membershipStatus.setText("Expiring in (" + daysUntilExpiry + ") days");
-                membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
+                membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon",
+                        "membership-expired");
                 membershipStatus.getStyleClass().add("membership-expiring-soon");
 
             } else {
                 // Active (>30 days)
                 membershipStatus.setText("Active");
-                membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
+                membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon",
+                        "membership-expired");
                 membershipStatus.getStyleClass().add("membership-active");
             }
         }
