@@ -60,7 +60,7 @@ public class FindCommand extends Command {
             return new CommandResult(Messages.MESSAGE_NO_CHANGE_IN_DISPLAYED_LIST);
         }
 
-        logger.warning("Successfully found persons matching criteria");
+        logger.info("Successfully found persons matching criteria");
 
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
