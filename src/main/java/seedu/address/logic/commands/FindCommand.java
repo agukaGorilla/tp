@@ -14,7 +14,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
 /**
- * Finds and lists all persons in address book whose name contains any of the argument keywords.
+ * Finds and lists all member(s) in address book whose name contains any of the argument keywords.
  * Keyword matching is case insensitive.
  */
 public class FindCommand extends Command {
@@ -56,11 +56,11 @@ public class FindCommand extends Command {
         List<Person> afterFind = ListUtil.copyDisplayedList(model);
 
         if (ListUtil.isSameList(beforeFind, afterFind)) {
-            logger.warning("Found the same persons. No change in displayed list");
+            logger.warning("Found the same member(s). No change in displayed list");
             return new CommandResult(Messages.MESSAGE_NO_CHANGE_IN_DISPLAYED_LIST);
         }
 
-        logger.info("Successfully found persons matching criteria");
+        logger.info("Successfully found member(s) matching criteria");
 
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
