@@ -35,7 +35,7 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the member identified "
             + "by the membership ID of the person.\n"
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: MEMBERSHIP_ID (must be a 4-digit positive integer from "
@@ -51,7 +51,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited member: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This member already exists in the address book.";
     public static final String MESSAGE_NO_CHANGES = "No changes made — the provided fields are identical";
 
 
