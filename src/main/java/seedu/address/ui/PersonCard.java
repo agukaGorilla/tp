@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -67,17 +68,35 @@ public class PersonCard extends UiPart<Region> {
 
     /**
      * Updates the membership status label based on the expiry date.
-     * Sets the label text to "Active" if the expiry date is today or later,
+     * Sets the label text to "Active" if expiry date is more than 30 days away,
+     * "Expiring in X days" (amber) if expiry is within 30 days,
      * otherwise sets it to "Expired". Also updates the style class accordingly.
      */
     private void updateStatusLabel() {
         LocalDate expiryDate = person.getMembershipExpiryDate().value;
         LocalDate today = LocalDate.now();
-        boolean isActive = expiryDate != null && !expiryDate.isBefore(today);
 
-        membershipStatus.setText(isActive ? "Active" : "Expired");
-        membershipStatus.getStyleClass().removeAll("membership-active", "membership-expired");
-        membershipStatus.getStyleClass().add(isActive ? "membership-active" : "membership-expired");
+        if (expiryDate == null || expiryDate.isBefore(today)) {
+            // Expired
+            membershipStatus.setText("Expired");
+            membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
+            membershipStatus.getStyleClass().add("membership-expired");
+        } else {
+            // Not expired, calculate days remaining
+            long daysUntilExpiry = ChronoUnit.DAYS.between(today, expiryDate);
+
+            if (daysUntilExpiry <= 30) {
+                // Expiring soon (0-30 days)
+                membershipStatus.setText("Expiring in (" + daysUntilExpiry + ") days");
+                membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
+                membershipStatus.getStyleClass().add("membership-expiring-soon");
+            } else {
+                // Active (more than 30 days)
+                membershipStatus.setText("Active");
+                membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon", "membership-expired");
+                membershipStatus.getStyleClass().add("membership-active");
+            }
+        }
     }
 
     /**
