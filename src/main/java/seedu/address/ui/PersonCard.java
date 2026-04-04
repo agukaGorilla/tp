@@ -68,9 +68,10 @@ public class PersonCard extends UiPart<Region> {
 
     /**
      * Updates the membership status label based on the expiry date.
-     * Sets the label text to "Active" if expiry date is more than 30 days away,
-     * "Expiring in X days" (amber) if expiry is within 30 days,
-     * otherwise sets it to "Expired". Also updates the style class accordingly.
+     * Sets the label text to "Active" (green) if expiry date is more than 30 days away,
+     * "Expiring in X days" (amber) if expiry is <= 30 days,
+     * "Expires today!" (amber) if expiry date is today,
+     * otherwise sets it to "Expired" (red).
      */
     private void updateStatusLabel() {
         LocalDate expiryDate = person.getMembershipExpiryDate().value;
