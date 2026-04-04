@@ -15,8 +15,6 @@ import seedu.address.model.person.Person;
  */
 public class PersonComparators {
 
-    private PersonComparators() {}
-
     // -------------------------------------------------------------------------
     // Name
     // -------------------------------------------------------------------------
@@ -55,25 +53,6 @@ public class PersonComparators {
     // Address — postal code
     // -------------------------------------------------------------------------
 
-    /**
-     * Extracts the 6-digit trailing postal code from an address string.
-     *
-     * <p>Returns {@link Integer#MAX_VALUE} if the address is too short or the last six characters
-     * are not a valid integer, so malformed entries always sort last regardless of direction.
-     */
-    private static int extractPostalCode(Person p) {
-        String address = p.getAddress().value.stripTrailing();
-        if (address.length() < 6) {
-            return Integer.MAX_VALUE;
-        }
-        String candidate = address.substring(address.length() - 6);
-        try {
-            return Integer.parseInt(candidate);
-        } catch (NumberFormatException e) {
-            return Integer.MAX_VALUE;
-        }
-    }
-
     public static final Comparator<Person> ADDRESS_POSTAL_CODE_ASC =
         Comparator.comparingInt(PersonComparators::extractPostalCode);
 
@@ -103,4 +82,33 @@ public class PersonComparators {
         Comparator.comparingInt(p -> p.getMembershipId().value);
 
     public static final Comparator<Person> ID_DESC = ID_ASC.reversed();
+
+    // -------------------------------------------------------------------------
+    // Constructor
+    // -------------------------------------------------------------------------
+
+    private PersonComparators() {}
+
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Extracts the 6-digit trailing postal code from an address string.
+     *
+     * <p>Returns {@link Integer#MAX_VALUE} if the address is too short or the last six characters
+     * are not a valid integer, so malformed entries always sort last regardless of direction.
+     */
+    private static int extractPostalCode(Person p) {
+        String address = p.getAddress().value.stripTrailing();
+        if (address.length() < 6) {
+            return Integer.MAX_VALUE;
+        }
+        String candidate = address.substring(address.length() - 6);
+        try {
+            return Integer.parseInt(candidate);
+        } catch (NumberFormatException e) {
+            return Integer.MAX_VALUE;
+        }
+    }
 }
