@@ -64,12 +64,6 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_emptyArg_throwsParseException() {
-        assertParseFailure(parser, "     ",
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-    }
-
-    @Test
     public void parse_phoneKeywords_returnsFindCommand() {
         FindCommand expectedFindCommand =
             new FindCommand(new PhoneContainsKeywordsPredicate(Arrays.asList("91234567", "98765432")));
@@ -117,64 +111,32 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_commandWordOnly_throwsParseException() {
+    public void parse_emptyOrWhitespaceInput_throwsParseException() {
         assertParseFailure(parser, "",
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-    }
-
-    @Test
-    public void parse_prefixOnly_throwsParseException() {
-        assertParseFailure(parser, " n/",
+        assertParseFailure(parser, "     ",
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test
-    public void parse_onlyWhitespaceAfterPrefix_throwsParseException() {
+    public void parse_prefixWithoutValue_throwsParseException() {
+        assertParseFailure(parser, " n/",
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         assertParseFailure(parser, " n/    ",
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test
-    public void parse_singleIdKeyword_returnsFindCommand() {
-        FindCommand expectedFindCommand =
-            new FindCommand(new MembershipIdContainsPredicate(Arrays.asList("1000")));
-        assertParseSuccess(parser, " id/1000", expectedFindCommand);
+    public void parse_membershipIdKeywords_returnsFindCommand() {
+        FindCommand expectedFindCommandSingle =
+                new FindCommand(new MembershipIdContainsPredicate(Arrays.asList("1000")));
+        assertParseSuccess(parser, " id/1000", expectedFindCommandSingle);
+
+        FindCommand expectedFindCommandMultiple =
+                new FindCommand(new MembershipIdContainsPredicate(Arrays.asList("1000", "1001", "1002")));
+        assertParseSuccess(parser, " id/1000 1001 1002", expectedFindCommandMultiple);
     }
 
-    @Test
-    public void parse_multipleIdKeywords_returnsFindCommand() {
-        FindCommand expectedFindCommand =
-            new FindCommand(new MembershipIdContainsPredicate(Arrays.asList("1000", "1001")));
-        assertParseSuccess(parser, " id/1000 1001", expectedFindCommand);
-    }
-
-    @Test
-    public void parse_singlePhoneKeyword_returnsFindCommand() {
-        FindCommand expectedFindCommand =
-            new FindCommand(new PhoneContainsKeywordsPredicate(Arrays.asList("91234567")));
-        assertParseSuccess(parser, " p/91234567", expectedFindCommand);
-    }
-
-    @Test
-    public void parse_singleEmailKeyword_returnsFindCommand() {
-        FindCommand expectedFindCommand =
-            new FindCommand(new EmailContainsKeywordsPredicate(Arrays.asList("alice@example.com")));
-        assertParseSuccess(parser, " e/alice@example.com", expectedFindCommand);
-    }
-
-    @Test
-    public void parse_singlePostalCodeKeyword_returnsFindCommand() {
-        FindCommand expectedFindCommand =
-            new FindCommand(new PostalCodeContainsKeywordsPredicate(Arrays.asList("123456")));
-        assertParseSuccess(parser, " a/123456", expectedFindCommand);
-    }
-
-    @Test
-    public void parse_singleExpiryDateKeyword_returnsFindCommand() {
-        FindCommand expectedFindCommand =
-            new FindCommand(new ExpiryDateContainsKeywordsPredicate(Arrays.asList("2026-12-31")));
-        assertParseSuccess(parser, " m/2026-12-31", expectedFindCommand);
-    }
 
 
 }
