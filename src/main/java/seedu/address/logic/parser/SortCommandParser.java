@@ -1,6 +1,6 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import seedu.address.logic.commands.SortCommand;
@@ -41,7 +41,7 @@ public class SortCommandParser implements Parser<SortCommand> {
             if (argMultimap.getValue(prefix).isPresent()) {
                 // More than one prefix detected
                 if (usedPrefix != null) {
-                    throw new ParseException(SortCommand.MESSAGE_INVALID_PREFIX);
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
                 }
                 usedPrefix = prefix;
             }
@@ -49,7 +49,7 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         // No prefix detected
         if (usedPrefix == null) {
-            throw new ParseException(SortCommand.MESSAGE_INVALID_PREFIX);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
         // Obtain the sorting order
@@ -57,7 +57,7 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         // Validate the sorting order
         if (!(order.equals("asc") || order.equals("desc") || order.equals("none"))) {
-            throw new ParseException(SortCommand.MESSAGE_INVALID_ORDER);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
         // Comparator lookup
@@ -65,11 +65,11 @@ public class SortCommandParser implements Parser<SortCommand> {
         Map<String, Comparator<Person>> orderMap = COMPARATOR_MAP.get(prefixString);
 
         if (orderMap == null) {
-                throw new ParseException(SortCommand.MESSAGE_INVALID_PREFIX);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
         if (!orderMap.containsKey(order)) {
-            throw new ParseException(SortCommand.MESSAGE_INVALID_ORDER);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
         Comparator<Person> comparator = orderMap.get(order);
