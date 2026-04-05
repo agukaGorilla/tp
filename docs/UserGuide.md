@@ -333,14 +333,16 @@ Shows a help message.
 <box type="info" seamless>
 
 **Note:**
-* Pending edit
+* A help page will pop up to show you the usage of all available commands.
 
 </box>
 
 <box type="tip" seamless>
 
 **Tip:**
-* Pending edit
+* There is two possible ways that you may close the help window:
+  * Hitting the 'esc' key.
+  * Clicking on red 'X' in the top left corner of help window.
 
 </box>
 
