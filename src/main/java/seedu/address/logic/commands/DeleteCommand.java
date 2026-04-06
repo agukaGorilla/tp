@@ -48,20 +48,15 @@ public class DeleteCommand extends Command {
         List<MembershipId> uniqueIds = targetIds.stream()
             .distinct()
             .collect(java.util.stream.Collectors.toList());
-
-        // Resolve all persons first before deleting (fail fast if any ID not found)
-        List<Person> personsToDelete = new ArrayList<>();
-        for (MembershipId targetId : uniqueIds) {
-            Person person = model.getAddressBook().getPersonList().stream()
-                .filter(p -> p.getMembershipId().equals(targetId))
-                .findFirst()
-                .orElseThrow(() -> {
-                    logger.warning("No person found with Membership ID: " + targetId);
-                    return new CommandException(
-                        String.format(Messages.MESSAGE_PERSON_NOT_FOUND, targetId));
-                });
-            personsToDelete.add(person);
+        // Check for duplicate IDs
+        List<MembershipId> seen = new ArrayList<>();
+        for (MembershipId targetId : targetIds) {
+            if (seen.contains(targetId)) {
+                throw new CommandException(String.format(Messages.MESSAGE_DUPLICATE_ID, targetId));
+            }
+            seen.add(targetId);
         }
+        
 
         // Sort by membership ID
         personsToDelete.sort((a, b) -> Integer.compare(a.getMembershipId().value, b.getMembershipId().value));
