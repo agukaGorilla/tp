@@ -26,7 +26,6 @@ public class DeleteCommand extends Command {
         + ": Deletes one or more members identified by their Membership IDs.\n"
         + "Parameters: id/MEMBERSHIP_ID [MORE_MEMBERSHIP_IDs]\n"
         + "At least one membership ID must be provided.\n"
-        + "Membership ID must be 4-digit integers from " + MembershipId.MIN_ID + " to " +  MembershipId.MAX_ID + ".\n"
         + "Example: " + COMMAND_WORD + " id/1042 1043 1044";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted member(s):\n%1$s";
