@@ -82,6 +82,17 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void execute_duplicateIds_throwsCommandException() {
+        Person personToDelete = model.getAddressBook().getPersonList().get(0);
+        MembershipId targetId = personToDelete.getMembershipId();
+        DeleteCommand deleteCommand = new DeleteCommand(List.of(targetId, targetId));
+        assertCommandFailure(deleteCommand, model,
+                             String.format(Messages.MESSAGE_DUPLICATE_ID, targetId));
+    }
+
+
+
+    @Test
     public void equals() {
         MembershipId firstId = new MembershipId(MembershipId.MIN_ID);
         MembershipId secondId = new MembershipId(MembershipId.MIN_ID + 1);

@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,19 @@ public class DeleteCommand extends Command {
 
     private final List<MembershipId> targetIds;
 
+    /**
+     * Creates a DeleteCommand to delete a single person with the given {@code MembershipId}.
+     */
+    public DeleteCommand(MembershipId targetId) {
+        requireNonNull(targetId);
+        this.targetIds = List.of(targetId);
+    }
+
+    /**
+     * Creates a DeleteCommand to delete multiple persons with the given {@code MembershipId}s.
+     */
     public DeleteCommand(List<MembershipId> targetIds) {
+        requireNonNull(targetIds);
         this.targetIds = targetIds;
     }
 
@@ -43,6 +56,15 @@ public class DeleteCommand extends Command {
         assert targetIds != null && !targetIds.isEmpty() : "Target IDs should not be null or empty";
 
         logger.info("Executing DeleteCommand for Membership IDs: " + targetIds);
+
+        // Check for duplicate IDs
+        List<MembershipId> seen = new ArrayList<>();
+        for (MembershipId targetId : targetIds) {
+            if (seen.contains(targetId)) {
+                throw new CommandException(String.format(Messages.MESSAGE_DUPLICATE_ID, targetId));
+            }
+            seen.add(targetId);
+        }
 
         // Resolve all persons first before deleting (fail fast if any ID not found)
         List<Person> personsToDelete = new ArrayList<>();
@@ -58,8 +80,9 @@ public class DeleteCommand extends Command {
             personsToDelete.add(person);
         }
 
-        // Sort by membership ID before deleting
-        personsToDelete.sort((a, b) -> Integer.compare(a.getMembershipId().value, b.getMembershipId().value));
+        // Sort by membership ID
+        personsToDelete.sort((a, b) -> Integer.compare(
+            a.getMembershipId().value, b.getMembershipId().value));
 
         StringBuilder deletedNames = new StringBuilder();
         for (Person person : personsToDelete) {
@@ -67,6 +90,9 @@ public class DeleteCommand extends Command {
             logger.info("Successfully deleted person with Membership ID: " + person.getMembershipId());
             deletedNames.append(Messages.format(person)).append("\n");
         }
+
+        // Update filtered list so UI and storage reflect the deletion
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedNames.toString()));
     }
