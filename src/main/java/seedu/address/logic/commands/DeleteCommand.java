@@ -56,7 +56,6 @@ public class DeleteCommand extends Command {
             }
             seen.add(targetId);
         }
-        
 
         // Sort by membership ID
         personsToDelete.sort((a, b) -> Integer.compare(a.getMembershipId().value, b.getMembershipId().value));
