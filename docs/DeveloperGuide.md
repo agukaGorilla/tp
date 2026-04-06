@@ -519,7 +519,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. The product should be optimized for gym managers who are comfortable typing commands, such that frequent operations can be completed entirely via keyboard without requiring mouse interaction.
 2. A new user with basic CLI familiarity should be able to learn the core commands by referring to the user guide.
-3. Should work on any _mainstream OS_ such as Windows and macOS as long as it has Java `17` or above installed.
+3. Should work on any mainstream OS such as Windows and macOS as long as it has Java 17 or above installed.
 4. The product should respond to any valid command within 2 seconds when managing up to 1000 member records.
 5. Should be able to hold up to 1000 persons without a noticeable lag in performance for typical usage.
 6. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
