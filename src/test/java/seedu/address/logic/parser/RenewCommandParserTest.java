@@ -23,6 +23,9 @@ public class RenewCommandParserTest {
     public void parse_allFieldsPresent_success() {
         assertParseSuccess(parser, " id/1001 d/7",
                 new RenewCommand(new MembershipId(1001), 7));
+        assertParseSuccess(parser, " id/1001 d/730",
+                new RenewCommand(new MembershipId(1001), 730));
+
     }
 
     @Test
@@ -58,6 +61,7 @@ public class RenewCommandParserTest {
         assertParseFailure(parser, " id/1001 d/+7", RenewCommand.MESSAGE_INVALID_DAYS);
         assertParseFailure(parser, " id/1001 d/07", RenewCommand.MESSAGE_INVALID_DAYS);
         assertParseFailure(parser, " id/1001 d/7.5", RenewCommand.MESSAGE_INVALID_DAYS);
+        assertParseFailure(parser, " id/1001 d/731", RenewCommand.MESSAGE_INVALID_DAYS);
     }
 
     @Test

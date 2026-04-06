@@ -62,7 +62,7 @@ public class RenewCommandTest {
         expectedModel.setPerson(personToRenew, renewedPerson);
 
         String expectedMessage = String.format(RenewCommand.MESSAGE_RENEW_PERSON_SUCCESS,
-                Messages.format(renewedPerson), personToRenew.getMembershipExpiryDate(), expectedNewExpiry);
+                personToRenew.getMembershipId(), personToRenew.getMembershipExpiryDate(), expectedNewExpiry);
 
         assertCommandSuccess(renewCommand, model, expectedMessage, expectedModel);
     }
@@ -105,7 +105,7 @@ public class RenewCommandTest {
         expectedModel.setPerson(personToRenew, renewedPerson);
 
         String expectedMessage = String.format(RenewCommand.MESSAGE_RENEW_PERSON_SUCCESS,
-                Messages.format(renewedPerson), personToRenew.getMembershipExpiryDate(), expectedNewExpiry);
+                personToRenew.getMembershipId(), personToRenew.getMembershipExpiryDate(), expectedNewExpiry);
 
         assertCommandSuccess(renewCommand, model, expectedMessage, expectedModel);
     }
@@ -148,7 +148,7 @@ public class RenewCommandTest {
         expectedModel.setPerson(personToRenew, renewedPerson);
 
         String expectedMessage = String.format(RenewCommand.MESSAGE_RENEW_PERSON_SUCCESS,
-                Messages.format(renewedPerson), personToRenew.getMembershipExpiryDate(), expectedNewExpiry);
+                personToRenew.getMembershipId(), personToRenew.getMembershipExpiryDate(), expectedNewExpiry);
 
         assertCommandSuccess(renewCommand, model, expectedMessage, expectedModel);
     }

@@ -102,7 +102,7 @@ public class RenewCommand extends Command {
         model.setPerson(personToRenew, renewedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
-        return new CommandResult(String.format(MESSAGE_RENEW_PERSON_SUCCESS, personToRenew.getMembershipExpiryDate(),
+        return new CommandResult(String.format(MESSAGE_RENEW_PERSON_SUCCESS, personToRenew.getMembershipId(),
                 personToRenew.getMembershipExpiryDate(), renewedExpiry));
     }
 
