@@ -731,13 +731,6 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `find n/alex p/87438807`<br>
       Expected: No change in displayed list, together with a `Invalid command format` error message shown
 
-1. Finding member(s) when all members are deleted
-
-    1. Prerequisites: All members are deleted from the address book
-
-    1. Test case: `find n/alex`<br>
-      Expected: No change in displayed list, together with a `No change in displayed list` message shown
-
 <br>
 
 ### Sorting members
