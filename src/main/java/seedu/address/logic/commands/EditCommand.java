@@ -35,11 +35,10 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the member identified "
-            + "by the membership ID of the person.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the fields of the member identified "
+            + "by membership ID.\n"
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: MEMBERSHIP_ID (must be a 4-digit positive integer from "
-            + MembershipId.MIN_ID + " to " + MembershipId.MAX_ID + ") "
+            + "Parameters: MEMBERSHIP_ID "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
@@ -90,7 +89,7 @@ public class EditCommand extends Command {
             }
         }
         if (personToEdit == null) {
-            logger.warning("No person found with Membership ID: " + membershipId);
+            logger.warning("No member found with Membership ID: " + membershipId);
             throw new CommandException(String.format(Messages.MESSAGE_PERSON_NOT_FOUND, membershipId));
         }
 
@@ -109,8 +108,8 @@ public class EditCommand extends Command {
                 personToEdit.getMembershipExpiryDate(), changed, unchanged);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
-            logger.warning("Duplicate person detected while editing Membership ID: " + membershipId
-                    + "; edited person: " + editedPerson);
+            logger.warning("Duplicate member detected while editing Membership ID: " + membershipId
+                    + "; edited member: " + editedPerson);
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
