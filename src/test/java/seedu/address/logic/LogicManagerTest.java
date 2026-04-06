@@ -38,11 +38,6 @@ import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.testutil.PersonBuilder;
 
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-
-import seedu.address.model.AddressBook;
-import seedu.address.storage.Storage;
-
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
     private static final IOException DUMMY_AD_EXCEPTION = new AccessDeniedException("dummy access denied exception");
