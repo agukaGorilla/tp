@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +23,30 @@ public class DeleteCommand extends Command {
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-        + ": Deletes one or more persons identified by their Membership IDs.\n"
+        + ": Deletes one or more members identified by their Membership IDs.\n"
         + "Parameters: id/MEMBERSHIP_ID [MORE_MEMBERSHIP_IDs]...\n"
         + "(must be 4-digit integers from 1000 to 9999, space-separated after id/)\n"
         + "Example: " + COMMAND_WORD + " id/1042 1043 1044";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted person(s):\n%1$s";
+    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted member(s):\n%1$s";
 
     private static final Logger logger = LogsCenter.getLogger(DeleteCommand.class);
 
     private final List<MembershipId> targetIds;
 
+    /**
+     * Creates a DeleteCommand to delete a single person with the given {@code MembershipId}.
+     */
+    public DeleteCommand(MembershipId targetId) {
+        requireNonNull(targetId);
+        this.targetIds = List.of(targetId);
+    }
+
+    /**
+     * Creates a DeleteCommand to delete multiple persons with the given {@code MembershipId}s.
+     */
     public DeleteCommand(List<MembershipId> targetIds) {
+        requireNonNull(targetIds);
         this.targetIds = targetIds;
     }
 
@@ -43,6 +56,15 @@ public class DeleteCommand extends Command {
         assert targetIds != null && !targetIds.isEmpty() : "Target IDs should not be null or empty";
 
         logger.info("Executing DeleteCommand for Membership IDs: " + targetIds);
+
+        // Check for duplicate IDs
+        List<MembershipId> seen = new ArrayList<>();
+        for (MembershipId targetId : targetIds) {
+            if (seen.contains(targetId)) {
+                throw new CommandException(String.format(Messages.MESSAGE_DUPLICATE_ID, targetId));
+            }
+            seen.add(targetId);
+        }
 
         // Resolve all persons first before deleting (fail fast if any ID not found)
         List<Person> personsToDelete = new ArrayList<>();
@@ -58,8 +80,9 @@ public class DeleteCommand extends Command {
             personsToDelete.add(person);
         }
 
-        // Sort by membership ID before deleting
-        personsToDelete.sort((a, b) -> Integer.compare(a.getMembershipId().value, b.getMembershipId().value));
+        // Sort by membership ID
+        personsToDelete.sort((a, b) -> Integer.compare(
+            a.getMembershipId().value, b.getMembershipId().value));
 
         StringBuilder deletedNames = new StringBuilder();
         for (Person person : personsToDelete) {
@@ -68,7 +91,10 @@ public class DeleteCommand extends Command {
             deletedNames.append(Messages.format(person)).append("\n");
         }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedNames.toString().trim()));
+        // Update filtered list so UI and storage reflect the deletion
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+
+        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedNames.toString()));
     }
 
     @Override

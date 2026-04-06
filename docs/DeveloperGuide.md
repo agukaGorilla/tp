@@ -20,7 +20,6 @@
     - [Common classes](#common-classes)
 - [Implementation](#implementation)
     - [[Proposed] Undo/redo feature](#proposed-undo-redo-feature)
-    - [[Proposed] Data archiving](#proposed-data-archiving)
 - [Documentation, logging, testing, configuration, dev-ops](#documentation-logging-testing-configuration-dev-ops)
 - [Appendix: Requirements](#appendix-requirements)
     - [Product scope](#product-scope)
@@ -30,7 +29,16 @@
     - [Glossary](#glossary)
 - [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
     - [Launch and shutdown](#launch-and-shutdown)
-    - [Deleting a person](#deleting-a-person)
+    - [Adding a member](#adding-a-member)
+    - [Listing members](#listing-members)
+    - [Deleting member(s)](#deleting-members)
+    - [Editing a member](#editing-a-member)
+    - [Finding member(s)](#finding-members)
+    - [Sorting members](#sorting-members)
+    - [Renewing membership](#renewing-membership)
+    - [Clearing all members](#clearing-all-members)
+    - [Viewing help](#viewing-help)
+    - [Exiting the program](#exiting-the-program)
     - [Saving data](#saving-data)
 --------------------------------------------------------------------------------------------------------------------
 
@@ -203,7 +211,7 @@ Step 1. The user launches the application for the first time. The `VersionedAddr
 
 <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `delete id/1000` command to delete the member with membership ID of 1000 in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete id/1000` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
 <puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
 
@@ -276,13 +284,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -303,33 +304,28 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* Gym managers and front-desk staff who manage a significant number of member records
-* works mainly in a desktop or front-desk environment
-* performs frequent repetitive administrative tasks
-* prefers typing to mouse interactions
-* can type reasonably fast
-* is reasonably comfortable using CLI apps
+Gym managers who perform frequent repetitive administrative tasks to manage a significant number of member records.
+They work on a computer, can type reasonably fast, prefer typing to mouse interactions and, are comfortable using command line interface (CLI) apps.
 
 **Value proposition**:
 
-Manage gym member records faster than a typical mouse-driven or spreadsheet-based application, while supporting quick member lookup, record updates, and membership validity tracking.
-
+Manage gym member records more quickly and accurately than a spreadsheet-based or typical mouse-driven application, thereby boosting work efficiency, particularly for repetitive administrative tasks.
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​     | I want to …​                                                  | So that I can…​                                                            |
-|----------|-------------|---------------------------------------------------------------|----------------------------------------------------------------------------|
-| `* * *`  | Gym manager | I want to add new members                                     | So that I can keep a record of new members                                 |
-| `* * *`  | Gym manager | I want to view the list of members                            | So that I understand who is currently recorded                             |
-| `* * *`  | Gym manager | I want to delete a member                                     | So that I can remove incorrect or obsolete records                         |
-| `* * `   | Gym manager | I want to know how to interact with the app                   | So that I can begin to use the app                                         |
-| `* *`    | Gym manager | I want to search for a member                                 | So that I can retrieve their information                                   |
-| `* *`    | Gym manager | I want to edit member's personal information                  | So that my records can stay updated with the latest information            |
-| `* *`    | Gym manager | I want to know which member's membership is close to expiring | So that I can contact member's to remind them of their memberhsip validity |
-| `*`      | Gym manager | I want to check for a member's membership validity            | So that I can allow valid entry to gyms                                    |
-| `*`      | Gym manager | I want to sort member's membership validity                   | So that I can view members in order of membership expiry date              |
+| Priority | As a …​     | I want to …​                                                  | So that I can…​                                                             |
+|----------|-------------|---------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `* * *`  | Gym manager | I want to add new members                                     | So that I can keep a record of new members                                  |
+| `* * *`  | Gym manager | I want to view the list of members                            | So that I understand who is currently registered to the gym                 |
+| `* * *`  | Gym manager | I want to delete a member                                     | So that I can remove incorrect or obsolete records                          |
+| `* * `   | Gym manager | I want to know how to interact with the app                   | So that I can begin to use the app                                          |
+| `* *`    | Gym manager | I want to search for a member                                 | So that I can retrieve their information                                    |
+| `* *`    | Gym manager | I want to edit member's personal information                  | So that my records can stay updated with the latest information             |
+| `* *`    | Gym manager | I want to know which member's membership is close to expiring | So that I can contact members to remind them of their membership validity   |
+| `*`      | Gym manager | I renew gym member's membership expiry date                   | So that they can continue using the gym                                     |
+| `*`      | Gym manager | I want to sort member's membership expriy date                  | So that I can know which members have expired or soon to expire memberships |
 
 
 ### Use cases
@@ -337,194 +333,221 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `GymContactsPro` and the **Actor** is the `GymManager`, unless specified otherwise)
 
 
-**Use case: UC01 : Add a gym member**
+**Use case : UC01 : Add a gym member**
 
 **MSS**
 
-1. Gym Manager requests to add a new member by providing their details
+1. Gym Manager requests to add a new member by providing the member's details
 2. GymContactsPro adds the new member
-3. GymContactsPro displays a success message showing the newly added member's details
-
-    Use case ends.
-
-**Extensions**
-
-* 1a. The provided details are in an invalid format.
-  * 1a1. GymContactsPro shows an error message indicating the required format.
-
-  Use case ends.
-
-* 1b. The provided details correspond to an already existing member in the system.
-  * 1b1. GymContactsPro rejects the addition and shows a duplicate error message.
-
-  Use case ends.
-
-**Use case: UC02 : List all gym members**
-
-**MSS**
-
-1. Gym Manager requests to view the list of members
-2. GymContactsPro displays the complete list of members
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. There are no members recorded in the system.
-  * 2a1. GymContactsPro shows an error message.
-
-    Use case ends.
-
-**Use case: UC03 : Delete a gym member**
-
-**MSS**
-
-1. Gym Manager requests to delete a member by providing their membership ID
-2. GymContactsPro deletes the member
 3. GymContactsPro displays a success message
 
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 1a. No membership is provided or format is invalid.
-  * 1a1. GymContactsPro shows an error message prompting for the correct format.
+* 1a. The command format was invalid
+  * 1a1. GymContactsPro shows an error message
 
-  Use case ends.
+  Use case ends
+
+* 1b. The member to be added is identical to an existing member in the system
+  * 1b1. GymContactsPro shows an error message
+
+  Use case ends
+
+<br>
+
+**Use case : UC02 : List all gym members**
+
+**MSS**
+
+1. Gym Manager requests to view the list of all registered members
+2. GymContactsPro displays the complete list of members
+
+    Use case ends
+
+**Extensions**
+
+* 1a. The command format was invalid
+    * 1a1. GymContactsPro shows an error message
+
+    Use case ends
+
+* 1b. There are no members in the system
+    * 1b1. GymContactsPro shows an error message
+
+    Use case ends
+
+<br>
+
+**Use case : UC03 : Delete gym member(s)**
+
+**MSS**
+
+1. Gym Manager requests to delete member(s) by providing their membership ID(s)
+2. GymContactsPro deletes the member(s)
+3. GymContactsPro displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 1a. The command format was invalid 
+  * 1a1. GymContactsPro shows an error message
+
+  Use case ends
 
 * 1b. No member with given membership ID exists in the system.
-  * 1b1. GymContactsPro shows an error message.
+  * 1b1. GymContactsPro shows an error message
 
-  Use case ends.
+  Use case ends
 
-**Use case : UC05 : View list of executable commands**
+* 1c. Multiple membership IDs are provided, but only a few exist in the system
+  * 1c1. GymContactsPro shows an error message
+
+  Use case ends
+
+* 1d. Multiple identical membership IDs are provided
+  * 1d1. GymContactsPro shows an error message
+
+  Use case ends
+
+<br>
+
+**Use case : UC04 : View list of executable commands**
 
 **MSS**
 
 1. Gym Manager requests to view the list of executable commands
 2. GymContactsPro displays the list of available executable commands and their formats
+3. GymContactsPro displays a success message
 
-    Use case ends.
-
-**Use case: UC05 : Find a gym member**
-
-**MSS**
-
-1. Gym Manager requests to find a member by specifying search field and the search term
-2. GymContactsPro displays a list of members matching the specifies criteria
-
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 1a. The Gym Manager does not provide a valid search format.
-  * 1a1. GymContactsPro shows an error message.
+* 1a. The command format was invalid
+  * 1a1. GymContactsPro shows an error message
 
-    Use case ends.
+  Use case ends
 
-* 2a. There are no members matching the provided criteria.
-    * 2a1. GymContactsPro shows an error message.
+<br>
 
-    Use case ends.
-
-
-**Use case: UC06 : Edit existing member details**
+**Use case : UC05 : Find gym member(s)**
 
 **MSS**
 
-1. Gym Manager requests to edit a member by providing their membership ID
+1. Gym Manager requests to find member(s) by specifying the search field and the search term
+2. GymContactsPro displays a list of member(s) matching the specified criteria
+3. GymContactsPro displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 1a. Command format is invalid
+  * 1a1. GymContactsPro shows an error message
+
+  Use case ends
+
+* 1b. There are no members matching the provided criteria
+    * 1b1. GymContactsPro shows an error message
+
+    Use case ends
+
+* 1c. Only some members match the provided criteria
+    * 1c1. GymContactsPro only shows a list of members matching the provided criteria
+
+    Use case ends
+
+<br>
+
+**Use case : UC06 : Edit details of an existing member**
+
+**MSS**
+
+1. Gym Manager requests to edit a member by providing their membership ID and fields to edit
 2. GymContactsPro updates the member's details
 3. GymContactsPro displays a success message
 
-   Use case ends.
+   Use case ends
 
 **Extensions**
 
-* 1a. No membership ID is provided or the format is invalid.
-  * 1a1. GymContactsPro shows an error message prompting for the correct format.
+* 1a. The command format is invalid
+  * 1a1. GymContactsPro shows an error message
 
-    Use case ends.
+  Use case ends
 
-* 3b. The provided new details are in an invalid format.
-  * 3b1. GymContactsPro shows an error message corresponding to the invalid field.
+* 1b. The new details create a duplicate member
+  * 1b1. GymContactsPro shows a error message
 
-    Use case ends.
+  Use case ends
 
-* 3c. The new details create a duplicate member.
-  * 3c1. GymContactsPro rejects the edit and shows a duplicate fields error message.
+* 1c. Some or all the fields provided are identical to the existing member's details
+  * 1c1. GymContactsPro accepts the edit and tells the user which fields were updated
 
-    Use case ends.
+  Use case ends
 
-**Use case: UC07 : Check memberships nearing expiry**
+<br>
+
+**Use case : UC07 : Renew a member's membership validity**
 
 **MSS**
 
-1. Gym Manager requests to identify members whose memberships expire within a specified number of days
-2. GymContactsPro displays a list of members expiring within that timeframe
+1. Gym Manager requests to renew the validity of a member by providing the membership ID and days to renew
+2. GymContactsPro updates the member's membership validity
+3. GymContactsPro displays a success message
 
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 1a. The Gym Manager provides an invalid number of days.
-  * 1a1. GymContactsPro shows an error message prompting for a valid number.
+* 1a. The command format was invalid 
+  * 1a1. GymContactsPro shows an error message
 
-    Use case ends.
+  Use case ends
 
-* 2a. No members have memberships expiring within the specified timeframe.
-    * 2a1. GymContactsPro shows an error message.
+* 2a. No member with the given membership ID exists in the system
+  * 2a1. GymContactsPro shows an error message
 
-  Use case ends.
+  Use case ends
 
-**Use case: UC08 : Check a member's membership validity**
+<br>
+
+**Use case: UC08 : Sort gym members**
 
 **MSS**
 
-1. Gym Manager requests to check the validity of a specific membership ID
-2. GymContactsPro verifies the membership ID
-3. GymContactsPro displays the membership validity status and the member's details
+1. Gym Manager requests to sort members by provided field and order
+2. GymContactsPro displays the list of members sorted in the requested criteria
+3. GymContactsPro displays a success message
 
-    Use case ends.
-
-**Extensions**
-
-* 1a. No membership ID is provided.
-  * 1a1. GymContactsPro shows an error message prompting for the correct format.
-
-    Use case ends.
-
-* 2a. No member with the given membership ID exists in the system.
-  * 2a1. GymContactsPro shows an error message.
-
-    Use case ends.
-
-**Use case: UC09 : Sort members by membership expiry**
-
-**MSS**
-
-1. Gym Manager requests to sort members.
-2. GymContactsPro displays the list of members sorted in the requested order
-
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 1a. The Gym Manager specifies an invalid sort order.
-  * 1a1. GymContactsPro shows an error message specifying the correct sort options.
+* 1a. The command format was invalid
+  * 1a1. GymContactsPro shows an error message
 
-    Use case ends.
+  Use case ends
 
-* 2a. There are no members available to sort.
-    * 2a1. GymContactsPro shows an error message specifying the correct sort options.
+* 2a. There are no members available to sort
+    * 2a1. GymContactsPro shows an error message 
+    
+    Use case ends
 
-  Use case ends.
+* 3a. Sorting results in no change in the member list
+    * 3a1. GymContactsPro shows an error message
+
+  Use case ends
 
 
 ### Non-Functional Requirements
 
 1. The product should be optimized for gym managers who are comfortable typing commands, such that frequent operations can be completed entirely via keyboard without requiring mouse interaction.
 2. A new user with basic CLI familiarity should be able to learn the core commands by referring to the user guide.
-3. Should work on any _mainstream OS_ such as Windows and macOS as long as it has Java `17` or above installed.
+3. Should work on any mainstream OS such as Windows and macOS as long as it has Java 17 or above installed.
 4. The product should respond to any valid command within 2 seconds when managing up to 1000 member records.
 5. Should be able to hold up to 1000 persons without a noticeable lag in performance for typical usage.
 6. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
@@ -641,7 +664,17 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Deleting a person
+<br>
+
+### Adding a member
+
+<br>
+
+### Listing members
+
+<br>
+
+### Deleting member(s)
 
 1. Deleting a person while all persons are being shown
 
@@ -657,6 +690,36 @@ testers are expected to do more *exploratory* testing.
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
+
+<br>
+
+### Editing a member
+
+<br>
+
+### Finding member(s)
+
+<br>
+
+### Sorting members
+
+<br>
+
+### Renewing membership
+
+<br>
+
+### Clearing all members
+
+<br>
+
+### Viewing help
+
+<br>
+
+### Exiting the program
+
+<br>
 
 ### Saving data
 
