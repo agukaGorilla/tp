@@ -31,9 +31,8 @@ public class DeleteCommandTest {
         Person personToDelete = model.getAddressBook().getPersonList().get(0);
         MembershipId targetId = personToDelete.getMembershipId();
         DeleteCommand deleteCommand = new DeleteCommand(List.of(targetId));
-
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
-    Messages.format(personToDelete) + "\n");
+                                               Messages.format(personToDelete) + "\n");
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.deletePerson(personToDelete);
