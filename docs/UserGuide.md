@@ -294,7 +294,7 @@ Delete all registered gym members after confirmation.
 <box type="info" seamless>
 
 **Note:**
-* A warning page will pop up to confirm the deletion of all data.
+* A warning window will pop up to confirm the deletion of all data.
 
 </box>
 
@@ -307,22 +307,20 @@ Delete all registered gym members after confirmation.
 * These are the possible ways to cancel the deletion of all data:
   * Clicking the `No` button.
   * Hitting the `N` key.
+  * Clicking on `X` in the top left corner of warning window.
 
 </box>
 
 **Example input:**
-* `clear`<br><br>
-![command for 'clear'](images/clearCommand.png)
+* `clear`<br>
 
 **Example output:**
-* A warning window pops up to ask for confirmation.<br><br>
+* A warning window pops up to ask for deletion confirmation.<br><br>
 ![result for 'clear'](images/clearConfirmation.png)<br><br>
 * After confirmation, all data will be deleted, together with a `All data has been deleted successfully` success message.<br>
 The warning window will close after a short delay.<br><br>
 ![result for 'successfully delete'](images/clearSuccess.png)<br><br>
-* If you click the button or hit the 'N' key, deletion is cancelled, together with a `Detelation has been cancelled.`.<br>
-  The warning window will close after a short delay.<br><br>
-* Clicking on red `X` in the top left corner of warning window will also cancel deletion.
+* If the user decides to cancel the deletion, no data will be deleted and, a `Deletion has been cancelled` success message will be shown instead.<br>
 
 
 ---
@@ -336,22 +334,26 @@ Shows a help message.
 <box type="info" seamless>
 
 **Note:**
-* A help page will pop up to show you the usage of all available commands.
+* A help window pops up with the User Guide URL and, a summary of executable commands.<br>
+  The URL can be copied by clicking on the `Copy URL` button.<br>
+  Paste this URL on your preferred internet browser to view the User Guide.<br><br>
 
 </box>
 
 <box type="tip" seamless>
 
 **Tip:**
+* These are the alternative ways to open the help window:
+  * Clicking the `Help F1` button in the `Help` menu.
+  * Hitting `Fn+ F1" keys.
 * There is two possible ways that you may close the help window:
   * Hitting the `esc` key.
-  * Clicking on red `X` in the top left corner of help window.
+  * Clicking on `X` in the top left corner of help window.
 
 </box>
 
 **Example input:**
-* `help`<br><br>
-![command for 'help'](images/helpCommand.png)
+* `help`<br>
 
 **Example output:**
 * A help window pops up with the User Guide URL and, a summary of executable commands.<br><br>
@@ -374,8 +376,7 @@ Exits the app.
 </box>
 
 **Example input:**
-* `exit`<br><br>
-![command for 'exit'](images/exitCommand.png)
+* `exit`<br>
 
 **Example output:**
 * App window gradually disappears from view and the application exits.
