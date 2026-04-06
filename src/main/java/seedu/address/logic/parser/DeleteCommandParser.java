@@ -37,19 +37,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
 
         List<MembershipId> membershipIds = new ArrayList<>();
         for (String idString : idTokens) {
-            idString = idString.trim();
-            int idValue;
-            try {
-                idValue = Integer.parseInt(idString);
-            } catch (NumberFormatException e) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
-            }
-
-            if (!idString.equals(Integer.toString(idValue)) || !MembershipId.isValidMembershipId(idValue)) {
-                throw new ParseException(MembershipId.MESSAGE_CONSTRAINTS);
-            }
-
-            membershipIds.add(new MembershipId(idValue));
+            membershipIds.add(ParserUtil.parseMembershipId(idString));
         }
 
         return new DeleteCommand(membershipIds);
