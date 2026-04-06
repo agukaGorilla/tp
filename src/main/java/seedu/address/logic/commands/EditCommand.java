@@ -159,8 +159,8 @@ public class EditCommand extends Command {
      */
     private static String buildEditFeedback(Person editedPerson, List<String> changed, List<String> unchanged) {
         return String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson))
-                + "\nChanged fields: " + String.join(", ", changed)
-                + "\nUnchanged fields: " + String.join(", ", unchanged);
+                + "\nChanged field(s): " + String.join(", ", changed)
+                + "\nUnchanged field(s): " + String.join(", ", unchanged);
     }
 
     /**
