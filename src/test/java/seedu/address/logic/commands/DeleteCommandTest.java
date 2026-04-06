@@ -80,7 +80,7 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model,
             String.format(Messages.MESSAGE_PERSON_NOT_FOUND, nonExistentId));
     }
-    
+
     @Test
     public void execute_duplicateIds_throwsCommandException() {
         Person personToDelete = model.getAddressBook().getPersonList().get(0);
