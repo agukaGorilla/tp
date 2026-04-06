@@ -41,7 +41,8 @@ public class RenewCommandParser implements Parser<RenewCommand> {
             throw new ParseException(RenewCommand.MESSAGE_INVALID_DAYS);
         }
 
-        if (!daysToken.equals(Integer.toString(daysToAdd)) || daysToAdd <= 0) {
+        if (!daysToken.equals(Integer.toString(daysToAdd))
+                || !RenewCommand.isValidDaysToAdd(daysToAdd)) {
             throw new ParseException(RenewCommand.MESSAGE_INVALID_DAYS);
         }
 

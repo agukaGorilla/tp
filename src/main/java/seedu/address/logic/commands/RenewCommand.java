@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DAYS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.time.LocalDate;
@@ -21,17 +23,20 @@ public class RenewCommand extends Command {
 
     public static final String COMMAND_WORD = "renew";
 
+    public static final int MIN_RENEW_DAYS = 1;
+    public static final int MAX_RENEW_DAYS = 730;
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Renews a member's membership by Membership ID.\n"
-            + "Parameters: id/MEMBERSHIP_ID d/DAYS_TO_ADD\n"
+            + "Parameters: " + PREFIX_ID + "MEMBERSHIP_ID " + PREFIX_DAYS + "DAYS\n"
             + "(MEMBERSHIP_ID must be 4-digit integers from 1000 to 9999)\n"
-            + "Example: " + COMMAND_WORD + " id/1001 d/7";
+            + "Example: " + COMMAND_WORD + " " + PREFIX_ID + "1001 " + PREFIX_DAYS + "7";
 
     public static final String MESSAGE_RENEW_PERSON_SUCCESS =
-            "Renewed membership for: %1$s\nOld expiry date: %2$s\nNew expiry date: %3$s";
+            "Renewed membership ID: %1$s\nOld expiry date: %2$s\nNew expiry date: %3$s";
 
     public static final String MESSAGE_INVALID_DAYS =
-            "Days to add must be a positive integer.";
+            "Days to add must be an integer from " + MIN_RENEW_DAYS + " to " + MAX_RENEW_DAYS + ".";
 
     private final MembershipId membershipId;
     private final int daysToAdd;
@@ -42,8 +47,15 @@ public class RenewCommand extends Command {
      */
     public RenewCommand(MembershipId membershipId, int daysToAdd) {
         requireNonNull(membershipId);
+        if (!isValidDaysToAdd(daysToAdd)) {
+            throw new IllegalArgumentException(MESSAGE_INVALID_DAYS);
+        }
         this.membershipId = membershipId;
         this.daysToAdd = daysToAdd;
+    }
+
+    public static boolean isValidDaysToAdd(int daysToAdd) {
+        return daysToAdd >= MIN_RENEW_DAYS && daysToAdd <= MAX_RENEW_DAYS;
     }
 
     @Override
@@ -90,7 +102,7 @@ public class RenewCommand extends Command {
         model.setPerson(personToRenew, renewedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
-        return new CommandResult(String.format(MESSAGE_RENEW_PERSON_SUCCESS, Messages.format(renewedPerson),
+        return new CommandResult(String.format(MESSAGE_RENEW_PERSON_SUCCESS, personToRenew.getMembershipExpiryDate(),
                 personToRenew.getMembershipExpiryDate(), renewedExpiry));
     }
 
