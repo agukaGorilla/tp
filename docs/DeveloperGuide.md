@@ -672,6 +672,26 @@ testers are expected to do more *exploratory* testing.
 
 ### Listing members
 
+1. List all members in the address book after opening the application
+
+    1. Prerequisites: Members include those in the sample address book
+
+    1. Test case: `lis`<br>
+       Expected: No change in displayed list, together with a `Unknown command` error message shown
+
+    1. Test case: `list`<br>
+       Expected: No change in displayed list, together with a `Listed all members` success message shown
+
+    1. Test case: `list list` <br>
+       Expected: No change in displayed list, together with a `Listed all members` success message shown
+
+1. List all members in the address book after `find n/alex`
+
+    1. Prerequisites: Members include those in the sample address book
+
+    1. Test case: `list` <br>
+       Expected: Displayed list changes to show all members, together with a `Listed all members` success message shown
+
 <br>
 
 ### Deleting member(s)
@@ -718,6 +738,19 @@ testers are expected to do more *exploratory* testing.
 <br>
 
 ### Exiting the program
+
+1. Exiting the program
+
+    1. Prerequisites: Any state of the app
+
+    1. Test case: `exi`<br>
+       Expected: No change in displayed list, together with a `Unknown command` error message shown
+
+    1. Test case: `exit`<br>
+       Expected: App closes
+
+    1. Test case: Exit via `File` -> `Exit` menu option<br>
+       Expected: App closes
 
 <br>
 
