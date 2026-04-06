@@ -82,6 +82,23 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void execute_duplicateIds_deduplicatesAndDeletesOnce() {
+        Person personToDelete = model.getAddressBook().getPersonList().get(0);
+        MembershipId targetId = personToDelete.getMembershipId();
+
+        // Same ID twice
+        DeleteCommand deleteCommand = new DeleteCommand(List.of(targetId, targetId));
+
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
+            Messages.format(personToDelete) + "\n");
+
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedModel.deletePerson(personToDelete);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void equals() {
         MembershipId firstId = new MembershipId(MembershipId.MIN_ID);
         MembershipId secondId = new MembershipId(MembershipId.MIN_ID + 1);
