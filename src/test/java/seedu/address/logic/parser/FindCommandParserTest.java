@@ -59,10 +59,18 @@ public class FindCommandParserTest {
         FindCommand expectedFindCommand =
                 new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
 
-        assertParseSuccess(parser, " n/Alice    Bob", expectedFindCommand);  // many spaces
-        assertParseSuccess(parser, " n/   Alice Bob   ", expectedFindCommand);  // leading/trailing
-        assertParseSuccess(parser, " n/Alice\tBob", expectedFindCommand);  // tab
-        assertParseSuccess(parser, " n/Alice\nBob", expectedFindCommand);  // newline
+        // many spaces
+        assertParseSuccess(parser, " n/" + "Alice    Bob", expectedFindCommand);
+
+        // leading/trailing
+        assertParseSuccess(parser, " n/" + "   Alice Bob   ", expectedFindCommand);
+
+        // tab
+        assertParseSuccess(parser, " n/" + "Alice" + "\t" + "Bob", expectedFindCommand);
+
+        // newline
+        assertParseSuccess(parser, " n/" + "Alice" + "\n" + "Bob", expectedFindCommand);
+
     }
 
 
