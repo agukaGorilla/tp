@@ -10,10 +10,16 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
 import seedu.address.model.person.EmailContainsKeywordsPredicate;
 import seedu.address.model.person.ExpiryDateContainsKeywordsPredicate;
+import seedu.address.model.person.MembershipExpiryDate;
+import seedu.address.model.person.MembershipId;
 import seedu.address.model.person.MembershipIdContainsPredicate;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.Phone;
 import seedu.address.model.person.PhoneContainsKeywordsPredicate;
 import seedu.address.model.person.PostalCodeContainsKeywordsPredicate;
 
@@ -120,10 +126,23 @@ public class FindCommandParserTest {
 
     @Test
     public void parse_prefixWithoutValue_throwsParseException() {
-        assertParseFailure(parser, " n/",
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-        assertParseFailure(parser, " n/    ",
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, " n/", Name.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " n/    ", Name.MESSAGE_CONSTRAINTS);
+
+        assertParseFailure(parser, " p/", Phone.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " p/    ", Phone.MESSAGE_CONSTRAINTS);
+
+        assertParseFailure(parser, " e/", Email.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " e/    ", Email.MESSAGE_CONSTRAINTS);
+
+        assertParseFailure(parser, " a/", Address.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " a/    ", Address.MESSAGE_CONSTRAINTS);
+
+        assertParseFailure(parser, " id/", MembershipId.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " id/    ", MembershipId.MESSAGE_CONSTRAINTS);
+
+        assertParseFailure(parser, " m/", MembershipExpiryDate.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " m/    ", MembershipExpiryDate.MESSAGE_CONSTRAINTS);
     }
 
     @Test
@@ -135,6 +154,42 @@ public class FindCommandParserTest {
         FindCommand expectedFindCommandMultiple =
                 new FindCommand(new MembershipIdContainsPredicate(Arrays.asList("1000", "1001", "1002")));
         assertParseSuccess(parser, " id/1000 1001 1002", expectedFindCommandMultiple);
+    }
+
+    @Test
+    public void parse_invalidNameKeyword_throwsParseException() {
+        assertParseFailure(parser, " n/Alice@",
+            Name.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_invalidPhoneKeyword_throwsParseException() {
+        assertParseFailure(parser, " p/1234",
+            Phone.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_invalidEmailKeyword_throwsParseException() {
+        assertParseFailure(parser, " e/not-an-email",
+            Email.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_invalidAddressKeyword_throwsParseException() {
+        assertParseFailure(parser, " a/NoPostalCode",
+            Address.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_invalidMembershipIdKeyword_throwsParseException() {
+        assertParseFailure(parser, " id/999",
+            MembershipId.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_invalidMembershipExpiryDateKeyword_throwsParseException() {
+        assertParseFailure(parser, " m/2020-01-01",
+            MembershipExpiryDate.MESSAGE_CONSTRAINTS);
     }
 
 
