@@ -40,7 +40,7 @@ public class RenewCommandParser implements Parser<RenewCommand> {
         MembershipId membershipId = ParserUtil.parseMembershipId(membershipIdToken);
 
         if (daysToken.isEmpty()) {
-            throw new  ParseException(RenewCommand.MESSAGE_INVALID_DAYS);
+            throw new ParseException(RenewCommand.MESSAGE_INVALID_DAYS);
         }
 
         int daysToAdd;
