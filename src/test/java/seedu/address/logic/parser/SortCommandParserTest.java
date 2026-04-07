@@ -14,6 +14,10 @@ import seedu.address.logic.commands.SortCommand;
 import seedu.address.model.util.PersonComparators;
 
 public class SortCommandParserTest {
+    private static final String MESSAGE_INVALID_ORDER =
+            "Order after a prefix is either 'asc' (ascending) or 'desc' (descending).\n"
+            + "Use 'sort none' alone to disable sorting to return to default ordering.";
+
     private final SortCommandParser parser = new SortCommandParser();
 
     @Test
@@ -48,13 +52,17 @@ public class SortCommandParserTest {
     @Test
     public void parse_invalidOrder_throwsParseException() {
         // Invalid order
-        assertParseFailure(parser, " n/invalid", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        assertParseFailure(parser, " n/invalid", MESSAGE_INVALID_ORDER);
         // None (with prefix)
-        assertParseFailure(parser, " n/none", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        assertParseFailure(parser, " n/none", MESSAGE_INVALID_ORDER);
+    }
+
+    @Test
+    public void parse_missingOrderAfterPrefix_throwsParseException() {
         // Empty order
-        assertParseFailure(parser, " n/", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        assertParseFailure(parser, " n/", MESSAGE_INVALID_ORDER);
         // Whitespace-only order
-        assertParseFailure(parser, " n/   ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        assertParseFailure(parser, " n/   ", MESSAGE_INVALID_ORDER);
     }
 
     @Test
@@ -177,5 +185,10 @@ public class SortCommandParserTest {
 
         // Mixed case
         assertParseSuccess(parser, " n/AsC", expectedAsc);
+    }
+
+    @Test
+    public void parse_preambleWithNoPrefix_throwsParseException() {
+        assertParseFailure(parser, "junk", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
     }
 }

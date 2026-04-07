@@ -779,10 +779,10 @@ testers are expected to do more *exploratory* testing.
        Expected: No change in displayed list, together with a `Invalid command format` error message shown
 
     1. Test case: `sort n/`<br>
-       Expected: No change in displayed list, together with a `Invalid command format` error message shown
+       Expected: No change in displayed list, together with a `Order is either 'asc' (ascending) or 'desc' (descending)...` error message shown
 
     1. Test case: `sort n/as`<br>
-       Expected: No change in displayed list, together with a `Invalid command format` error message shown
+       Expected: No change in displayed list, together with a `Order is either 'asc' (ascending) or 'desc' (descending)...` error message shown
 
     1. Test case: `sort sort n/asc`<br>
        Expected: No change in displayed list, together with a `Invalid command format` error message shown
@@ -791,7 +791,7 @@ testers are expected to do more *exploratory* testing.
        Expected: Members are sorted by names alphabetically in ascending order, together with a `Sorted by n/ in asc order` success message shown
 
     1. Test case: `sort n/asc asc`<br>
-       Expected: No change in displayed list, together with a `Invalid command format` error message shown
+       Expected: No change in displayed list, together with a `Order is either 'asc' (ascending) or 'desc' (descending)...` error message shown
 
     1. Test case: `sort n/asc n/desc`<br>
        Expected: No change in displayed list, together with a `Multiple values specified for the following single-valued field(s): n/` error message shown

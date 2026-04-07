@@ -30,8 +30,6 @@ public class SortCommand extends Command {
             + "  e/EMAIL\n"
             + "  a/ADDRESS(Postal Code)\n"
             + "  m/EXPIRY_DATE\n"
-            + "Order can be 'asc' for ascending, 'desc' for descending.\n"
-            + "Use 'none' as parameter to turn off sorting and restore original order.\n"
             + "Example: " + COMMAND_WORD + " n/desc\n"
             + "Example: " + COMMAND_WORD + " none";
     public static final String MESSAGE_SUCCESS = "Sorted by %s in %s order.";
