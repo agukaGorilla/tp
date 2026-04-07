@@ -33,6 +33,8 @@ public class SortCommandParserTest {
         assertParseFailure(parser, " desc", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         // Unsupported prefix
         assertParseFailure(parser, " x/asc", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        // Only order value without prefix
+        assertParseFailure(parser, " asc", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
     }
 
     @Test
@@ -49,6 +51,11 @@ public class SortCommandParserTest {
         assertParseFailure(parser, " n/invalid", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         // None (with prefix)
         assertParseFailure(parser, " n/none", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        // Empty order
+        assertParseFailure(parser, " n/", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        // Uppercase asc/desc (case-insensitive check)
+        assertParseFailure(parser, " n/ASC", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        assertParseFailure(parser, " n/DESC", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
     }
 
     @Test
