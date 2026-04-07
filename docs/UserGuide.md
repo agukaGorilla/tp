@@ -307,7 +307,7 @@ Delete all registered gym members after confirmation.
 * These are the possible ways to cancel the deletion of all data:
   * Clicking the `No` button.
   * Hitting the `N` key.
-  * Clicking on `X` in the top left corner of warning window.
+  * Closing the warning window.
 
 </box>
 
@@ -348,7 +348,7 @@ Shows a help message.
   * Hitting `Fn+ F1" keys.
 * There is two possible ways that you may close the help window:
   * Hitting the `esc` key.
-  * Clicking on `X` in the top left corner of help window.
+  * Closing the help window.
 
 </box>
 
