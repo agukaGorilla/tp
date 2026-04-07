@@ -12,15 +12,26 @@ public class ClearCommand extends Command {
     public static final String COMMAND_WORD = "clear";
     public static final String MESSAGE_SUCCESS = "All data has been deleted successfully";
     public static final String MESSAGE_CONFIRMATION = "Opened warning window";
-
+    public static final String MESSAGE_NO_DATA = "No data to clear";
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        return new CommandResult(MESSAGE_CONFIRMATION, false, false, true, false,
-            "Warning!\n"
-                + "This command will clear all data.\n"
-                + "Press Y/N keys to confirm.\n\n"
-                + "Alternatively, click the buttons below.\n");
+
+        if (model.getAddressBook().getPersonList().isEmpty()) {
+            return new CommandResult(MESSAGE_NO_DATA);
+        }
+
+        return new CommandResult(
+                MESSAGE_CONFIRMATION,
+                false,
+                false,
+                true,
+                false,
+                "Warning!\n"
+                        + "This command will clear all contacts.\n"
+                        + "Press Y/N keys to confirm.\n\n"
+                        + "Alternatively, click the buttons below.\n"
+        );
     }
 }
