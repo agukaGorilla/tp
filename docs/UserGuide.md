@@ -108,6 +108,8 @@ Adds a new gym member to the list of registered gym members.
 </box>
 <box type="tip" seamless>
 
+**Tip:**
+* Attributes following the `add` command can be provided in any order
 **Tip:** 
 * Fields following the `add` command can be provided in any order
 </box>
@@ -115,7 +117,7 @@ Adds a new gym member to the list of registered gym members.
 **Example input:**
 * `add n/Alfred Goh p/88574393 a/Blk 886 Waterloo Street, #03-514, 736886 e/gohfred@gmail.com m/2028-01-01`<br><br>
 ![command for 'add'](images/addMemberCommand.png)
-  
+
 **Example output:**
 * Added `Alfred Goh` with his personal details to the list of registered gym members, together with a `New person added: ...` success message.<br><br>
 ![result for 'add'](images/addMemberResult.png)
@@ -211,7 +213,7 @@ Finds member(s) matching any of the given keywords.
 
 <box type="info" seamless>
 
-**Note:** 
+**Note:**
 * Only 1 `PREFIX` is allowed in the command
     * Prefix `id/` finds by Membership ID.
     * Prefix `n/` finds by Name.
@@ -228,7 +230,7 @@ Finds member(s) matching any of the given keywords.
 
 <box type="tip" seamless>
 
-**Tip:** 
+**Tip:**
 * Finding by name doesn't require full names.
   * Any keyword matching part of a member’s first or last name will return that member.<br>
     e.g. `Bernice` will match and find `Bernice Yu`
@@ -270,7 +272,7 @@ Sorts the list of registered gym members by the specified order.
 
 <box type="tip" seamless>
 
-**Tip:** 
+**Tip:**
 * Sorting order, regardless of whether it is `asc` or `desc`, will be "turned on" and
 applied on displayed lists across all commands unless "turned off" by `sort none`.
 
