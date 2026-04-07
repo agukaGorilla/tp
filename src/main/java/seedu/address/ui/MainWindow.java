@@ -236,6 +236,7 @@ public class MainWindow extends UiPart<Stage> {
                 isProcessingClearConfirmation = false;
 
                 if (isManualCloseClearConfirmation) {
+                    logger.info("User closed clear confirmation window manually.");
                     resultDisplay.setFeedbackToUser("Clear command cancelled");
                 }
             });
@@ -251,6 +252,7 @@ public class MainWindow extends UiPart<Stage> {
 
         if (!clearConfirmationStage.isShowing()) {
             commandBox.disableInput();
+            logger.info("Showing clear confirmation window.");
             clearConfirmationStage.show();
         }
 
@@ -270,6 +272,7 @@ public class MainWindow extends UiPart<Stage> {
             return;
         }
 
+        logger.info("User confirmed clear operation.");
         isProcessingClearConfirmation = true;
         isManualCloseClearConfirmation = false;
         yesButton.setDisable(true);
@@ -283,6 +286,7 @@ public class MainWindow extends UiPart<Stage> {
             clearConfirmationLabel.setText("All data has been deleted successfully");
             closeClearConfirmationWindowAfterDelay();
         } catch (CommandException e) {
+            logger.warning("Failed to clear address book: " + e.getMessage());
             resultDisplay.setFeedbackToUser(e.getMessage());
             clearConfirmationLabel.setText(e.getMessage());
             closeClearConfirmationWindowAfterDelay();
@@ -299,6 +303,7 @@ public class MainWindow extends UiPart<Stage> {
             return;
         }
 
+        logger.info("User cancelled clear operation.");
         isProcessingClearConfirmation = true;
         isManualCloseClearConfirmation = false;
 
