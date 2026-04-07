@@ -744,7 +744,7 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: Members used are those in the sample address book
 
-    1. Test case: `sort n/asc` <br>
+    1. Test case: `sort n/ASC` <br>
        Expected: No change in displayed list, together with a `No change in displayed list` error message shown
 
 <br>
