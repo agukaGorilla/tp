@@ -563,7 +563,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **AB3 (AddressBook Level-3)**  
 The baseline codebase from which GymContactsPro is developed. Refers to the SE-EDU AddressBook-Level3 project.
 
-**Address Book**  
+**AddressBook**  
 The internal data structure that stores all member records in GymContactsPro.
 
 **Command**  
@@ -576,13 +576,10 @@ The required structure for entering a valid command in GymContactsPro.
 A text-based interface that allows the Gym Manager to interact with GymContactsPro by typing commands instead of using graphical buttons.
 
 **Duplicate Member**  
-A situation where a member being added or edited has the same identifying fields (such as phone number or email) as an existing member.
+A situation where a member being added or edited has the same identifying fields (phone number or email) as an existing member.
 
 **Error Message**  
 A system-generated message displayed when the requested operation cannot be completed.
-
-**Staff**  
-Personnel working at the gym reception who manage member registrations, check-ins, and membership records using GymContactsPro.
 
 **Gym Manager**  
 The primary user of GymContactsPro who manages gym member records and memberships.
@@ -631,6 +628,9 @@ A specific field (such as name, phone number, or email) used to locate members i
 
 **Sorting**  
 The process of arranging members in a specific order.
+
+**Staff**  
+Personnel working at the gym reception who manage member registrations, check-ins, and membership records using GymContactsPro.
 
 **Success Message**  
 A confirmation message shown after a command has been executed successfully.
