@@ -699,45 +699,44 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting a single member while all members are being shown
 
-   1. Prerequisites: List all members using the `list` command. Multiple members in the list.
+   1. Prerequisites: At least one member is in the address book.
 
    1. Test case: `delete id/1000`<br>
-      Expected: Member with membership ID 1000 is deleted. Details of the deleted member shown in the status message.
+      Expected: `Deleted member(s):` followed by `Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40, 388066; Membership ID: 1000; Membership Expiry Date: 2027-01-15`
 
    1. Test case: `delete id/0999`<br>
-      Expected: No member is deleted. Error details shown in the status message indicating invalid membership ID format (leading zeros not allowed).
+      Expected: No member is deleted. `Membership ID must be a 4-digit integer from 1000 to 9999` is shown in the status message.
 
    1. Test case: `delete id/+1000`<br>
-      Expected: No member is deleted. Error details shown indicating invalid membership ID format (sign characters not allowed).
+      Expected: No member is deleted. `Membership ID must be a 4-digit integer from 1000 to 9999` is shown in the status message.
 
    1. Test case: `delete id/999`<br>
-      Expected: No member is deleted. Error details shown indicating membership ID must be between 1000 and 9999.
+      Expected: No member is deleted. `Membership ID must be a 4-digit integer from 1000 to 9999` is shown in the status message.
 
    1. Test case: `delete id/10000`<br>
-      Expected: No member is deleted. Error details shown indicating membership ID must be between 1000 and 9999.
+      Expected: No member is deleted. `Membership ID must be a 4-digit integer from 1000 to 9999` is shown in the status message.
 
    1. Test case: `delete id/9999` (where 9999 does not exist)<br>
-      Expected: No member is deleted. Error details shown indicating no member found with that ID.
+      Expected: No member is deleted. `No person with Membership ID 9999 found` is shown in the status message.
 
    1. Other incorrect delete commands to try: `delete`, `delete 1000`, `delete id/abc`, `delete id/`<br>
-      Expected: Error details shown in the status message indicating invalid command format.
+      Expected: `Invalid command format!` followed by the command usage message is shown in the status message.
 
 1. Deleting multiple members in one command
 
-   1. Prerequisites: List all members using the `list` command. At least 3 members in the list.
+   1. Prerequisites: At least 2 members in the address book with IDs 1000, 1001 and 1002.
 
-   1. Test case: `delete id/1000 1001 1002`<br>
-      Expected: Members with IDs 1000, 1001 and 1002 are deleted. Details of all deleted members shown in the status message, listed in ascending membership ID order.
+   1. Test case: `delete id/1000 1001`<br>
+      Expected: `Deleted member(s):` followed by details of members 1000 and 1001, listed in ascending membership ID order, each on a new line.
 
    1. Test case: `delete id/1000 1000` (duplicate ID)<br>
-      Expected: No member is deleted. Error details shown indicating duplicate membership ID detected.
+      Expected: No member is deleted. `Duplicate membership ID detected: 1000` is shown in the status message.
 
    1. Test case: `delete id/1000 9999` (where 9999 does not exist)<br>
-      Expected: No member is deleted. Error details shown indicating member with ID 9999 not found. Fail-fast behaviour: member 1000 is also not deleted.
+      Expected: No member is deleted. `No person with Membership ID 9999 found` is shown in the status message. Member 1000 is also not deleted.
 
    1. Test case: `delete id/1002 1000 1001` (IDs provided out of order)<br>
-      Expected: Members with IDs 1000, 1001 and 1002 are deleted. Output is sorted in ascending membership ID order regardless of input order.
-      
+      Expected: `Deleted member(s):` followed by details of members 1000, 1001 and 1002 in ascending membership ID order, each on a new line.      
 <br>
 
 ### Editing a member
