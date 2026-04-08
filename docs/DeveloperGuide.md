@@ -697,21 +697,47 @@ testers are expected to do more *exploratory* testing.
 
 ### Deleting member(s)
 
-1. Deleting a person while all persons are being shown
+1. Deleting a single member while all members are being shown
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+   1. Prerequisites: List all members using the `list` command. Multiple members in the list.
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+   1. Test case: `delete id/1000`<br>
+      Expected: Member with membership ID 1000 is deleted. Details of the deleted member shown in the status message.
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+   1. Test case: `delete id/0999`<br>
+      Expected: No member is deleted. Error details shown in the status message indicating invalid membership ID format (leading zeros not allowed).
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+   1. Test case: `delete id/+1000`<br>
+      Expected: No member is deleted. Error details shown indicating invalid membership ID format (sign characters not allowed).
 
-1. _{ more test cases …​ }_
+   1. Test case: `delete id/999`<br>
+      Expected: No member is deleted. Error details shown indicating membership ID must be between 1000 and 9999.
 
+   1. Test case: `delete id/10000`<br>
+      Expected: No member is deleted. Error details shown indicating membership ID must be between 1000 and 9999.
+
+   1. Test case: `delete id/9999` (where 9999 does not exist)<br>
+      Expected: No member is deleted. Error details shown indicating no member found with that ID.
+
+   1. Other incorrect delete commands to try: `delete`, `delete 1000`, `delete id/abc`, `delete id/`<br>
+      Expected: Error details shown in the status message indicating invalid command format.
+
+1. Deleting multiple members in one command
+
+   1. Prerequisites: List all members using the `list` command. At least 3 members in the list.
+
+   1. Test case: `delete id/1000 1001 1002`<br>
+      Expected: Members with IDs 1000, 1001 and 1002 are deleted. Details of all deleted members shown in the status message, listed in ascending membership ID order.
+
+   1. Test case: `delete id/1000 1000` (duplicate ID)<br>
+      Expected: No member is deleted. Error details shown indicating duplicate membership ID detected.
+
+   1. Test case: `delete id/1000 9999` (where 9999 does not exist)<br>
+      Expected: No member is deleted. Error details shown indicating member with ID 9999 not found. Fail-fast behaviour: member 1000 is also not deleted.
+
+   1. Test case: `delete id/1002 1000 1001` (IDs provided out of order)<br>
+      Expected: Members with IDs 1000, 1001 and 1002 are deleted. Output is sorted in ascending membership ID order regardless of input order.
+      
 <br>
 
 ### Editing a member
