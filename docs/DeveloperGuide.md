@@ -581,7 +581,7 @@ A situation where a member being added or edited has the same identifying fields
 **Error Message**  
 A system-generated message displayed when the requested operation cannot be completed.
 
-**Front-Desk Staff**  
+**Staff**  
 Personnel working at the gym reception who manage member registrations, check-ins, and membership records using GymContactsPro.
 
 **Gym Manager**  
