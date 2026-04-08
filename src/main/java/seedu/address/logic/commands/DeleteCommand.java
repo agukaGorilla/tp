@@ -97,6 +97,8 @@ public class DeleteCommand extends Command {
         // Update filtered list so UI and storage reflect the deletion
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
+
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedNames.toString()));
     }
 
