@@ -207,14 +207,14 @@ and unchanged fields will remain unchanged.
 
 ### Finding Member(s) : `find`
 
-Finds member(s) matching any of the given keywords.
+Find member(s) matching any of the given keywords.
 
 **Format:** `find PREFIX/KEYWORD [MORE_KEYWORDS]`
 
 <box type="info" seamless>
 
 **Note:**
-* Only 1 `PREFIX` is allowed in the command
+* Only 1 `PREFIX` is allowed.
     * Prefix `id/` finds by Membership ID.
     * Prefix `n/` finds by Name.
     * Prefix `p/` finds by Phone number.
@@ -225,7 +225,8 @@ Finds member(s) matching any of the given keywords.
   * Only full keywords will be matched<br>
   e.g. `Ber` will not match `Bernice`
   * Keywords are case-insensitive.<br>
-  e.g `bernice` will match `BERNICE`
+  e.g `BERNICE` will match any members with a name containing `bernice` regardless of capitalization.
+
 </box>
 
 <box type="tip" seamless>
@@ -242,7 +243,7 @@ Finds member(s) matching any of the given keywords.
   ![command for 'find n/bernice'](images/findBerniceCommand.png)
 
 **Example output:**
-* Found `Bernice Yu`, together with a `(No. of) persons listed` success message.<br><br>
+* Found `Bernice Yu`, together with a `1 member(s) found` success message.<br><br>
   ![result for 'find n/bernice'](images/findBerniceResult.png)
 
 ---
@@ -256,7 +257,7 @@ Sorts the list of registered gym members by the specified order.
 <box type="info" seamless>
 
 **Note:**
-* Only 1 `PREFIX` is allowed in the command
+* Only 1 `PREFIX` is allowed.
   * Prefix `id/` sorts by Membership ID.
   * Prefix `n/` sorts by Name.
   * Prefix `p/` sorts by Phone number.
@@ -264,9 +265,8 @@ Sorts the list of registered gym members by the specified order.
   * Prefix `a/` sorts by Address (Postal Code).
   * Prefix `m/` sorts by Membership Expiry Date.
 * Only 1 `ORDER` can be provided<br>
-  (unless `sort none` is used to disable sorting).
+  (unless `sort none` is used to disable sorting to return to default order ordering – ascending Membership ID).
   * Order can be either `asc` or `desc` to sort members in ascending or descending order respectively.
-  * Order is case-insensitive.
 
 </box>
 
@@ -290,21 +290,24 @@ applied on displayed lists across all commands unless "turned off" by `sort none
 
 ### Renewing Membership : `renew`
 
-Renews the membership of an existing member 
+Renews the membership of an existing member.
 
 **Format:** `renew id/MEMBERSHIP_ID d/DAYS`
 
 <box type="info" seamless>
 
 **Note:**
-* 
+* The `DAYS` parameter specifies the number of days to extend the membership.
+* Both `MEMBERSHIP_ID` and `DAYS` parameters are required for the command to be valid.
+* Renewing an expired membership will set the expiry date to the current date plus the specified number of days.
+* A maximum of 730 days (2 years) can be added to the current expiry date.
 
 </box>
 
 <box type="tip" seamless>
 
 **Tip:**
-* 
+* The `DAYS` and `MEMBERSHIP_ID` parameters can be provided in any order.
 
 </box>
 
@@ -313,14 +316,14 @@ Renews the membership of an existing member
 
 
 **Example output:**
-* 
+* Renews the membership of member with ID of `1000` by `7` days.<br><br>
 
 
 ---
 
 ### Clearing All Data : `clear`
 
-Delete all registered gym members after confirmation.
+Deletes all registered gym members after confirmation.
 
 **Format:** `clear`
 
@@ -351,7 +354,7 @@ Delete all registered gym members after confirmation.
 * A warning window pops up to ask for deletion confirmation.<br><br>
 ![warning window](images/warningWindow.png)<br><br>
 * After confirmation, all data will be deleted, together with a `All data has been deleted successfully` success message.<br>
-The warning window will close after a short delay.<br><br>
+Thereafter, the warning window will close after a short delay.<br><br>
 ![result for 'successfully delete'](images/clearSuccess.png)<br><br>
 * If the user decides to cancel the deletion, no data will be deleted and, a `Deletion has been cancelled` success message will be shown instead.<br>
 
@@ -378,8 +381,8 @@ Shows a help message.
 **Tip:**
 * These are the alternative ways to open the help window:
   * Clicking the `Help F1` button in the `Help` menu.
-  * Hitting `Fn+ F1" keys.
-* There is two possible ways that you may close the help window:
+  * Hitting `Fn+ F1` keys.
+* There are two possible ways that to close the help window:
   * Hitting the `esc` key.
   * Closing the help window.
 
@@ -405,7 +408,7 @@ Exits the app.
 **Tip:**
 * These are the alternative ways to exit the app:
   * Clicking the `Exit` button in the `File` menu.
-  * Closing the app window directly by clicking the `X` button in the top right corner.
+  * Closing the app window.
 </box>
 
 **Example input:**
@@ -462,12 +465,13 @@ There is no need to save manually.
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE e/EMAIL a/ADDRESS m/EXPIRY_DATE`<br> e.g., `add n/James Ho p/92375927 e/jamesho@example.com a/Blk 123, Clementi Rd, 665123 m/2026-12-31`
+**Add**    | `add n/NAME p/PHONE e/EMAIL a/ADDRESS m/EXPIRY_DATE`<br> e.g., `add n/Alfred Goh p/88574393 a/Blk 886 Waterloo Street, #03-514, 736886 e/gohfred@gmail.com m/2028-01-01`
 **List**   | `list`
-**Delete** | `delete id/MEMBERSHIP_ID`<br> e.g., `delete id/1021`
-**Edit**   | `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`<br> e.g.,`edit 1016 n/James Lee e/jameslee@example.com`
-**Find**   | `find PREFIX/KEYWORD [MORE_KEYWORDS]`<br> e.g., `find n/James Max`
-**Sort**   | `sort PREFIX/ORDER `<br> e.g., `sort n/desc`<br> or <br> e.g., `sort none`
+**Delete** | `delete id/MEMBERSHIP_ID`<br> e.g., `delete id/1000`
+**Edit**   | `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`<br> e.g.,`edit 1000 p/91234567 e/johndoe@example.com`
+**Find**   | `find PREFIX/KEYWORD [MORE_KEYWORDS]`<br> e.g., `find n/bernice`
+**Sort**   | `sort PREFIX/ORDER` & `sort none`<br> e.g., `sort n/desc`
+**Renew**   | `renew id/MEMBERSHIP_ID d/DAYS`<br> e.g., `renew id/1000 d/7`
 **Clear**  | `clear`
 **Help**   | `help`
 **Exit**   | `exit`

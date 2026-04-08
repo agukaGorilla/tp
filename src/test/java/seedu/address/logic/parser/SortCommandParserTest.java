@@ -16,7 +16,7 @@ import seedu.address.model.util.PersonComparators;
 public class SortCommandParserTest {
     private static final String MESSAGE_INVALID_ORDER =
             "Order after a prefix is either 'asc' (ascending) or 'desc' (descending).\n"
-            + "Use 'sort none' alone to disable sorting to return to default ordering.";
+            + "Use 'sort none' alone to disable sorting to return to default ordering – ascending Membership ID.";;
 
     private final SortCommandParser parser = new SortCommandParser();
 
