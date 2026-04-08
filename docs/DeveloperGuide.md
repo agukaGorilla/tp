@@ -663,12 +663,48 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+1. 1. Shutdown via command
+
+    1. Test case: `exit`<br>
+   Expected: The application window closes immediately and gracefully without any error dialogues.
 
 <br>
 
 ### Adding a member
 
+1. Adding a member
+
+    1. Prerequisites: Ensure there is no existing member with the exact name `John Doe` and the details used below.
+
+    1. Test case: `ad`<br>
+       Expected: An `Unknown command` error message shown
+
+    1. Test case: `add`<br>
+       Expected: An `Invalid command format` error message shown
+
+    1. Test case: `add n/John Doe p/98765432`<br>
+       Expected: An `Invalid command format` error message shown (due to missing mandatory fields like email, address, and expiry date)
+
+    1. Test case: `add n/ p/98765432 e/johndoe@example.com a/Blk 123 138671 m/2099-12-31`<br>
+       Expected: A name validation error message shown (Name should not be blank)
+
+    1. Test case: `add n/John Doe p/12345678 e/johndoe@example.com a/Blk 123 138671 m/2099-12-31`<br>
+       Expected: A phone number validation error message shown (Phone must start with 8 or 9)
+
+    1. Test case: `add n/John Doe p/98765432 e/johndoe@example.com a/Blk 123 m/2099-12-31`<br>
+       Expected: An address validation error message shown (Address must end with a valid 6-digit postal code)
+
+    1. Test case: `add n/John Doe p/98765432 e/johndoe@example.com a/Blk 123 138671 m/2000-01-01`<br>
+       Expected: An expiry date validation error message shown (Date cannot be before the current date)
+
+    1. Test case: `add n/John Doe n/Jane Doe p/98765432 e/johndoe@example.com a/Blk 123 138671 m/2099-12-31`<br>
+       Expected: A `Multiple values specified for the following single-valued field(s): n/` error message shown
+
+    1. Test case: `add n/John Doe p/98765432 e/johndoe@example.com a/Blk 123, #01-01 138671 m/2099-12-31`<br>
+       Expected: A new member named `John Doe` is added to the list, together with a `New person added: ...` success message shown
+
+    1. Test case: `add n/John Doe p/98765432 e/johndoe@example.com a/Blk 123, #01-01 138671 m/2099-12-31` (run the exact same command again)<br>
+       Expected: A `This person already exists in the address book` error message shown
 <br>
 
 ### Listing members
