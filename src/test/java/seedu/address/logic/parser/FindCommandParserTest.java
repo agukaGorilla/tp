@@ -140,8 +140,8 @@ public class FindCommandParserTest {
         assertParseFailure(parser, " e/", Email.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, " e/    ", Email.MESSAGE_CONSTRAINTS);
 
-        assertParseFailure(parser, " a/", Address.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, " a/    ", Address.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " a/", Address.MESSAGE_POSTAL_CODE_CONSTRAINTS);
+        assertParseFailure(parser, " a/    ", Address.MESSAGE_POSTAL_CODE_CONSTRAINTS);
 
         assertParseFailure(parser, " id/", MembershipId.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, " id/    ", MembershipId.MESSAGE_CONSTRAINTS);
@@ -182,7 +182,7 @@ public class FindCommandParserTest {
     @Test
     public void parse_invalidAddressKeyword_throwsParseException() {
         assertParseFailure(parser, " a/NoPostalCode",
-            Address.MESSAGE_CONSTRAINTS);
+            Address.MESSAGE_POSTAL_CODE_CONSTRAINTS);
     }
 
     @Test

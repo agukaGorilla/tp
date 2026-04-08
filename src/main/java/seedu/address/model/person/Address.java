@@ -13,6 +13,8 @@ public class Address {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Address must not be blank and must end with a valid 6-digit postal code";
+    public static final String MESSAGE_POSTAL_CODE_CONSTRAINTS =
+            "Address must be a 6-digit postal code only";
 
     /*
      * The first character of the address must not be a whitespace,
@@ -20,6 +22,7 @@ public class Address {
      * The address can contain any characters but must end with exactly a 6-digit number.
      */
     public static final String VALIDATION_REGEX = ".*\\b\\d{6}";
+    public static final String POSTAL_CODE_VALIDATION_REGEX = "\\d{6}";
 
     public final String value;
     private final String normalizedValue;
@@ -47,6 +50,13 @@ public class Address {
      */
     public static boolean isValidAddress(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    /**
+     * Returns true if a given string is a valid 6-digit postal code.
+     */
+    public static boolean isValidPostalCode(String test) {
+        return test.matches(POSTAL_CODE_VALIDATION_REGEX);
     }
 
     @Override

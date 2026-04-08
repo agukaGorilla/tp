@@ -80,10 +80,12 @@ public class FindCommandParser implements Parser<FindCommand> {
             return new FindCommand(new EmailContainsKeywordsPredicate(Arrays.asList(tokens)));
         case "a/":
             if (tokens.length == 0) {
-                throw new ParseException(Address.MESSAGE_CONSTRAINTS);
+                throw new ParseException(Address.MESSAGE_POSTAL_CODE_CONSTRAINTS);
             }
             for (String token : tokens) {
-                ParserUtil.parseAddress(token);
+                if (!Address.isValidPostalCode(token)) {
+                    throw new ParseException(Address.MESSAGE_POSTAL_CODE_CONSTRAINTS);
+                }
             }
             return new FindCommand(new PostalCodeContainsKeywordsPredicate(Arrays.asList(tokens)));
         case "id/":
