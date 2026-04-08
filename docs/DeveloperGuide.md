@@ -730,7 +730,7 @@ testers are expected to do more *exploratory* testing.
       Expected: `Deleted member(s):` followed by details of members 1000 and 1001, listed in ascending membership ID order, each on a new line.
 
    1. Test case: `delete id/1000 1000` (duplicate ID)<br>
-      Expected: No member is deleted. `Duplicate membership ID detected: 1000` is shown in the status message.
+      Expected: No member is deleted. `Duplicate Membership ID detected: 1000` is shown in the status message.
 
    1. Test case: `delete id/1000 9999` (where 9999 does not exist)<br>
       Expected: No member is deleted. `No person with Membership ID 9999 found` is shown in the status message. Member 1000 is also not deleted.
