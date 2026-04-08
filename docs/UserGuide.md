@@ -75,7 +75,7 @@ Alternatively you could simply double click GymContactsPro.jar file.
 <box type="info" seamless>
 
 **These are some notes about the command formats.<br>
-Notes here apply to all features introduced below (where applicable), and will not be repeated**
+Notes here apply to all features introduced below (unless otherwise specified)**
 <br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
@@ -184,16 +184,18 @@ Edits an existing member among the registered gym members.
 
 **Note:**
 * Edits the member at the specified `MEMBERSHIP_ID`.
+* The `MEMBERSHIP_ID` must be provided before the optional fields.
+* The `MEMBERSHIP_ID` cannot be edited.
 * At least one of the optional fields must be provided.
 * Multiple different fields can be provided at once.
-* Existing values will be updated to the input values.Only changed fields will be updated, 
-and unchanged fields will remain unchanged.
+* Existing values will be updated with the provided values.Only specified fields will be updated (if there are changes); all other fields will remain unchanged.
 
 </box>
 
 <box type="tip" seamless>
 
 **Tip:**
+* You only need to include the fields you want to change.
 * Fields following the `edit` command can be provided in any order
 
 </box>
@@ -303,7 +305,8 @@ Renews the membership of an existing member.
 * The `DAYS` parameter specifies the number of days to extend the membership.
 * Both `MEMBERSHIP_ID` and `DAYS` parameters are required for the command to be valid.
 * If the membership has already expired, the current day is counted as day 1 when renewing. For example, `renew id/1000 d/7` will set the new expiry date to 7 days from today, including today as the first day.
-* A maximum of 730 days (2 years) can be added to the current expiry date.
+* If the membership is still valid, the new expiry date is calculated from the current expiry date.
+* `DAYS` must be an integer between `1` and `730` (2 years).
 
 </box>
 
