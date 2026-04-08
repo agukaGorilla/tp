@@ -139,8 +139,8 @@ public class MainWindow extends UiPart<Stage> {
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
         helpWindow.getRoot().setOnHidden(event -> {
-                resultDisplay.setFeedbackToUser("Closed help window");
-                logger.info("Closed Help window.");
+            resultDisplay.setFeedbackToUser("Closed help window");
+            logger.info("Closed Help window.");
         });
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
