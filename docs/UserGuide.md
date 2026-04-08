@@ -53,17 +53,19 @@ Alternatively you could simply double click GymContactsPro.jar file.
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-  * `list` : Lists all contacts.
+  * `list` : Lists all members.
 
-  * `add n/John Doe p/98765432 e/johnd@example.com a/John Street, Block 123, #01-01 138601 m/2026-11-12` : Adds a contact named `John Doe` to the Address Book.
+  * `add n/John Doe p/98765432 e/johnd@example.com a/John Street, Block 123, #01-01 138601 m/2026-11-12` : Adds a member named `John Doe` to the list of Registered Members.
 
   * `find n/John` : Finds members whose names contain "John".
+
+  * * `renew id/1000 d/7` : Renews the membership of the member with ID 1000 by 7 days.
 
   * `sort n/asc` : Sorts the list of members by name in ascending order.
 
   * `delete id/1006` : Deletes the member with membership ID 1006 from the list.
 
-  * `clear` : Deletes all contacts.
+  * `clear` : Deletes all members.
 
   * `exit` : Exits the app.
 
