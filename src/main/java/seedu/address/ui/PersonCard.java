@@ -96,7 +96,7 @@ public class PersonCard extends UiPart<Region> {
 
             } else if (daysUntilExpiry <= 30) {
                 // Expiring soon (1–30 days)
-                membershipStatus.setText("Expiring in (" + daysUntilExpiry + ") days");
+                membershipStatus.setText("Expires in (" + daysUntilExpiry + ") days");
                 membershipStatus.getStyleClass().removeAll("membership-active", "membership-expiring-soon",
                         "membership-expired");
                 membershipStatus.getStyleClass().add("membership-expiring-soon");

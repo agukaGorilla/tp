@@ -20,7 +20,6 @@
     - [Common classes](#common-classes)
 - [Implementation](#implementation)
     - [[Proposed] Undo/redo feature](#proposed-undo-redo-feature)
-    - [[Proposed] Data archiving](#proposed-data-archiving)
 - [Documentation, logging, testing, configuration, dev-ops](#documentation-logging-testing-configuration-dev-ops)
 - [Appendix: Requirements](#appendix-requirements)
     - [Product scope](#product-scope)
@@ -30,7 +29,16 @@
     - [Glossary](#glossary)
 - [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
     - [Launch and shutdown](#launch-and-shutdown)
-    - [Deleting a person](#deleting-a-person)
+    - [Adding a member](#adding-a-member)
+    - [Listing members](#listing-members)
+    - [Deleting member(s)](#deleting-member-s)
+    - [Editing a member](#editing-a-member)
+    - [Finding member(s)](#finding-member-s)
+    - [Sorting members](#sorting-members)
+    - [Renewing membership](#renewing-membership)
+    - [Clearing all members](#clearing-all-members)
+    - [Viewing help](#viewing-help)
+    - [Exiting the program](#exiting-the-program)
     - [Saving data](#saving-data)
 --------------------------------------------------------------------------------------------------------------------
 
@@ -203,7 +211,7 @@ Step 1. The user launches the application for the first time. The `VersionedAddr
 
 <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `delete id/1000` command to delete the member with membership ID of 1000 in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete id/1000` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
 <puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
 
@@ -276,13 +284,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -332,192 +333,214 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `GymContactsPro` and the **Actor** is the `GymManager`, unless specified otherwise)
 
 
-**Use case: UC01 : Add a gym member**
+**Use case : UC01 : Add a gym member**
 
 **MSS**
 
-1. Gym Manager requests to add a new member by providing their details
+1. Gym Manager requests to add a new member by providing the member's details
 2. GymContactsPro adds the new member
-3. GymContactsPro displays a success message showing the newly added member's details
+3. GymContactsPro displays a success message
 
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 1a. The provided details are in an invalid format.
-  * 1a1. GymContactsPro shows an error message indicating the required format.
+* 1a. The command format was invalid
+  * 1a1. GymContactsPro shows an error message
 
-  Use case ends.
+  Use case ends
 
-* 1b. The provided details correspond to an already existing member in the system.
-  * 1b1. GymContactsPro rejects the addition and shows a duplicate error message.
+* 1b. The member to be added is identical to an existing member in the system
+  * 1b1. GymContactsPro shows an error message
 
-  Use case ends.
+  Use case ends
 
-**Use case: UC02 : List all gym members**
+<br>
+
+**Use case : UC02 : List all gym members**
 
 **MSS**
 
-1. Gym Manager requests to view the list of members
+1. Gym Manager requests to view the list of all registered members
 2. GymContactsPro displays the complete list of members
 
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 2a. There are no members recorded in the system.
-  * 2a1. GymContactsPro shows an error message.
+* 1a. The command format was invalid
+    * 1a1. GymContactsPro shows an error message
 
-    Use case ends.
+    Use case ends
 
-**Use case: UC03 : Delete one or more gym members**
+* 1b. There are no members in the system
+    * 1b1. GymContactsPro shows an error message
+
+    Use case ends
+
+<br>
+
+**Use case : UC03 : Delete gym member(s)**
 
 **MSS**
 
-1. Gym Manager requests to delete one or more members by providing their membership ID(s)
+1. Gym Manager requests to delete member(s) by providing their membership ID(s)
 2. GymContactsPro deletes the member(s)
-3. GymContactsPro displays a success message listing the deleted member(s) in ascending membership ID order
+3. GymContactsPro displays a success message
 
-   Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 1a. No membership ID is provided or the format is invalid.
-    * 1a1. GymContactsPro shows an error message prompting for the correct format.
+* 1a. The command format was invalid
+  * 1a1. GymContactsPro shows an error message
 
-  Use case ends.
+  Use case ends
 
-* 1b. A duplicate membership ID is provided in the same command.
-    * 1b1. GymContactsPro shows an error message indicating the duplicate ID.
+* 1b. No member with given membership ID exists in the system.
+  * 1b1. GymContactsPro shows an error message
 
-  Use case ends.
+  Use case ends
 
-* 1c. Any of the provided membership IDs does not exist in the system.
-    * 1c1. GymContactsPro shows an error message. No deletions are performed.
+* 1c. Multiple membership IDs are provided, but only a few exist in the system
+  * 1c1. GymContactsPro shows an error message
 
-  Use case ends.
+  Use case ends
 
-**Use case : UC05 : View list of executable commands**
+* 1d. Multiple identical membership IDs are provided
+  * 1d1. GymContactsPro shows an error message
+
+  Use case ends
+
+<br>
+
+**Use case : UC04 : View list of executable commands**
 
 **MSS**
 
 1. Gym Manager requests to view the list of executable commands
 2. GymContactsPro displays the list of available executable commands and their formats
+3. GymContactsPro displays a success message
 
-    Use case ends.
-
-**Use case: UC05 : Find a gym member**
-
-**MSS**
-
-1. Gym Manager requests to find a member by specifying search field and the search term
-2. GymContactsPro displays a list of members matching the specifies criteria
-
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 1a. The Gym Manager does not provide a valid search format.
-  * 1a1. GymContactsPro shows an error message.
+* 1a. The command format was invalid
+  * 1a1. GymContactsPro shows an error message
 
-    Use case ends.
+  Use case ends
 
-* 2a. There are no members matching the provided criteria.
-    * 2a1. GymContactsPro shows an error message.
+<br>
 
-    Use case ends.
-
-
-**Use case: UC06 : Edit existing member details**
+**Use case : UC05 : Find gym member(s)**
 
 **MSS**
 
-1. Gym Manager requests to edit a member by providing their membership ID
+1. Gym Manager requests to find member(s) by specifying the search field and the search term
+2. GymContactsPro displays a list of member(s) matching the specified criteria
+3. GymContactsPro displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 1a. Command format is invalid
+  * 1a1. GymContactsPro shows an error message
+
+  Use case ends
+
+* 1b. There are no members matching the provided criteria
+    * 1b1. GymContactsPro shows an error message
+
+    Use case ends
+
+* 1c. Only some members match the provided criteria
+    * 1c1. GymContactsPro only shows a list of members matching the provided criteria
+
+    Use case ends
+
+<br>
+
+**Use case : UC06 : Edit details of an existing member**
+
+**MSS**
+
+1. Gym Manager requests to edit a member by providing their membership ID and fields to edit
 2. GymContactsPro updates the member's details
 3. GymContactsPro displays a success message
 
-   Use case ends.
+   Use case ends
 
 **Extensions**
 
-* 1a. No membership ID is provided or the format is invalid.
-  * 1a1. GymContactsPro shows an error message prompting for the correct format.
+* 1a. The command format is invalid
+  * 1a1. GymContactsPro shows an error message
 
-    Use case ends.
+  Use case ends
 
-* 3b. The provided new details are in an invalid format.
-  * 3b1. GymContactsPro shows an error message corresponding to the invalid field.
+* 1b. The new details create a duplicate member
+  * 1b1. GymContactsPro shows a error message
 
-    Use case ends.
+  Use case ends
 
-* 3c. The new details create a duplicate member.
-  * 3c1. GymContactsPro rejects the edit and shows a duplicate fields error message.
+* 1c. Some or all the fields provided are identical to the existing member's details
+  * 1c1. GymContactsPro accepts the edit and tells the user which fields were updated
 
-    Use case ends.
+  Use case ends
 
-**Use case: UC07 : Check memberships nearing expiry**
+<br>
+
+**Use case : UC07 : Renew a member's membership validity**
 
 **MSS**
 
-1. Gym Manager requests to identify members whose memberships expire within a specified number of days
-2. GymContactsPro displays a list of members expiring within that timeframe
+1. Gym Manager requests to renew the validity of a member by providing the membership ID and days to renew
+2. GymContactsPro updates the member's membership validity
+3. GymContactsPro displays a success message
 
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 1a. The Gym Manager provides an invalid number of days.
-  * 1a1. GymContactsPro shows an error message prompting for a valid number.
+* 1a. The command format was invalid
+  * 1a1. GymContactsPro shows an error message
 
-    Use case ends.
+  Use case ends
 
-* 2a. No members have memberships expiring within the specified timeframe.
-    * 2a1. GymContactsPro shows an error message.
+* 2a. No member with the given membership ID exists in the system
+  * 2a1. GymContactsPro shows an error message
 
-  Use case ends.
+  Use case ends
 
-**Use case: UC08 : Check a member's membership validity**
+<br>
+
+**Use case: UC08 : Sort gym members**
 
 **MSS**
 
-1. Gym Manager requests to check the validity of a specific membership ID
-2. GymContactsPro verifies the membership ID
-3. GymContactsPro displays the membership validity status and the member's details
+1. Gym Manager requests to sort members by provided field and order
+2. GymContactsPro displays the list of members sorted in the requested criteria
+3. GymContactsPro displays a success message
 
-    Use case ends.
-
-**Extensions**
-
-* 1a. No membership ID is provided.
-  * 1a1. GymContactsPro shows an error message prompting for the correct format.
-
-    Use case ends.
-
-* 2a. No member with the given membership ID exists in the system.
-  * 2a1. GymContactsPro shows an error message.
-
-    Use case ends.
-
-**Use case: UC09 : Sort members by membership expiry**
-
-**MSS**
-
-1. Gym Manager requests to sort members.
-2. GymContactsPro displays the list of members sorted in the requested order
-
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 1a. The Gym Manager specifies an invalid sort order.
-  * 1a1. GymContactsPro shows an error message specifying the correct sort options.
+* 1a. The command format was invalid
+  * 1a1. GymContactsPro shows an error message
 
-    Use case ends.
+  Use case ends
 
-* 2a. There are no members available to sort.
-    * 2a1. GymContactsPro shows an error message specifying the correct sort options.
+* 2a. There are no members available to sort
+    * 2a1. GymContactsPro shows an error message
+    
+    Use case ends
 
-  Use case ends.
+* 3a. Sorting results in no change in the member list
+    * 3a1. GymContactsPro shows an error message
+
+  Use case ends
 
 
 ### Non-Functional Requirements
@@ -630,7 +653,8 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file
+   Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 1. Saving window preferences
 
@@ -641,7 +665,37 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Deleting a person
+<br>
+
+### Adding a member
+
+<br>
+
+### Listing members
+
+1. List all members in the address book after opening the application
+
+    1. Prerequisites: Members include those in the sample address book
+
+    1. Test case: `lis`<br>
+       Expected: No change in displayed list, together with a `Unknown command` error message shown
+
+    1. Test case: `list`<br>
+       Expected: No change in displayed list, together with a `Listed all members` success message shown
+
+    1. Test case: `list list` <br>
+       Expected: No change in displayed list, together with a `Listed all members` success message shown
+
+1. List all members in the address book after `find n/alex`
+
+    1. Prerequisites: Members include those in the sample address book
+
+    1. Test case: `list` <br>
+       Expected: Displayed list changes to show all members, together with a `Listed all members` success message shown
+
+<br>
+
+### Deleting member(s)
 
 1. Deleting a person while all persons are being shown
 
@@ -658,10 +712,153 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+<br>
+
+### Editing a member
+
+<br>
+
+### Finding member(s)
+
+1. Finding member(s) while members are either visible in the displayed list or not visible in the displayed list
+
+   1. Prerequisites: Members involved are those in the sample address book
+
+   1. Test case: `fin`<br>
+      Expected: No change in displayed list, together with a `Unknown command` error message shown
+
+   1. Test case: `find`<br>
+      Expected: No change in displayed list, together with a `Invalid command format` error message shown
+
+   1. Test case: `find n/`<br>
+      Expected: No change in displayed list, together with a `Names should only contain alphanumeric characters and spaces, and it should not be blank` error message shown
+   
+   1. Test case: `find n/ale`<br>
+      Expected: Displayed list is empty, together with a `0 member(s) found` message shown
+
+   1. Test case: `find find n/alex`<br>
+      Expected: No change in displayed list, together with a `Invalid command format` error message shown
+   
+   1. Test case: `find n/alex`<br>
+      Expected: Members whose names contain `alex` in any capitalization are displayed in a list, together with a `1 member(s) listed` success message shown
+
+   1. Test case: `find n/alex alex`<br>
+      Expected: Members whose names contain `alex` in any capitalization are displayed in a list, together with a `1 member(s) listed` success message shown
+   
+   1. Test case: `find n/alex n/yu`<br>
+      Expected: No change in displayed list, together with a `Multiple values specified for the following single-valued field(s): n/` error message shown
+
+   1. Test case: `find n/alex yu`<br>
+      Expected: Members whose names contain `alex` or `yu` in any capitalization are shown in a list, together with a `2 member(s) listed` success message shown
+
+   1. Test case: `FIND N/ALEX YU`<br>
+      Expected: Members whose names contain `alex` or `yu` in any capitalization are shown in a list, together with a `2 member(s) listed` success message shown
+   
+   1. Test case: `find n/alex p/87438807`<br>
+      Expected: No change in displayed list, together with a `Invalid command format` error message shown
+
+1. Finding member(s) after members are already found after `find n/alex`
+
+   1. Prerequisites: Members involved are those in the sample address book
+
+   1. Test case: `find n/alex`<br>
+      Expected: No change in displayed list, together with a `No change in displayed list` message shown
+
+<br>
+
+### Sorting members
+
+1. Sorting members while all members are listed. Eg. after the `list` command
+
+    1. Prerequisites: Members used are those in the sample address book
+
+    1. Test case: `sor`<br>
+       Expected: No change in displayed list, together with a `Unknown command` error message shown
+
+    1. Test case: `sort`<br>
+       Expected: No change in displayed list, together with a `Invalid command format` error message shown
+
+    1. Test case: `sort n/`<br>
+       Expected: No change in displayed list, together with a `Order is either 'asc' (ascending) or 'desc' (descending)...` error message shown
+
+    1. Test case: `sort n/as`<br>
+       Expected: No change in displayed list, together with a `Order is either 'asc' (ascending) or 'desc' (descending)...` error message shown
+
+    1. Test case: `sort sort n/asc`<br>
+       Expected: No change in displayed list, together with a `Invalid command format` error message shown
+
+    1. Test case: `sort n/asc`<br>
+       Expected: Members are sorted by names alphabetically in ascending order, together with a `Sorted by n/ in asc order` success message shown
+
+    1. Test case: `sort n/asc asc`<br>
+       Expected: No change in displayed list, together with a `Order is either 'asc' (ascending) or 'desc' (descending)...` error message shown
+
+    1. Test case: `sort n/asc n/desc`<br>
+       Expected: No change in displayed list, together with a `Multiple values specified for the following single-valued field(s): n/` error message shown
+
+    1. Test case: `sort n/desc`<br>
+       Expected: Members are sorted by names alphabetically in descending order, together with a `Sorted by n/ in desc order` success message shown
+
+    1. Test case: `sort n/desc p/asc`<br>
+       Expected: No change in displayed list, together with a `Invalid command format` error message shown
+
+    1. Test case: `sort none` <br>
+       Expected: Members return to their default order, together with a `Restored to original order` success message shown
+
+1. Sorting members while all members are already sorted in ascending order after `sort n/asc`
+
+    1. Prerequisites: Members used are those in the sample address book
+
+    1. Test case: `sort n/ASC` <br>
+       Expected: No change in displayed list, together with a `No change in displayed list` error message shown
+
+<br>
+
+### Renewing membership
+
+<br>
+
+### Clearing all members
+
+<br>
+
+### Viewing help
+
+<br>
+
+### Exiting the program
+
+1. Exiting the program
+
+    1. Prerequisites: Any state of the app
+
+    1. Test case: `exi`<br>
+       Expected: No change in displayed list, together with a `Unknown command` error message shown
+
+    1. Test case: `exit`<br>
+       Expected: App closes
+
+    1. Test case: Exit via `File` -> `Exit` menu option<br>
+       Expected: App closes
+
+<br>
+
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Data files save modified data continuously as commands are executed
+   1. Prerequisites: App is running
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. Test case: Run a command that modifies data (e.g., `add`, `delete`, `edit`) and manually check `/data/addressbook.json`<br> 
+      Expected: The modified data is immediately saved to the file
 
-1. _{ more test cases …​ }_
+1. Program still runs despite missing/corrupted data files
+    1. Prerequisites: App is not running at first
+
+    1. Test case: Delete /data/addressbook.json and start the app 
+       Expected: App initializes with sample member data, and `INFO: Creating a new data file [path] populated with a sample AddressBook` is logged to the console
+
+    1. Test case: Enter invalid JSON to /data/addressbook.json and start the app
+       Expected: App initializes with an empty address book, and `WARNING: Data file at [path] could not be loaded. Will be starting with an empty AddressBook` is logged to the console
+
+    1. Test case: Enter invalid JSON to /preferences.json and start the app
+       Expected: App initiliazes with default preferences and `WARNING: Preference file at [path] could not be loaded. Using default preferences`is logged to the console

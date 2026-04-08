@@ -19,23 +19,33 @@ public class HelpWindow extends UiPart<Stage> {
     public static final String USERGUIDE_URL = "https://ay2526s2-cs2103t-w08-4.github.io/tp/UserGuide.html";
 
     public static final String HELP_MESSAGE =
-            "User Guide:\n" + USERGUIDE_URL + "\n\n"
+            "User Guide: " + USERGUIDE_URL + "\n"
+                    + "__________________________________\n\n"
+
                     + "Command Summary:\n\n"
 
                     + "add\n"
-                    + "Format: add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS m/YYYY-MM-DD\n\n"
+                    + "Format: add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS m/EXPIRY_DATE\n\n"
 
                     + "list\n"
                     + "Format: list\n\n"
 
                     + "delete\n"
-                    + "Format: delete id/MEMBERHSIP_ID\n\n"
+                    + "Format: delete id/MEMBERHSIP_ID [MORE_MEMBERSHIP_IDS]\n\n"
 
                     + "edit\n"
-                    + "Format: edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/YYYY-MM-DD]\n\n"
+                    + "Format: edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]\n\n"
 
                     + "find\n"
-                    + "Format: find NAME [MORE_NAMES]\n\n"
+                    + "Format: find KEYWORD [MORE_KEYWORDS]\n\n"
+
+                    + "sort\n"
+                    + "Format: sort PREFIX/ORDER\n"
+                    + "or\n"
+                    + "Format: sort none\n\n"
+
+                    + "renew\n"
+                    + "Format: renew id/MEMBERSHIP_ID d/DAYS\n\n"
 
                     + "help\n"
                     + "Format: help\n\n"
@@ -46,7 +56,7 @@ public class HelpWindow extends UiPart<Stage> {
                     + "exit\n"
                     + "Format: exit\n\n"
 
-                    + "NOTE: Press esc to close this help window.";
+                    + "Tip: Press `esc` to close this help window.";
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -116,6 +126,7 @@ public class HelpWindow extends UiPart<Stage> {
      * Hides the help window.
      */
     public void hide() {
+        logger.info("Hiding Help window.");
         getRoot().hide();
     }
 

@@ -23,6 +23,7 @@ If you value **speed, accuracy, and efficiency** in your daily operations, GymCo
   - [Editing a Member: `edit`](#editing-a-member-edit)
   - [Finding Member(s): `find`](#finding-member-s-find)
   - [Sorting Members: `sort`](#sorting-members-sort)
+  - [Renewing Membership: `renew`](#renewing-membership-renew)
   - [Clearing All Data: `clear`](#clearing-all-data-clear)
   - [Getting Help: `help`](#getting-help-help)
   - [Exiting the App: `exit`](#exiting-the-app-exit)
@@ -108,14 +109,16 @@ Adds a new gym member to the list of registered gym members.
 </box>
 <box type="tip" seamless>
 
-**Tip:** 
+**Tip:**
+* Attributes following the `add` command can be provided in any order
+**Tip:**
 * Fields following the `add` command can be provided in any order
 </box>
 
 **Example input:**
 * `add n/Alfred Goh p/88574393 a/Blk 886 Waterloo Street, #03-514, 736886 e/gohfred@gmail.com m/2028-01-01`<br><br>
 ![command for 'add'](images/addMemberCommand.png)
-  
+
 **Example output:**
 * Added `Alfred Goh` with his personal details to the list of registered gym members, together with a `New person added: ...` success message.<br><br>
 ![result for 'add'](images/addMemberResult.png)
@@ -130,7 +133,6 @@ Displays the list of all registered gym members.
 
 **Example input:**
 * `list`<br><br>
-![command for 'list'](images/listCommand.png)
 
 **Example output:**
 * Displays the list of all registered gym members.<br><br>
@@ -183,17 +185,18 @@ Edits an existing member among the registered gym members.
 <box type="info" seamless>
 
 **Note:**
-* Edits the person at the specified `MEMBERSHIP_ID`.
+* Edits the member at the specified `MEMBERSHIP_ID`.
 * At least one of the optional fields must be provided.
-* Multiple fields can be provided at once. The order of the fields does not matter.
-* Existing values will be updated to the input values.
+* Multiple different fields can be provided at once.
+* Existing values will be updated to the input values.Only changed fields will be updated, 
+and unchanged fields will remain unchanged.
 
 </box>
 
 <box type="tip" seamless>
 
 **Tip:**
-* Pending edit
+* Fields following the `edit` command can be provided in any order
 
 </box>
 
@@ -209,14 +212,14 @@ Edits an existing member among the registered gym members.
 
 ### Finding Member(s) : `find`
 
-Finds member(s) matching any of the given keywords.
+Find member(s) matching any of the given keywords.
 
 **Format:** `find PREFIX/KEYWORD [MORE_KEYWORDS]`
 
 <box type="info" seamless>
 
-**Note:** 
-* Only 1 `PREFIX` is allowed in the command
+**Note:**
+* Only 1 `PREFIX` is allowed.
     * Prefix `id/` finds by Membership ID.
     * Prefix `n/` finds by Name.
     * Prefix `p/` finds by Phone number.
@@ -227,12 +230,13 @@ Finds member(s) matching any of the given keywords.
   * Only full keywords will be matched<br>
   e.g. `Ber` will not match `Bernice`
   * Keywords are case-insensitive.<br>
-  e.g `bernice` will match `BERNICE`
+  e.g `BERNICE` will match any members with a name containing `bernice` regardless of capitalization.
+
 </box>
 
 <box type="tip" seamless>
 
-**Tip:** 
+**Tip:**
 * Finding by name doesn't require full names.
   * Any keyword matching part of a member’s first or last name will return that member.<br>
     e.g. `Bernice` will match and find `Bernice Yu`
@@ -244,7 +248,7 @@ Finds member(s) matching any of the given keywords.
   ![command for 'find n/bernice'](images/findBerniceCommand.png)
 
 **Example output:**
-* Found `Bernice Yu`, together with a `(No. of) persons listed` success message.<br><br>
+* Found `Bernice Yu`, together with a `1 member(s) found` success message.<br><br>
   ![result for 'find n/bernice'](images/findBerniceResult.png)
 
 ---
@@ -258,7 +262,7 @@ Sorts the list of registered gym members by the specified order.
 <box type="info" seamless>
 
 **Note:**
-* Only 1 `PREFIX` is allowed in the command
+* Only 1 `PREFIX` is allowed.
   * Prefix `id/` sorts by Membership ID.
   * Prefix `n/` sorts by Name.
   * Prefix `p/` sorts by Phone number.
@@ -266,15 +270,14 @@ Sorts the list of registered gym members by the specified order.
   * Prefix `a/` sorts by Address (Postal Code).
   * Prefix `m/` sorts by Membership Expiry Date.
 * Only 1 `ORDER` can be provided<br>
-  (unless `sort none` is used to disable sorting).
+  (unless `sort none` is used to disable sorting to return to default order ordering – ascending Membership ID).
   * Order can be either `asc` or `desc` to sort members in ascending or descending order respectively.
-  * Order is case-insensitive.
 
 </box>
 
 <box type="tip" seamless>
 
-**Tip:** 
+**Tip:**
 * Sorting order, regardless of whether it is `asc` or `desc`, will be "turned on" and
 applied on displayed lists across all commands unless "turned off" by `sort none`.
 
@@ -290,16 +293,49 @@ applied on displayed lists across all commands unless "turned off" by `sort none
 
 ---
 
+### Renewing Membership : `renew`
+
+Renews the membership of an existing member.
+
+**Format:** `renew id/MEMBERSHIP_ID d/DAYS`
+
+<box type="info" seamless>
+
+**Note:**
+* The `DAYS` parameter specifies the number of days to extend the membership.
+* Both `MEMBERSHIP_ID` and `DAYS` parameters are required for the command to be valid.
+* Renewing an expired membership will set the expiry date to the current date plus the specified number of days.
+* A maximum of 730 days (2 years) can be added to the current expiry date.
+
+</box>
+
+<box type="tip" seamless>
+
+**Tip:**
+* The `DAYS` and `MEMBERSHIP_ID` parameters can be provided in any order.
+
+</box>
+
+**Example input:**
+* `renew id/1000 d/7`<br><br>
+
+
+**Example output:**
+* Renews the membership of member with ID of `1000` by `7` days.<br><br>
+
+
+---
+
 ### Clearing All Data : `clear`
 
-Delete all registered gym members after confirmation.
+Deletes all registered gym members after confirmation.
 
 **Format:** `clear`
 
 <box type="info" seamless>
 
 **Note:**
-* A warning page will pop up to confirm the deletion of all data.
+* A warning window will pop up to confirm the deletion of all data.
 
 </box>
 
@@ -312,19 +348,20 @@ Delete all registered gym members after confirmation.
 * These are the possible ways to cancel the deletion of all data:
   * Clicking the `No` button.
   * Hitting the `N` key.
+  * Closing the warning window.
 
 </box>
 
 **Example input:**
-* `clear`<br><br>
-![command for 'clear'](images/clearCommand.png)
+* `clear`<br>
 
 **Example output:**
-* A warning window pops up to ask for confirmation.<br><br>
-![result for 'clear'](images/clearConfirmation.png)<br><br>
+* A warning window pops up to ask for deletion confirmation.<br><br>
+![warning window](images/warningWindow.png)<br><br>
 * After confirmation, all data will be deleted, together with a `All data has been deleted successfully` success message.<br>
-The warning window will close after a short delay.<br><br>
-![result for 'successfully delete'](images/clearSuccess.png)
+Thereafter, the warning window will close after a short delay.<br><br>
+![result for 'successfully delete'](images/clearSuccess.png)<br><br>
+* If the user decides to cancel the deletion, no data will be deleted and, a `Deletion has been cancelled` success message will be shown instead.<br>
 
 
 ---
@@ -338,20 +375,26 @@ Shows a help message.
 <box type="info" seamless>
 
 **Note:**
-* Pending edit
+* A help window pops up with the User Guide URL and, a summary of executable commands.<br>
+  The URL can be copied by clicking on the `Copy URL` button.<br>
+  Paste this URL on your preferred internet browser to view the User Guide.<br><br>
 
 </box>
 
 <box type="tip" seamless>
 
 **Tip:**
-* Pending edit
+* These are the alternative ways to open the help window:
+  * Clicking the `Help F1` button in the `Help` menu.
+  * Hitting `Fn+ F1` keys.
+* There are two possible ways that to close the help window:
+  * Hitting the `esc` key.
+  * Closing the help window.
 
 </box>
 
 **Example input:**
-* `help`<br><br>
-![command for 'help'](images/helpCommand.png)
+* `help`<br>
 
 **Example output:**
 * A help window pops up with the User Guide URL and, a summary of executable commands.<br><br>
@@ -370,12 +413,11 @@ Exits the app.
 **Tip:**
 * These are the alternative ways to exit the app:
   * Clicking the `Exit` button in the `File` menu.
-  * Closing the app window directly by clicking the `X` button in the top right corner.
+  * Closing the app window.
 </box>
 
 **Example input:**
-* `exit`<br><br>
-![command for 'exit'](images/exitCommand.png)
+* `exit`<br>
 
 **Example output:**
 * App window gradually disappears from view and the application exits.
@@ -428,12 +470,13 @@ There is no need to save manually.
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE e/EMAIL a/ADDRESS m/EXPIRY_DATE`<br> e.g., `add n/James Ho p/92375927 e/jamesho@example.com a/Blk 123, Clementi Rd, 665123 m/2026-12-31`
+**Add**    | `add n/NAME p/PHONE e/EMAIL a/ADDRESS m/EXPIRY_DATE`<br> e.g., `add n/Alfred Goh p/88574393 a/Blk 886 Waterloo Street, #03-514, 736886 e/gohfred@gmail.com m/2028-01-01`
 **List**   | `list`
-**Delete** | `delete id/MEMBERSHIP_ID [MORE_MEMBERSHIP_IDS]`<br> e.g., `delete id/1021` or `delete id/1021 1022 1023`
-**Edit**   | `edit id/MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`<br> e.g.,`edit 1016 n/James Lee e/jameslee@example.com`
-**Find**   | `find PREFIX/KEYWORD [MORE_KEYWORDS]`<br> e.g., `find n/James Max`
-**Sort**   | `sort PREFIX/ORDER `<br> e.g., `sort n/desc`<br> or <br> e.g., `sort none`
+**Delete** | `delete id/MEMBERSHIP_ID`<br> e.g., `delete id/1000`
+**Edit**   | `edit MEMBERSHIP_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [m/EXPIRY_DATE]`<br> e.g.,`edit 1000 p/91234567 e/johndoe@example.com`
+**Find**   | `find PREFIX/KEYWORD [MORE_KEYWORDS]`<br> e.g., `find n/bernice`
+**Sort**   | `sort PREFIX/ORDER` & `sort none`<br> e.g., `sort n/desc`
+**Renew**  | `renew id/MEMBERSHIP_ID d/DAYS`<br> e.g., `renew id/1000 d/7`
 **Clear**  | `clear`
 **Help**   | `help`
 **Exit**   | `exit`
