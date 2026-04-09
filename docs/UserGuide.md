@@ -348,6 +348,12 @@ Sorts the list of registered gym members by the specified order.
 
 </box>
 
+<box type="tip" seamless>
+
+* Sort by `sort m/asc` to find out which members have to renew their memberships soon.
+
+<\box>
+
 **Example input:**
 ```
 sort n/desc
@@ -376,7 +382,7 @@ Renews the membership expiry date of an existing gym member.
     e.g. `renew id/1000 d/7` will set the new expiry date to 7 days from today, including today as the first day.
     * If the membership is still valid, the new expiry date is calculated from the current expiry date.
 <br><br>
-* Renewing a member's membership will not change membership ID of the member.
+* Renewing a member's membership will not change the membership ID of the member.
 </box>
 
 **Example input:**
