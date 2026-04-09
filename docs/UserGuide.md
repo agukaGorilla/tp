@@ -247,7 +247,7 @@ Edits an existing gym member among the registered gym members.
 **Note:**
 * `MEMBERSHIP_ID` specifies the membership ID of the member to be edited.
   * The membership ID must be provided before the optional fields.
-  * The membership ID cannot be edited.
+  * The membership ID cannot be edited and, editing other fields will not change the membership ID.
 <br><br>
 * At least one of the optional fields in `[square brackets]` must be provided.
 <br><br>
@@ -369,13 +369,14 @@ Renews the membership expiry date of an existing gym member.
 <box type="info" seamless>
 
 **Note:**
-* `MEMBERSHIP_ID` specifies the membership ID of the member to be renewed.
-<br><br>
+* Both `MEMBERSHIP_ID` and `DAYS` parameters are required for the command to be valid.<br><br>
+* `MEMBERSHIP_ID` specifies the membership ID of the member to be renewed.<br><br>
 * `DAYS` specifies the number of days to extend the membership expiry date by and, it must be an number between `1` and `730` (2 years).
     * If the membership has already expired, the current day is counted as day 1 when renewing.<br>
     e.g. `renew id/1000 d/7` will set the new expiry date to 7 days from today, including today as the first day.
     * If the membership is still valid, the new expiry date is calculated from the current expiry date.
-
+<br><br>
+* Renewing a member's membership will not change membership ID of the member.
 </box>
 
 **Example input:**
