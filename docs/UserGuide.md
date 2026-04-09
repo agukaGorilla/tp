@@ -369,7 +369,7 @@ Renews the membership expiry date of an existing gym member.
 <box type="info" seamless>
 
 **Note:**
-* Both `MEMBERSHIP_ID` and `DAYS` parameters are required for the command to be valid.<br><br>
+* Both `MEMBERSHIP_ID` and `DAYS` fields are required for the command to be valid.<br><br>
 * `MEMBERSHIP_ID` specifies the membership ID of the member to be renewed.<br><br>
 * `DAYS` specifies the number of days to extend the membership expiry date by and, it must be an number between `1` and `730` (2 years).
     * If the membership has already expired, the current day is counted as day 1 when renewing.<br>
