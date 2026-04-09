@@ -68,7 +68,7 @@ If you value **speed, accuracy, and efficiency** in your daily operations, GymCo
       <box type="info" seamless>
 
    PATH_TO_HOME_FOLDER is the path to the folder where you placed the `GymContactsPro.jar` file in. If your _home folder_
-   was your `Downloads` folder, the command would be `cd C:\Users\<YOUR_USERNAME>\Downloads`
+   was your `Downloads\GymContactsPro` folder, the command would be `cd C:\Users\<YOUR_USERNAME>\Downloads\GymContactsPro`
 
       </box>
 
@@ -85,7 +85,7 @@ If you value **speed, accuracy, and efficiency** in your daily operations, GymCo
       <box type="info" seamless>
 
    PATH_TO_HOME_FOLDER is the path to the folder where you placed the `GymContactsPro.jar` file in. If your _home folder_
-   was your `Downloads` folder, the command would be `cd ~/Downloads`
+   was your `Downloads/GymContactsPro` folder, the command would be `cd ~/Downloads/GymContactsPro`
 
       </box>
 
@@ -102,7 +102,7 @@ If you value **speed, accuracy, and efficiency** in your daily operations, GymCo
       <box type="info" seamless>
 
    PATH_TO_HOME_FOLDER is the path to the folder where you placed the `GymContactsPro.jar` file in. If your _home folder_
-   was your `Downloads` folder, the command would be `cd ~/Downloads`
+   was your `Downloads/GymContactsPro` folder, the command would be `cd ~/Downloads/GymContactsPro`
 
       </box>
 
