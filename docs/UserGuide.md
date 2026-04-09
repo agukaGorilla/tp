@@ -152,12 +152,12 @@ e.g. typing `help` and pressing Enter will open the help window.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * Rules for the fields are:
-  * **Membership ID:** Must be a 4-digit number from `1000` to `9999`
-  * **Name:** Must be non-empty.
-  * **Phone:** Must be exactly 8 digits long and start with 8 or 9.
-  * **Email:** Must be a properly formatted email address (e.g. `johndoe@example.com`).
-  * **Address:** Must end with a valid 6-digit postal code.
-  * **Expiry Date:** Must be a valid date in the format `YYYY-MM-DD` and, cannot be before the current date.
+  * `MEMBERSHP_ID`: Must be a 4-digit number from `1000` to `9999`
+  * `NAME`: Must be non-empty.
+  * `PHONE`: Must be exactly 8 digits long and start with 8 or 9.
+  * `EMAIL`: Must be a properly formatted email address (e.g. `johndoe@example.com`).
+  * `ADDRESS`: Must end with a valid 6-digit postal code.
+  * `EXPIRY_DATE`: Must be a valid date in the format `YYYY-MM-DD` and, cannot be before the current date.
 <br><br>
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
   </box>
