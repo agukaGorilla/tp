@@ -306,9 +306,8 @@ Find gym member(s) matching any of the given keywords.
 <box type="tip" seamless>
 
 **Tip:**
-* Finding by name doesn't require full names.
-  * Any keyword matching part of a member’s first or last name will still find that member.<br>
-    e.g. `Bernice` will match and find `Bernice Yu`
+* When finding by name `n/`, you can use parts of the first or last name as keywords. 
+  * For example, if the member's name is `Bernice Yu`, searching for `n/Bernice` will find `Bernice Yu`. Similarly, searching for `n/Yu` will also find `Bernice Yu`.
 
 </box>
 
