@@ -52,13 +52,21 @@ class JsonSerializableAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
+        int maxExistingId = MembershipId.MIN_ID - 1;
+        
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
             Person person = jsonAdaptedPerson.toModelType();
             if (addressBook.hasPerson(person)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
             addressBook.addPerson(person);
+            maxExistingId = Math.max(maxExistingId, person.getMembershipId().value);
         }
+
+        int fallbackNextId = maxExistingId + 1;
+        int resolvedNextId = nextMembershipId == null ? fallbackNextId : Math.max(nextMembershipId, fallbackNextId);
+        addressBook.setNextMembershipId(resolvedNextId);
+
         return addressBook;
     }
 
