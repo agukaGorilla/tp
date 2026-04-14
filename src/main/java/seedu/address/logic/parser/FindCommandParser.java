@@ -98,7 +98,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             return new FindCommand(new MembershipIdContainsPredicate(Arrays.asList(tokens)));
         case "m/":
             if (tokens.length == 0) {
-                throw new ParseException(MembershipExpiryDate.MESSAGE_CONSTRAINTS);
+                throw new ParseException(MembershipExpiryDate.MESSAGE_FIND_CONSTRAINTS);
             }
             for (String token : tokens) {
                 ParserUtil.parseMembershipExpiryDateForFind(token);
